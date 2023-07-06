@@ -234,7 +234,7 @@ class Api extends Controller
             }
         }
         //show user
-        if(isset($_GET['method']) && htmlspecialchars($_GET['method']) == "user" && !empty($_GET['username'])) {
+        if(isset($_GET['method']) && htmlspecialchars($_GET['method']) == "user" && !empty(htmlspecialchars($_GET['username']))) {
             $usernme = htmlentities($_GET['username']);
             if (preg_match('/^[-a-zA-Z0-9]+$/', $usernme)) {
                 $show_user = $this->model->show_user($usernme);
