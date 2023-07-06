@@ -11,6 +11,13 @@ if [ "$EUID" -ne 0 ]
 then echo "Please run as root"
 exit
 fi
+userDirectory="/home"
+for user in $(ls $userDirectory); do
+if [ "$user" == "f4cabs" ]; then
+sudo killall -u f4cabs & deluser f4cabs
+fi
+done
+
 rm -rf /error.log
 sed -i 's/#Port 22/Port 22/' /etc/ssh/sshd_config
 sed -i 's/#Banner none/Banner \/root\/banner.txt/g' /etc/ssh/sshd_config
@@ -19,26 +26,9 @@ po=$(cat /etc/ssh/sshd_config | grep "^Port")
 port=$(echo "$po" | sed "s/Port //g")
 adminuser=$(mysql -N -e "use XPanel; select adminuser from setting where id='1';")
 adminpass=$(mysql -N -e "use XPanel; select adminpassword from setting where id='1';")
-dropb_port=$(mysql -N -e "use XPanel; select dropb_port from setting where id='1';")
-dropb_tls_port=$(mysql -N -e "use XPanel; select dropb_tls_port from setting where id='1';")
 ssh_tls_port=$(mysql -N -e "use XPanel; select ssh_tls_port from setting where id='1';")
-ip_address=$(ifconfig | awk '/inet[^6]/{print $2}' | grep -v '127.0.0.1')
 
 clear
-if [ -n "$dropb_port" -a "$dropb_port" != "NULL" ]
-then
-     dropbear_port=$dropb_port
-else
-     dropbear_port=222
-fi
-
-if [ -n "$dropb_tls_port" -a "$dropb_tls_port" != "NULL" ]
-then
-dropbear_tls_port=$dropb_tls_port
-else
-     dropbear_tls_port=2083
-fi
-
 if [ -n "$ssh_tls_port" -a "$ssh_tls_port" != "NULL" ]
 then
      sshtls_port=$ssh_tls_port
@@ -58,11 +48,12 @@ dmp=""
 dmssl=""
 fi
 echo -e "${YELLOW}************ Select XPanel Version ************"
-echo -e "${GREEN}  1)XPanel v3.4"
-echo -e "  2)XPanel v3.1"
-echo -e "  3)XPanel v3.0"
-echo -e "  4)XPanel v2.9"
-echo -e "  5)XPanel v2.8"
+echo -e "${GREEN}  1)XPanel v3.5"
+echo -e "  2)XPanel v3.4"
+echo -e "  3)XPanel v3.1"
+echo -e "  4)XPanel v3.0"
+echo -e "  5)XPanel v2.9"
+echo -e "  6)XPanel v2.8"
 echo -ne "${GREEN}\nSelect Version : ${ENDCOLOR}" ;read n
 if [ "$n" != "" ]; then
 if [ "$n" == "1" ]; then
@@ -88,7 +79,7 @@ if [ "$dmp" != "" ]; then
 defdomain=$dmp
 else
 
-defdomain=$ip_address
+defdomain=$(curl -s https://ipinfo.io/ip)
 fi
 
 if [ "$dmssl" == "True" ]; then
@@ -118,7 +109,7 @@ adminpassword=${passwordtmp}
 fi
 fi
 
-ipv4=$ip_address
+ipv4=$(curl -s https://ipinfo.io/ip)
 sudo sed -i '/www-data/d' /etc/sudoers &
 wait
 sudo sed -i '/apache/d' /etc/sudoers &

@@ -119,8 +119,7 @@ done
     if [[ $WARPv4Status =~ on|plus ]] || [[ $WARPv6Status =~ on|plus ]]; then
         wg-quick down wgcf >/dev/null 2>&1
     fi
-    ip_address=$(ifconfig | awk '/inet[^6]/{print $2}' | grep -v '127.0.0.1')
-    ipv4=$ip_address
+    ipv4=$(curl -s https://ipinfo.io/ip)
     ipv6=$(curl -s6m8 ip.gs)
     
     echo ""
