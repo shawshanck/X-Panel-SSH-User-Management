@@ -36,7 +36,7 @@
                                 <a href="Settings&sort=telegram" class="nav-link <?php if($sort=='telegram'){echo 'active';}?>" type="button" role="tab" aria-selected="false" tabindex="-1"><?php echo setting_botteg_lang;?></a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a href="Settings&sort=multiserver" class="nav-link <?php if($sort=='multiserver'){echo 'active';}?>" type="button" role="tab" aria-selected="false" tabindex="-1"><?php echo setting_multiserver_lang;?></a>
+                                <a href="https://github.com/Alirezad07/Xcs-Multi-Management-XPanel" target="_blank" class="nav-link <?php if($sort=='multiserver'){echo 'active';}?>" type="button" role="tab" aria-selected="false" tabindex="-1"><?php echo setting_multiserver_lang;?></a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a href="Settings&sort=backup" class="nav-link <?php if($sort=='backup'){echo 'active';}?>" type="button" role="tab" aria-selected="false" tabindex="-1"><?php echo setting_backup_lang;?></a>
