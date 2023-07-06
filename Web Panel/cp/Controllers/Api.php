@@ -21,7 +21,9 @@ class Api extends Controller
     public function index()
     {
         //list user
-        if(isset($_GET['method']) && $_GET['method'] == "listuser"){
+        if (isset($_GET['method'])) {
+
+            if (isset($_GET['method']) && htmlspecialchars($_GET['method']) == "listuser") {
             $list_users = $this->model->list_user();
             foreach ($list_users as $list_user) {
                 if (1024 < $list_user['total']) {
@@ -58,12 +60,13 @@ class Api extends Controller
                     'qr_ssh_tls' => "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=ssh://" . $list_user['username'] . ":" . $list_user['password'] . "@" . $server . ":" . $ssh_tls_port . "/#" . $list_user['username']
                 );
             }
-            $this->response($data) ;
+            $this->response($data);
         }
+    }
 
         //sort status user
-        if(isset($_GET['method']) && $_GET['method'] == "users" && !empty($_GET['status'])){
-            $status_user = $this->model->status_user($_GET['status']);
+        if(isset($_GET['method']) && htmlspecialchars($_GET['method']) == "users" && !empty($_GET['status'])){
+            $status_user = $this->model->status_user(htmlspecialchars($_GET['status']));
             foreach ($status_user as $list_user) {
                 if (1024 < $list_user['total']) {
                     $total = round($list_user['total'] / 1024, 3) . ' GB';
@@ -103,8 +106,9 @@ class Api extends Controller
         }
 
         //active user
-        if(isset($_GET['method']) && $_GET['method'] == "activeuser"){
+        if(isset($_GET['method']) && htmlspecialchars($_GET['method']) == "activeuser"){
             $username = htmlentities($_POST['username']);
+            if (preg_match('/^[-a-zA-Z0-9]+$/', $username)) {
             if(!empty($username)) {
                 $data_sybmit = array(
                     'username' => $username
@@ -116,58 +120,61 @@ class Api extends Controller
                 echo "invalid empty username";
             }
         }
+        }
         //deactive user
-        if(isset($_GET['method']) && $_GET['method'] == "deactiveuser"){
+        if(isset($_GET['method']) && htmlspecialchars($_GET['method']) == "deactiveuser") {
             $username = htmlentities($_POST['username']);
-            if(!empty($username)) {
-                $data_sybmit = array(
-                    'username' => $username
-                );
-                $this->model->deactive_user($data_sybmit);
-            }
-            else
-            {
-                echo "invalid empty username";
+            if (preg_match('/^[-a-zA-Z0-9]+$/', $username)) {
+                if (!empty($username)) {
+                    $data_sybmit = array(
+                        'username' => $username
+                    );
+                    $this->model->deactive_user($data_sybmit);
+                } else {
+                    echo "invalid empty username";
+                }
             }
         }
         //reset traffic user
-        if(isset($_GET['method']) && $_GET['method'] == "resetuser"){
+        if(isset($_GET['method']) && htmlspecialchars($_GET['method']) == "resetuser") {
             $username = htmlentities($_POST['username']);
-            if(!empty($username)) {
-                $data_sybmit = array(
-                    'username' => $username
-                );
-                $this->model->reset_user($data_sybmit);
-            }
-            else
-            {
-                echo "invalid empty username";
+            if (preg_match('/^[-a-zA-Z0-9]+$/', $username)) {
+                if (!empty($username)) {
+                    $data_sybmit = array(
+                        'username' => $username
+                    );
+                    $this->model->reset_user($data_sybmit);
+                } else {
+                    echo "invalid empty username";
+                }
             }
         }
         //renewal user
-        if(isset($_GET['method']) && $_GET['method'] == "renewal"){
+        if(isset($_GET['method']) && htmlspecialchars($_GET['method']) == "renewal") {
             $username = htmlentities($_POST['username']);
             $day_date = htmlentities($_POST['day_date']);
 
             $renewal_date = htmlentities($_POST['re_date']);
             $renewal_traffic = htmlentities($_POST['re_traffic']);
-
-            if(!empty($username) and !empty($day_date) and !empty($renewal_date) and !empty($renewal_traffic)) {
-                $data_sybmit = array(
-                    'username' => $username,
-                    'day_date' => $day_date,
-                    'renewal_date' => $renewal_date,
-                    'renewal_traffic' => $renewal_traffic
-                );
-                $this->model->renewal_update($data_sybmit);
-            }
-            else
-            {
-                echo "invalid empty username and date";
+            if (preg_match('/^[-a-zA-Z0-9]+$/', $username)
+                and preg_match('/^[a-zA-Z0-9-@]+$/', $day_date)
+                and preg_match('/^[a-zA-Z0-9-@]+$/', $renewal_date)
+                and preg_match('/^[a-zA-Z0-9-@]+$/', $renewal_traffic)) {
+                if (!empty($username) and !empty($day_date) and !empty($renewal_date) and !empty($renewal_traffic)) {
+                    $data_sybmit = array(
+                        'username' => $username,
+                        'day_date' => $day_date,
+                        'renewal_date' => $renewal_date,
+                        'renewal_traffic' => $renewal_traffic
+                    );
+                    $this->model->renewal_update($data_sybmit);
+                } else {
+                    echo "invalid empty username and date";
+                }
             }
         }
         //add user
-        if(isset($_GET['method']) && $_GET['method'] == "adduser") {
+        if(isset($_GET['method']) && htmlspecialchars($_GET['method']) == "adduser") {
             $username = htmlentities($_POST['username']);
             $password = htmlentities($_POST['password']);
             $email = htmlentities($_POST['email']);
@@ -228,48 +235,48 @@ class Api extends Controller
         }
 
         //show user
-        if(isset($_GET['method']) && $_GET['method'] == "user" && !empty($_GET['username'])){
+        if(isset($_GET['method']) && htmlspecialchars($_GET['method']) == "user" && !empty($_GET['username'])) {
             $usernme = htmlentities($_GET['username']);
-            $show_user = $this->model->show_user($usernme);
-            if (1024 < $show_user[0]['total']) {
-                $total = round($show_user[0]['total'] / 1024, 3) . ' GB';
-            } else {
-                $total = $show_user[0]['total'] . ' MB';
+            if (preg_match('/^[-a-zA-Z0-9]+$/', $usernme)) {
+                $show_user = $this->model->show_user($usernme);
+                if (1024 < $show_user[0]['total']) {
+                    $total = round($show_user[0]['total'] / 1024, 3) . ' GB';
+                } else {
+                    $total = $show_user[0]['total'] . ' MB';
+                }
+                $server = $_SERVER["SERVER_NAME"];
+                if (empty($show_user[0]['ssh_tls_port']) || $show_user[0]['ssh_tls_port'] == 'NULL') {
+                    $ssh_tls_port = '444';
+                } else {
+                    $ssh_tls_port = $show_user[0]['ssh_tls_port'];
+                }
+                $data [] = array(
+                    'id' => $show_user[0]['id'],
+                    'server' => $server,
+                    'username' => $show_user[0]['username'],
+                    'password' => $show_user[0]['password'],
+                    'ssh_port' => PORT,
+                    'ssh_tls_port' => $ssh_tls_port,
+                    'email' => $show_user[0]['email'],
+                    'mobile' => $show_user[0]['mobile'],
+                    'multiuser' => $show_user[0]['multiuser'],
+                    'startdate' => $show_user[0]['startdate'],
+                    'finishdate' => $show_user[0]['finishdate'],
+                    'finishdate_one_connect' => $show_user[0]['connection_start'],
+                    'customer_user' => $show_user[0]['customer_user'],
+                    'enable' => $show_user[0]['enable'],
+                    'traffic' => $show_user[0]['traffic'],
+                    'referral' => $show_user[0]['referral'],
+                    'info' => $show_user[0]['info'],
+                    'traffic_usage' => $total,
+                    'qr_ssh' => "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=ssh://" . $show_user[0]['username'] . ":" . $show_user[0]['password'] . "@" . $server . ":" . PORT . "/#" . $show_user[0]['username'],
+                    'qr_ssh_tls' => "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=ssh://" . $show_user[0]['username'] . ":" . $show_user[0]['password'] . "@" . $server . ":" . $ssh_tls_port . "/#" . $show_user[0]['username']
+                );
+                $this->response($data);
             }
-            $server=$_SERVER["SERVER_NAME"];
-            if (empty($show_user[0]['ssh_tls_port']) || $show_user[0]['ssh_tls_port'] == 'NULL') {
-                $ssh_tls_port = '444';
-            }
-            else
-            {
-                $ssh_tls_port =$show_user[0]['ssh_tls_port'];
-            }
-            $data []= array(
-                'id' => $show_user[0]['id'],
-                'server' => $server,
-                'username' => $show_user[0]['username'],
-                'password' => $show_user[0]['password'],
-                'ssh_port' => PORT,
-                'ssh_tls_port' => $ssh_tls_port,
-                'email' => $show_user[0]['email'],
-                'mobile' => $show_user[0]['mobile'],
-                'multiuser' => $show_user[0]['multiuser'],
-                'startdate' => $show_user[0]['startdate'],
-                'finishdate' => $show_user[0]['finishdate'],
-                'finishdate_one_connect' => $show_user[0]['connection_start'],
-                'customer_user' => $show_user[0]['customer_user'],
-                'enable' => $show_user[0]['enable'],
-                'traffic' => $show_user[0]['traffic'],
-                'referral' => $show_user[0]['referral'],
-                'info' => $show_user[0]['info'],
-                'traffic_usage' => $total,
-                'qr_ssh' => "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=ssh://".$show_user[0]['username'].":".$show_user[0]['password']."@".$server.":".PORT."/#".$show_user[0]['username'],
-                'qr_ssh_tls' => "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=ssh://".$show_user[0]['username'].":".$show_user[0]['password']."@".$server.":".$ssh_tls_port."/#".$show_user[0]['username']
-            );
-            $this->response($data) ;
         }
         //edit user
-        if(isset($_GET['method']) && $_GET['method'] == "edituser"){
+        if(isset($_GET['method']) && htmlspecialchars($_GET['method']) == "edituser"){
             $username = htmlentities($_POST['username']);
             $password = htmlentities($_POST['password']);
             $email = htmlentities($_POST['email']);
@@ -279,41 +286,49 @@ class Api extends Controller
             $type_traffic = htmlentities($_POST['type_traffic']);
             $expdate = htmlentities($_POST['expdate']);
             $desc = htmlentities($_POST['desc']);
-            if ($type_traffic == "gb") {
-                $traffic = $traffic * 1024;
-            } else {
-                $traffic = $traffic;
-            }
-            if(!empty($username) && !empty($password)) {
-                $data_sybmit = array(
-                    'username' => $username,
-                    'password' => $password,
-                    'email' => $email,
-                    'mobile' => $mobile,
-                    'multiuser' => $multiuser,
-                    'finishdate' => $expdate,
-                    'traffic' => $traffic,
-                    'info' => $desc
-                );
-                $edit_user = $this->model->edit_user($data_sybmit);
-            }
-            else
-            {
-                echo "invalid empty username and password";
+            if (preg_match('/^[a-zA-Z0-9-#?]+$/', $password)
+                and preg_match('/^[-a-zA-Z0-9]+$/', $username)
+                and preg_match('/^[a-zA-Z0-9-@]+$/', $email)
+                and preg_match('/^[a-zA-Z0-9-@]+$/', $mobile)
+                and preg_match('/^[a-zA-Z0-9-@]+$/', $multiuser)
+                and preg_match('/^[a-zA-Z0-9-@]+$/', $traffic)
+                and preg_match('/^[a-zA-Z0-9-@]+$/', $type_traffic)
+                and preg_match('/^[\/-a-zA-Z0-9-۱۲۳۴۵۶۷۸۹۰]+$/', $expdate)
+                and preg_match('/^[a-zA-Z0-9-@-اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $desc)) {
+                if ($type_traffic == "gb") {
+                    $traffic = $traffic * 1024;
+                } else {
+                    $traffic = $traffic;
+                }
+                if (!empty($username) && !empty($password)) {
+                    $data_sybmit = array(
+                        'username' => $username,
+                        'password' => $password,
+                        'email' => $email,
+                        'mobile' => $mobile,
+                        'multiuser' => $multiuser,
+                        'finishdate' => $expdate,
+                        'traffic' => $traffic,
+                        'info' => $desc
+                    );
+                    $edit_user = $this->model->edit_user($data_sybmit);
+                } else {
+                    echo "invalid empty username and password";
+                }
             }
         }
         // delete user
-        if(isset($_GET['method']) && $_GET['method'] == "deleteuser"){
-            $usernme = htmlentities($_POST['username']);
-            if(!empty($usernme)) {
-                $data_sybmit = array(
-                    'username' => $usernme
-                );
-                $this->model->delete_user($data_sybmit);
-            }
-            else
-            {
-                echo "invalid empty username";
+        if(isset($_GET['method']) && htmlspecialchars($_GET['method']) == "deleteuser") {
+            $usernme = htmlspecialchars($_POST['username']);
+            if (preg_match('/^[-a-zA-Z0-9]+$/', $usernme)) {
+                if (!empty($usernme)) {
+                    $data_sybmit = array(
+                        'username' => $usernme
+                    );
+                    $this->model->delete_user($data_sybmit);
+                } else {
+                    echo "invalid empty username";
+                }
             }
         }
 
