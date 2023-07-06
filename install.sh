@@ -22,6 +22,8 @@ adminpass=$(mysql -N -e "use XPanel; select adminpassword from setting where id=
 dropb_port=$(mysql -N -e "use XPanel; select dropb_port from setting where id='1';")
 dropb_tls_port=$(mysql -N -e "use XPanel; select dropb_tls_port from setting where id='1';")
 ssh_tls_port=$(mysql -N -e "use XPanel; select ssh_tls_port from setting where id='1';")
+ip_address=$(ifconfig | awk '/inet[^6]/{print $2}' | grep -v '127.0.0.1')
+
 clear
 if [ -n "$dropb_port" -a "$dropb_port" != "NULL" ]
 then
@@ -85,7 +87,8 @@ fi
 if [ "$dmp" != "" ]; then
 defdomain=$dmp
 else
-defdomain=$(curl -sm8 ipv4.icanhazip.com)
+
+defdomain=$ip_address
 fi
 
 if [ "$dmssl" == "True" ]; then
@@ -115,7 +118,7 @@ adminpassword=${passwordtmp}
 fi
 fi
 
-ipv4=$(curl -sm8 ipv4.icanhazip.com)
+ipv4=$ip_address
 sudo sed -i '/www-data/d' /etc/sudoers &
 wait
 sudo sed -i '/apache/d' /etc/sudoers &
@@ -422,10 +425,6 @@ wait
 sudo sed -i "s/adminuser/$adminusername/g" /var/www/html/cp/Config/database.php &
 wait
 sudo sed -i "s/adminpass/$adminpassword/g" /var/www/html/cp/Config/database.php &
-wait
-sudo sed -i "s/SERVERUSER/$adminusername/g" /var/www/html/cp/Libs/sh/killusers.sh &
-wait
-sudo sed -i "s/SERVERPASSWORD/$adminpassword/g" /var/www/html/cp/Libs/sh/killusers.sh &
 wait
 curl -u "$adminusername:$adminpassword" "$protcohttp://${defdomain}:$sshttp/reinstall"
 wait
