@@ -10,6 +10,20 @@ class Fixer_Model extends Model
 
     public function cronexp()
     {
+        $list_user = shell_exec("ls /home");
+        $list_user = preg_split("/\r\n|\n|\r/", $list_user);
+        foreach ($list_user as $us)
+        {
+            $query = $this->db->prepare("select * from users where username='$us' ");
+            $query->execute();
+            $queryCount = $query->rowCount();
+            if ($queryCount <1) {
+                shell_exec("sudo killall -u " . $us);
+                shell_exec("bash Libs/sh/deleteuser " . $us);
+            }
+
+        }
+
         $query = $this->db->prepare("select * from users where enable='true' ORDER BY id DESC");
         $query->execute();
         $queryCount = $query->fetchAll();

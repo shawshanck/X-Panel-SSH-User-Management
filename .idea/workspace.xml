@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d50d8e18-a0fd-450a-835d-0b5aea5e7d6b" name="Changes" comment="Fix Version 3.5">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Views/Settings/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Views/Settings/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Views/Settings/multiserver.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Models/Fixer_Model.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Models/Fixer_Model.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,14 +100,7 @@
       <workItem from="1688369677320" duration="2555000" />
       <workItem from="1688424501097" duration="15113000" />
       <workItem from="1688512799090" duration="16792000" />
-      <workItem from="1688603104123" duration="15784000" />
-    </task>
-    <task id="LOCAL-00025" summary="Fix New Version 3.2">
-      <created>1686282385285</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1686282385285</updated>
+      <workItem from="1688603104123" duration="22558000" />
     </task>
     <task id="LOCAL-00026" summary="Fix BUG Version 3.2">
       <created>1686292510804</created>
@@ -446,7 +438,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688626837256</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="Fix Version 3.5">
+      <created>1688627037895</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1688627037895</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
