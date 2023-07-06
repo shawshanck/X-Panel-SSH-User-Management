@@ -2,7 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d50d8e18-a0fd-450a-835d-0b5aea5e7d6b" name="Changes" comment="Fix Version 3.4">
+      <change afterPath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/traffic.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Controllers/Api.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Controllers/Api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Controllers/Edituser.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Controllers/Edituser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Controllers/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Controllers/Users.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/adduser" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/adduser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/changepass" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/changepass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/deleteuser" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/deleteuser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/userdelete" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/userdelete" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Web Panel/cp/Models/Api_Model.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Models/Api_Model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Models/Edituser_Model.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Models/Edituser_Model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Models/Fixer_Model.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Models/Fixer_Model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Models/Users_Model.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Models/Users_Model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Views/Users/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Views/Users/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +39,14 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -46,6 +68,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Xcs-Multi-Management-XPanel" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.tabs" />
     <property name="two.files.diff.last.used.folder" value="$PROJECT_DIR$/WebPanel" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -79,14 +102,18 @@
       <workItem from="1687468524940" duration="9356000" />
       <workItem from="1687528107128" duration="2424000" />
       <workItem from="1687599714300" duration="6975000" />
-      <workItem from="1687725963543" duration="999000" />
-    </task>
-    <task id="LOCAL-00018" summary="Fix New Version 3.2">
-      <created>1686151223521</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1686151223521</updated>
+      <workItem from="1687725963543" duration="13580000" />
+      <workItem from="1687818080763" duration="9209000" />
+      <workItem from="1687892729317" duration="18253000" />
+      <workItem from="1687988864979" duration="14504000" />
+      <workItem from="1688074770714" duration="13150000" />
+      <workItem from="1688156544041" duration="35239000" />
+      <workItem from="1688332222822" duration="19511000" />
+      <workItem from="1688361929092" duration="1729000" />
+      <workItem from="1688369677320" duration="2555000" />
+      <workItem from="1688424501097" duration="15113000" />
+      <workItem from="1688512799090" duration="16792000" />
+      <workItem from="1688603104123" duration="8481000" />
     </task>
     <task id="LOCAL-00019" summary="Fix New Version 3.2">
       <created>1686209051135</created>
@@ -424,7 +451,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687726688486</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="Fix Version 3.4">
+      <created>1687726978805</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1687726978805</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -69,7 +69,7 @@
                                         $uid++;
                                         if ($datum["traffic"] !== "0") {
                                             if (1024 <= $datum["traffic"]) {
-                                                $traffic = $datum["traffic"] / 1024 . ' ' . gib_lang;
+                                                $traffic = round($datum["traffic"] / 1024,3) . ' ' . gib_lang;
                                             } else {
                                                 $traffic = $datum["traffic"] . ' ' . mib_lang;
                                             }
@@ -77,16 +77,11 @@
                                             $traffic = unlimited_tb_lang;
                                         }
 
-                                        if (1024 < $datum["download"]) {
-                                            $dl = round($datum["download"] / 1024, 2) . ' GB';
-                                        } else {
-                                            $dl = $datum["download"] . ' MB';
-                                        }
 
-                                        if (1024 < $datum["upload"]) {
-                                            $up = round($datum["upload"] / 1024, 2) . ' GB';
+                                        if (1024 < $datum["total"]) {
+                                            $total = round($datum["total"] / 1024, 3) . ' GB';
                                         } else {
-                                            $up = $datum["upload"] . ' MB';
+                                            $total = $datum["total"] . ' MB';
                                         }
 
                                         if ($datum["enable"] == "true") {
@@ -218,11 +213,10 @@
                                             <td><?php echo $traffic; ?>
                                                 <br>
                                                 <small>
-                                                    <span style="background: #fe9e4a; padding: 2px; color: #fff; border-radius: 5px;"><i
-                                                                class="ti ti-cloud-upload"></i> <?php echo $up; ?></span>
+
                                                     &nbsp;<span
                                                             style="background: #4a9afe; padding: 2px; color: #fff; border-radius: 5px;"><i
-                                                                class="ti ti-cloud-download"></i> <?php echo $dl; ?></span>
+                                                                class="ti ti-cloud-download"></i> <?php echo $total; ?></span>
                                                 </small></td>
                                             <td><?php echo $datum['multiuser']; ?><br>
                                                 <small><?php if ($ststus_multiuser == 'on') {
@@ -278,26 +272,26 @@
                                                         </button>
                                                         <div class="dropdown-menu">
                                                             <a href="#" class="dropdown-item" style="border:none"
-                                                                    data-clipboard="true"
-                                                                    data-clipboard-text="Host:<?php echo $_SERVER["SERVER_NAME"]; ?>&nbsp;
+                                                               data-clipboard="true"
+                                                               data-clipboard-text="Host:<?php echo $_SERVER["SERVER_NAME"]; ?>&nbsp;
 Port:<?php echo PORT; ?>&nbsp;
 TLS Port:<?php echo $ssh_tls_port; ?>&nbsp;
 Username:<?php echo $datum['username']; ?>&nbsp;
 Password:<?php echo $datum['password']; ?>&nbsp;
 <?php if (!empty($startdate)) {
-                                                                        echo "StartTime:" . $startdate . "&nbsp;";
-                                                                    } ?>
+                                                                   echo "StartTime:" . $startdate . "&nbsp;";
+                                                               } ?>
 <?php if (!empty($finishdate)) {
-                                                                        echo "EndTime:" . $finishdate;
-                                                                    } ?>"> <?php echo share_copyconfig_tb_lang; ?></a>
+                                                                   echo "EndTime:" . $finishdate;
+                                                               } ?>"> <?php echo share_copyconfig_tb_lang; ?></a>
 
                                                             <a href="#" class="dropdown-item" style="border:none"
-                                                                    data-clipboard="true"
-                                                                    data-clipboard-text="ssh://<?php echo $datum['username']; ?>:<?php echo $datum['password']; ?>@<?php echo $_SERVER["SERVER_NAME"]; ?>:<?php echo PORT; ?>/#<?php echo $datum['username']; ?>">Link SSH
+                                                               data-clipboard="true"
+                                                               data-clipboard-text="ssh://<?php echo $datum['username']; ?>:<?php echo $datum['password']; ?>@<?php echo $_SERVER["SERVER_NAME"]; ?>:<?php echo PORT; ?>/#<?php echo $datum['username']; ?>">Link SSH
                                                             </a>
                                                             <a href="#" class="dropdown-item" style="border:none"
-                                                                    data-clipboard="true"
-                                                                    data-clipboard-text="ssh://<?php echo $datum['username']; ?>:<?php echo $datum['password']; ?>@<?php echo $_SERVER["SERVER_NAME"]; ?>:<?php echo $ssh_tls_port; ?>/#<?php echo $datum['username']; ?>">Link SSH TLS
+                                                               data-clipboard="true"
+                                                               data-clipboard-text="ssh://<?php echo $datum['username']; ?>:<?php echo $datum['password']; ?>@<?php echo $_SERVER["SERVER_NAME"]; ?>:<?php echo $ssh_tls_port; ?>/#<?php echo $datum['username']; ?>">Link SSH TLS
                                                             </a>
                                                             <a href="#" class="qrs dropdown-item"
                                                                data-tls="ssh://<?php echo $datum['username']; ?>:<?php echo $datum['password']; ?>@<?php echo $_SERVER["SERVER_NAME"]; ?>:<?php echo $ssh_tls_port; ?>/#<?php echo $datum['username']; ?>"
@@ -433,7 +427,7 @@ Password:<?php echo $datum['password']; ?>&nbsp;
                                     <div class="col-lg-12">
                                         <input type="text" name="username" class="form-control"
                                                placeholder="<?php echo modal_username_lang; ?>" autocomplete="off"
-                                               onkeyup="if (/[^|a-z0-9]+/g.test(this.value)) this.value = this.value.replace(/[^|a-z0-9]+/g,'')"
+                                               onkeyup="if (/[^|a-z0-9]+/g.test(this.value)) this.value = this.value.replace(/[^-a-z0-9]+/g,'')"
                                                required>
                                         <small class="form-text text-muted"><?php echo modal_username_lable_lang; ?></small>
                                     </div>

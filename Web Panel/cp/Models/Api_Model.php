@@ -36,22 +36,21 @@ class Api_Model extends Model
     }
     public function list_user()
     {
-        $query = $this->db->prepare("select * from users");
+        $query = $this->db->prepare("select users.*,Traffic.total,setting.ssh_tls_port from users,Traffic,setting where users.username=Traffic.user");
         $query->execute();
         $queryCount = $query->fetchAll(PDO::FETCH_ASSOC);
         return $queryCount;
     }
     public function status_user($data)
     {
-        $query = $this->db->prepare("select * from users where enable='$data'");
+        $query = $this->db->prepare("select users.*,Traffic.total,setting.ssh_tls_port from users,Traffic,setting where users.username=Traffic.user and enable='$data'");
         $query->execute();
         $queryCount = $query->fetchAll(PDO::FETCH_ASSOC);
         return $queryCount;
     }
-
     public function show_user($data)
     {
-        $query = $this->db->prepare("select * from users where username='$data'");
+        $query = $this->db->prepare("select users.*,Traffic.total,setting.ssh_tls_port from users,Traffic,setting where users.username='$data' and Traffic.user='$data'");
         $query->execute();
         $queryCount = $query->fetchAll(PDO::FETCH_ASSOC);
         return $queryCount;
@@ -113,7 +112,7 @@ class Api_Model extends Model
         $queryCount = $query->rowCount();
         if ($queryCount < 1) {
 
-                $finishdate = $data_sybmit['finishdate'];
+            $finishdate = $data_sybmit['finishdate'];
 
             $sql = "INSERT INTO `users` (`username`, `password`, `email`, `mobile`, `multiuser`, `startdate`, `finishdate`, `finishdate_one_connect`,`customer_user`, `enable`, `traffic`, `referral`, `info`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $stmt = $this->db->prepare($sql);
