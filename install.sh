@@ -64,11 +64,12 @@ dmp=""
 dmssl=""
 fi
 echo -e "${YELLOW}************ Select XPanel Version ************"
-echo -e "${GREEN}  1)XPanel v3.4"
-echo -e "  2)XPanel v3.1"
-echo -e "  3)XPanel v3.0"
-echo -e "  4)XPanel v2.9"
-echo -e "  5)XPanel v2.8"
+echo -e "${GREEN}  1)XPanel v3.5"
+echo -e "  2)XPanel v3.4"
+echo -e "  3)XPanel v3.1"
+echo -e "  4)XPanel v3.0"
+echo -e "  5)XPanel v2.9"
+echo -e "  6)XPanel v2.8"
 echo -ne "${GREEN}\nSelect Version : ${ENDCOLOR}" ;read n
 if [ "$n" != "" ]; then
 if [ "$n" == "1" ]; then
