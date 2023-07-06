@@ -11,7 +11,6 @@ class Login extends Controller
 	}
     public function index()
     {
-        session_start();
         $this->login_user();
         if(isset($_GET['lang'])) {
             if (!empty($_GET["lang"])) {

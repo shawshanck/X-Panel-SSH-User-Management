@@ -2,21 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d50d8e18-a0fd-450a-835d-0b5aea5e7d6b" name="Changes" comment="Fix Version 3.4">
-      <change afterPath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/.htaccess" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/traffic.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Controllers/Api.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Controllers/Api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Controllers/Edituser.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Controllers/Edituser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Controllers/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Controllers/Users.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/adduser" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/adduser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/changepass" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/changepass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/deleteuser" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/deleteuser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/userdelete" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Libs/sh/userdelete" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Models/Api_Model.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Models/Api_Model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Models/Edituser_Model.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Models/Edituser_Model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Models/Fixer_Model.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Models/Fixer_Model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Models/Users_Model.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Models/Users_Model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Views/Users/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Views/Users/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Controllers/Login.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Controllers/Login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Models/Login_Model.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Models/Login_Model.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,14 +101,7 @@
       <workItem from="1688369677320" duration="2555000" />
       <workItem from="1688424501097" duration="15113000" />
       <workItem from="1688512799090" duration="16792000" />
-      <workItem from="1688603104123" duration="8481000" />
-    </task>
-    <task id="LOCAL-00019" summary="Fix New Version 3.2">
-      <created>1686209051135</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1686209051135</updated>
+      <workItem from="1688603104123" duration="12973000" />
     </task>
     <task id="LOCAL-00020" summary="Fix New Version 3.2">
       <created>1686210093963</created>
@@ -458,7 +439,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687726978805</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="Fix Version 3.4">
+      <created>1688619604631</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1688619604631</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
