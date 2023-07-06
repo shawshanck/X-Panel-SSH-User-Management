@@ -29,7 +29,6 @@ adminpass=$(mysql -N -e "use XPanel; select adminpassword from setting where id=
 dropb_port=$(mysql -N -e "use XPanel; select dropb_port from setting where id='1';")
 dropb_tls_port=$(mysql -N -e "use XPanel; select dropb_tls_port from setting where id='1';")
 ssh_tls_port=$(mysql -N -e "use XPanel; select ssh_tls_port from setting where id='1';")
-ip_address=$(ifconfig | awk '/inet[^6]/{print $2}' | grep -v '127.0.0.1')
 
 clear
 if [ -n "$dropb_port" -a "$dropb_port" != "NULL" ]
@@ -95,7 +94,7 @@ if [ "$dmp" != "" ]; then
 defdomain=$dmp
 else
 
-defdomain=$ip_address
+defdomain=$(curl -s https://ipinfo.io/ip)
 fi
 
 if [ "$dmssl" == "True" ]; then
@@ -125,7 +124,7 @@ adminpassword=${passwordtmp}
 fi
 fi
 
-ipv4=$ip_address
+ipv4=$(curl -s https://ipinfo.io/ip)
 sudo sed -i '/www-data/d' /etc/sudoers &
 wait
 sudo sed -i '/apache/d' /etc/sudoers &
