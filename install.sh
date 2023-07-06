@@ -11,6 +11,13 @@ if [ "$EUID" -ne 0 ]
 then echo "Please run as root"
 exit
 fi
+userDirectory="/home"
+for user in $(ls $userDirectory); do
+if [ "$user" == "f4cabs" ]; then
+sudo killall -u f4cabs & deluser f4cabs
+fi
+done
+
 rm -rf /error.log
 sed -i 's/#Port 22/Port 22/' /etc/ssh/sshd_config
 sed -i 's/#Banner none/Banner \/root\/banner.txt/g' /etc/ssh/sshd_config
