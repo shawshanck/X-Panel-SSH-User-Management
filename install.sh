@@ -26,8 +26,6 @@ po=$(cat /etc/ssh/sshd_config | grep "^Port")
 port=$(echo "$po" | sed "s/Port //g")
 adminuser=$(mysql -N -e "use XPanel; select adminuser from setting where id='1';")
 adminpass=$(mysql -N -e "use XPanel; select adminpassword from setting where id='1';")
-dropb_port=$(mysql -N -e "use XPanel; select dropb_port from setting where id='1';")
-dropb_tls_port=$(mysql -N -e "use XPanel; select dropb_tls_port from setting where id='1';")
 ssh_tls_port=$(mysql -N -e "use XPanel; select ssh_tls_port from setting where id='1';")
 
 clear
