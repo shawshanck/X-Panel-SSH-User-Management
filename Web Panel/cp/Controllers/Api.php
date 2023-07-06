@@ -233,7 +233,6 @@ class Api extends Controller
 
             }
         }
-
         //show user
         if(isset($_GET['method']) && htmlspecialchars($_GET['method']) == "user" && !empty($_GET['username'])) {
             $usernme = htmlentities($_GET['username']);
