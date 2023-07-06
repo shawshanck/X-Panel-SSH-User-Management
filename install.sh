@@ -31,20 +31,6 @@ dropb_tls_port=$(mysql -N -e "use XPanel; select dropb_tls_port from setting whe
 ssh_tls_port=$(mysql -N -e "use XPanel; select ssh_tls_port from setting where id='1';")
 
 clear
-if [ -n "$dropb_port" -a "$dropb_port" != "NULL" ]
-then
-     dropbear_port=$dropb_port
-else
-     dropbear_port=222
-fi
-
-if [ -n "$dropb_tls_port" -a "$dropb_tls_port" != "NULL" ]
-then
-dropbear_tls_port=$dropb_tls_port
-else
-     dropbear_tls_port=2083
-fi
-
 if [ -n "$ssh_tls_port" -a "$ssh_tls_port" != "NULL" ]
 then
      sshtls_port=$ssh_tls_port
