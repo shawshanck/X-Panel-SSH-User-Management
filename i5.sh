@@ -144,6 +144,11 @@ echo "File exists xpanelport"
 else
 touch /var/www/xpanelport
 fi
+folder_path_cp="/var/www/html/cp"
+
+if [ -d "$folder_path" ]; then
+    rm -rf /var/www/html/cp
+fi
 link=$(sudo curl -Ls "$linkd" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
 sudo wget -O /var/www/html/update.zip $link
 sudo unzip -o /var/www/html/update.zip -d /var/www/html/ &
