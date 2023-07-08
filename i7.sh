@@ -1,4 +1,4 @@
-#!/bin/bash
+c#!/bin/bash
 
 RED="\e[31m"
 GREEN="\e[32m"
@@ -326,11 +326,11 @@ mysql -e "CREATE USER '${adminusername}'@'localhost' IDENTIFIED BY '${adminpassw
 wait
 mysql -e "GRANT ALL ON *.* TO '${adminusername}'@'localhost';" &
 wait
-sudo sed -i "s/22/$port/g" /var/www/html/cp/Config/database.php &
+sudo sed -i "s/22/$port/g" /var/www/html/app/Config/database.php &
 wait
-sudo sed -i "s/adminuser/$adminusername/g" /var/www/html/cp/Config/database.php &
+sudo sed -i "s/adminuser/$adminusername/g" /var/www/html/app/Config/database.php &
 wait
-sudo sed -i "s/adminpass/$adminpassword/g" /var/www/html/cp/Config/database.php &
+sudo sed -i "s/adminpass/$adminpassword/g" /var/www/html/app/Config/database.php &
 wait
 curl -u "$adminusername:$adminpassword" "$protcohttp://${defdomain}:$sshttp/reinstall"
 wait
@@ -377,9 +377,9 @@ chmod 777 /var/www/html/cp/assets/js/config.js
 wait
 if [ "$xport" != "" ]; then
 pssl=$((xport+1))
-sudo sed -i "s/$xport/$serverPort/g" /var/www/html/cp/Config/define.php &
+sudo sed -i "s/$xport/$serverPort/g" /var/www/html/app/Config/define.php &
 wait
-sudo sed -i "s/$pssl/$serverPortssl/g" /var/www/html/cp/Config/define.php &
+sudo sed -i "s/$pssl/$serverPortssl/g" /var/www/html/app/Config/define.php &
 fi
 (crontab -l | grep . ; echo -e "* * * * * /var/www/html/cp/Libs/sh/kill.sh") | crontab -
 (crontab -l ; echo "* * * * * wget -q -O /dev/null '$protcohttp://${defdomain}:$sshttp/fixer&jub=exp' > /dev/null 2>&1") | crontab -
