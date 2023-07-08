@@ -35,10 +35,14 @@ else
     $explodetext=explode(':',$chattext);
     $username=$explodetext[0];
     $password=$explodetext[1];
-    $check_user = $conn->query("SELECT * FROM users where username='$username' and password='$password'")->rowCount();
-    if($check_user>0) {
+    $query = $this->db->prepare("SELECT * FROM users WHERE username=:username and password=:password");
+    $query->execute(['username' => $username,'password' => $password]);
+    $queryCount = $query->rowCount();
+    if($queryCount>0) {
 
-        $user = $conn->query("select * from users,Traffic where users.username='$username' and Traffic.user='$username'")->fetch();
+        $user = $this->db->prepare("SELECT users,Traffic FROM users WHERE users.username=:username and Traffic.user=:username");
+        $user->execute(['username' => $username]);
+        $user = $query->fetch();
         if (1024 < $user["total"]) {
             $to = round($user["total"] / 1024, 2) . " گیگابایت";
         } else {
