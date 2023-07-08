@@ -99,7 +99,7 @@ sudo sed -i '/apache/d' /etc/sudoers &
 wait
 
 if command -v apt-get >/dev/null; then
-sudo apt-get purge '^php.*'
+sudo apt-get purge '^php7.*'
 sudo NEETRESTART_MODE=a apt-get update --yes
 sudo apt-get -y install software-properties-common
 apt-get install -y stunnel4 && apt-get install -y cmake && apt-get install -y screenfetch && apt-get install -y openssl
@@ -308,71 +308,6 @@ wait
 sudo phpenmod curl
 PHP_INI=$(php -i | grep /.+/php.ini -oE)
 sed -i 's/extension=intl/;extension=intl/' ${PHP_INI}
-elif command -v yum >/dev/null; then
-yum update -y
-sudo yum -y install https://rpms.remirepo.net/enterprise/remi-release-7.rpm
-sudo yum-config-manager --enable remi-php74 -y
-sudo yum install php php-cli -y
-
-yum install epel-release httpd zip unzip net-tools curl mariadb-server php-mysql php-mysqli php-xml mod_ssl php-curl -y
-systemctl restart httpd
-systemctl restart mariadb &
-wait
-systemctl enable mariadb &
-wait
-link=$(sudo curl -Ls "$linkd" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
-sudo wget -O /var/www/html/update.zip $link
-sudo unzip -o /var/www/html/update.zip -d /var/www/html/ &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/sbin/adduser' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/sbin/userdel' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/sed' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/passwd' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/curl' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/wget' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/unzip' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/kill' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/killall' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/lsof' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/sbin/lsof' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/htpasswd' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/sed' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/rm' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/crontab' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/mysqldump' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/sbin/reboot' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/sbin/mysql' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/mysql' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/netstat' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/pgrep' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/sbin/nethogs' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/local/sbin/nethogs' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/bin/nethogs' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'apache ALL=(ALL:ALL) NOPASSWD:/usr/sbin/iptables' | sudo EDITOR='tee -a' visudo &
 wait
 po=$(cat /etc/ssh/sshd_config | grep "^Port")
 port=$(echo "$po" | sed "s/Port //g")
@@ -380,14 +315,9 @@ port=$(echo "$po" | sed "s/Port //g")
 systemctl restart httpd
 systemctl enable httpd
 systemctl enable stunnel4
-systemctl restart stunnel4
-chown apache:apache /var/www/html/cp/* &
-wait
+systemctl restart stunnel4wait
 chmod 644 /etc/ssh/sshd_config &
 wait
-sudo phpenmod curl
-PHP_INI=$(php -i | grep /.+/php.ini -oE)
-sed -i 's/extension=intl/;extension=intl/' ${PHP_INI}
 fi
 bash <(curl -Ls https://raw.githubusercontent.com/Alirezad07/Nethogs-Json-main/master/install.sh --ipv4)
 mysql -e "create database XPanel;" &
