@@ -47,7 +47,7 @@ class Users_Model extends Model
             }
         }
         if(permis=='admin') {
-            $query = $this->db->prepare("SELECT * FROM users,Traffic WHERE users.username=Traffic.user ORDER BY ORDER BY users.id DESC");
+            $query = $this->db->prepare("SELECT * FROM users,Traffic WHERE users.username=Traffic.user ORDER BY users.id DESC");
             $query->execute();
         }
         else{
@@ -216,9 +216,9 @@ class Users_Model extends Model
                 $this->db->prepare($sql)->execute(['0','0','0', $username]);
             }
 
-                shell_exec("sudo killall -u " . $username);
-                shell_exec("bash Libs/sh/adduser " . $username . " " . $val->password);
-            
+            shell_exec("sudo killall -u " . $username);
+            shell_exec("bash Libs/sh/adduser " . $username . " " . $val->password);
+
         }
         header("Location: users");
 
