@@ -82,7 +82,7 @@ class Security_Model extends Model
         $query->execute(['ip' => $data_sybmit['ip']]);
         $queryCount = $query->rowCount();
         if ($queryCount < 1) {
-            $sql = "INSERT INTO `ip_list` (`ip_address`, `ip_dsc`, `ip_status`) VALUES (?,?,?)";
+            $sql = "INSERT INTO `ip_list` (`ip_address`, `ip_desc`, `ip_status`) VALUES (?,?,?)";
             $stmt = $this->db->prepare($sql);
             $stmt->execute(array($data_sybmit['ip'], $data_sybmit['desc'], $data_sybmit['status']));
             if ($stmt) {

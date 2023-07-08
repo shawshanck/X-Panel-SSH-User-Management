@@ -74,7 +74,7 @@
                                 <?php  foreach($data['list'] as $val){
                                     $id=$val['id'];
                                     $ip=$val['ip_address'];
-                                    $desc=$val['ip_dsc'];
+                                    $desc=$val['ip_desc'];
                                     $status=$val['ip_status'];
                                     ?>
                                     <tr>

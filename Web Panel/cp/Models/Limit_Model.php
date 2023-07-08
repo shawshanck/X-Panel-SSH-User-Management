@@ -47,7 +47,7 @@ class Limit_Model extends Model
         $this->saveRequest($ipAddress, $timestamp);
         $recentRequests = $this->getRecentRequests($ipAddress, $timeWindow);
         if ($recentRequests >= $maxRequests) {
-            $sql = "UPDATE ip_list SET ip_status=?, ip_dsc=? WHERE ip_address=?";
+            $sql = "UPDATE ip_list SET ip_status=?, ip_desc=? WHERE ip_address=?";
             $this->db->prepare($sql)->execute(['ban','System Baned', $ipAddress]);
             http_response_code(429); // کد خطای Too Many Requests
             require_once('Views/Limit/ban.php');
