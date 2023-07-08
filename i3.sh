@@ -112,7 +112,7 @@ echo "/usr/sbin/nologin" >> /etc/shells
     
 #Banner 
 cat << EOF > /root/banner.txt
-Connect To Server
+XPanel
 EOF
 #Configuring stunnel
 mkdir /etc/stunnel
@@ -466,7 +466,6 @@ systemctl enable stunnel4 &
 wait
 systemctl restart stunnel4 &
 wait
-clear
 
 echo -e "************ XPanel ************ \n"
 echo -e "XPanel Link : $protcohttp://${defdomain}:$sshttp/login"
