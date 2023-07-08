@@ -3,10 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d50d8e18-a0fd-450a-835d-0b5aea5e7d6b" name="Changes" comment="Fix Version 3.6">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Controllers/Index.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Controllers/Index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Views/Footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Views/Footer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Views/Online/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Views/Online/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Controllers/Edituser.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Controllers/Edituser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Libs/Bootstrap.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Libs/Bootstrap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Views/Settings/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Views/Settings/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,14 +104,7 @@
       <workItem from="1688512799090" duration="16792000" />
       <workItem from="1688603104123" duration="63677000" />
       <workItem from="1688799649140" duration="25109000" />
-      <workItem from="1688835338342" duration="3701000" />
-    </task>
-    <task id="LOCAL-00035" summary="Fix BUG Version 3.2">
-      <created>1686646783606</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1686646783607</updated>
+      <workItem from="1688835338342" duration="5486000" />
     </task>
     <task id="LOCAL-00036" summary="Fix BUG Version 3.2">
       <created>1686650733784</created>
@@ -450,7 +442,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688837190909</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="Fix Version 3.6">
+      <created>1688839351648</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1688839351648</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

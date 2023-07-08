@@ -134,7 +134,7 @@ class Bootstrap
                 if ($action_fix[1] == 'key') {
                     define("key", $sort[1]);
                     define("method", $method[1]);
-                } else {
+                } elseif (empty($url[2])) {
                     define("action", $action_fix[1]);
                     define("action_run", $sort[1]);
                 }
