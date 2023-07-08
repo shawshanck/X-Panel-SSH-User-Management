@@ -99,13 +99,15 @@ sudo sed -i '/apache/d' /etc/sudoers &
 wait
 
 if command -v apt-get >/dev/null; then
+sudo apt-get purge '^php.*'
 sudo NEETRESTART_MODE=a apt-get update --yes
 sudo apt-get -y install software-properties-common
 apt-get install -y stunnel4 && apt-get install -y cmake && apt-get install -y screenfetch && apt-get install -y openssl
 sudo add-apt-repository ppa:ondrej/php -y
 #sudo DEBIAN_FRONTEND=noninteractive apt-get install postfix -y
-apt-get install apache2 php7.4 zip unzip net-tools curl mariadb-server -y
-apt-get install php7.4-mysql php7.4-xml php7.4-curl -y
+
+apt-get install apache2 php8.1 zip unzip net-tools curl mariadb-server -y
+sudo apt-get install php8.1 php8.1-cli php8.1-fpm php8.1-mysql php8.1-curl php8.1-gd php8.1-mbstring php8.1-xml
 
 echo "/bin/false" >> /etc/shells
 echo "/usr/sbin/nologin" >> /etc/shells
