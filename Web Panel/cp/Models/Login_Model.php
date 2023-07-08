@@ -28,9 +28,6 @@ class Login_Model extends Model
     }
     public function submit_index($data_sybmit)
     {
-        $ipAddress = $_SERVER['REMOTE_ADDR']; // آدرس IP کاربر
-        $timestamp = time(); // زمان فعلی
-        $this->saveRequest($ipAddress, $timestamp);
 
         $user = $data_sybmit['username'];
         $pass = $data_sybmit['password'];
@@ -57,6 +54,9 @@ class Login_Model extends Model
         }
         else
         {
+            $ipAddress = $_SERVER['REMOTE_ADDR']; // آدرس IP کاربر
+            $timestamp = time(); // زمان فعلی
+            $this->saveRequest($ipAddress, $timestamp);
             header("location: login");
         }
 
