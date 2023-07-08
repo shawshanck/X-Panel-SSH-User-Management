@@ -144,8 +144,11 @@ echo "File exists xpanelport"
 else
 touch /var/www/xpanelport
 fi
-chmod 777 /var/www/xpanelport
+folder_path_cp="/var/www/html/cp"
 
+if [ -d "$folder_path" ]; then
+    rm -rf /var/www/html/cp
+fi
 link=$(sudo curl -Ls "$linkd" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
 sudo wget -O /var/www/html/update.zip $link
 sudo unzip -o /var/www/html/update.zip -d /var/www/html/ &
@@ -316,8 +319,6 @@ systemctl restart httpd
 systemctl enable httpd
 systemctl enable stunnel4
 systemctl restart stunnel4wait
-chmod 644 /etc/ssh/sshd_config &
-wait
 fi
 bash <(curl -Ls https://raw.githubusercontent.com/Alirezad07/Nethogs-Json-main/master/install.sh --ipv4)
 mysql -e "create database XPanel;" &
@@ -336,13 +337,12 @@ curl -u "$adminusername:$adminpassword" "$protcohttp://${defdomain}:$sshttp/rein
 wait
 crontab -r
 wait
-chmod 777 /var/www/html/cp/Libs/sh/kill.sh
+chmod 644 /var/www/html/cp/Libs/sh/kill.sh
 wait
 multiin=$(echo "$protcohttp://${defdomain}:$sshttp/fixer&jub=multi")
 cat > /var/www/html/cp/Libs/sh/kill.sh << ENDOFFILE
 #!/bin/bash
 #By Alireza
-chmod 777 /var/log/auth.log
 i=0
 while [ 1i -lt 20 ]; do
 cmd=(bbh '$multiin')
@@ -366,19 +366,13 @@ chmod 777 /var/www/html/cp/storage/log
 wait
 chmod 777 /var/www/html/cp/storage/backup
 wait
-chmod 777 /var/www/html/cp/Config/database.php
-wait
 chmod 777 /var/www/html/example/index.php
 wait
-chmod 777 /var/www/html/cp/Config/define.php
+chmod 777 /var/www/html/app/Libs
 wait
-chmod 777 /var/www/html/cp/Libs
+chmod 777 /var/www/html/app/Libs/sh
 wait
-chmod 777 /var/www/html/cp/Libs/sh
-wait
-chmod 777 /var/www/html/cp/Libs/sh/stunnel.sh
-wait
-chmod 777 /etc/stunnel/stunnel.conf
+chmod 777 /var/www/html/app/Libs/sh/stunnel.sh
 wait
 chmod 777 /var/www/html/cp/assets/js/config.js
 wait
