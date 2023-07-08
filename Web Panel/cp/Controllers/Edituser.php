@@ -32,23 +32,34 @@ class Edituser extends Controller
                     $expdate = htmlentities($_POST['expdate']);
                     $desc = htmlentities($_POST['desc']);
                     $activate = htmlentities($_POST['activate']);
-                    if ($type_traffic == "gb") {
-                        $traffic = $traffic * 1024;
-                    } else {
-                        $traffic = $traffic;
+                    if (preg_match('/^[a-zA-Z0-9-#?]+$/', $password)
+                        and preg_match('/^[-a-zA-Z0-9]+$/', $username)
+                        and preg_match('/^[a-zA-Z0-9-@]+$/', $email)
+                        and preg_match('/^[a-zA-Z0-9-@]+$/', $mobile)
+                        and preg_match('/^[a-zA-Z0-9-@]+$/', $multiuser)
+                        and preg_match('/^[a-zA-Z0-9-@]+$/', $activate)
+                        and preg_match('/^[a-zA-Z0-9-@]+$/', $traffic)
+                        and preg_match('/^[a-zA-Z0-9-@]+$/', $type_traffic)
+                        and preg_match('/^[\/-a-zA-Z0-9-۱۲۳۴۵۶۷۸۹۰]+$/', $expdate)
+                        and preg_match('/^[a-zA-Z0-9-@-اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $desc)) {
+                        if ($type_traffic == "gb") {
+                            $traffic = $traffic * 1024;
+                        } else {
+                            $traffic = $traffic;
+                        }
+                        $data_sybmit = array(
+                            'username' => $username,
+                            'password' => $password,
+                            'email' => $email,
+                            'mobile' => $mobile,
+                            'multiuser' => $multiuser,
+                            'finishdate' => $expdate,
+                            'traffic' => $traffic,
+                            'info' => $desc,
+                            'activate' => $activate
+                        );
+                        $this->model->submit_update($data_sybmit);
                     }
-                    $data_sybmit = array(
-                        'username' => $username,
-                        'password' => $password,
-                        'email' => $email,
-                        'mobile' => $mobile,
-                        'multiuser' => $multiuser,
-                        'finishdate' => $expdate,
-                        'traffic' => $traffic,
-                        'info' => $desc,
-                        'activate' => $activate
-                    );
-                    $this->model->submit_update($data_sybmit);
                 }
                 $this->view->Render("Users/edituser",$data);
             }

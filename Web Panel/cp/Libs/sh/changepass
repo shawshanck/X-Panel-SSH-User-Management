@@ -1,7 +1,11 @@
 #!/bin/bash
 #By Alireza
+username=$1
+password=$2
 
-sudo passwd $1 <<!
-$2
-$2
-!
+if echo "$password" | grep -qE '^[-a-zA-Z0-9-@]+$'; then
+  sudo passwd $username <<!
+  $password
+  $password
+  !
+fi

@@ -84,8 +84,9 @@ class Edituser_Model extends Model
         $sql = "UPDATE users SET password=:password, email=:email,mobile=:mobile,multiuser=:multiuser,finishdate=:finishdate,enable=:activate,traffic=:traffic,info=:info WHERE username=:username ";
 
         $statement = $this->db->prepare($sql);
-
-        if($statement->execute($data)) {
+        $statement->execute($data);
+        if($statement->execute($data))
+        {
             shell_exec("sudo killall -u " . $username);
             shell_exec("bash Libs/sh/changepass ".$username." ".$password);
 
@@ -93,26 +94,6 @@ class Edituser_Model extends Model
             {
                 shell_exec("sudo killall -u " . $username);
                 shell_exec("bash Libs/sh/adduser " . $username . " " . $password);
-            }
-            else
-            {
-                $dropbear = shell_exec("ps aux | grep -i dropbear | awk '{print $2}'");
-                $dropbear = preg_split("/\r\n|\n|\r/", $dropbear);
-                foreach ($dropbear as $pid) {
-
-                    $num_drop = shell_exec("cat /var/log/auth.log | grep -i dropbear | grep -i \"Password auth succeeded\" | grep \"dropbear\[$pid\]\" | wc -l");
-                    $user_drop = shell_exec("cat /var/log/auth.log | grep -i dropbear | grep -i \"Password auth succeeded\" | grep \"dropbear\[$pid\]\" | awk '{print $10}'");
-                    $user_drop=str_replace("'", "",$user_drop);
-                    $user_drop=str_replace("\n", "",$user_drop);
-                    $user_drop = htmlentities($user_drop);
-
-                    if ($user_drop==$username) {
-
-                        shell_exec("sudo kill -9 " . $pid);
-                    }
-                }
-                shell_exec("sudo killall -u " . $username);
-                shell_exec("bash Libs/sh/userdelete " . $username);
             }
             header("Refresh:0");
 

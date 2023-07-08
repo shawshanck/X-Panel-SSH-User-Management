@@ -202,11 +202,9 @@ class Users_Model extends Model
                 $this->db->prepare($sql)->execute(['0','0','0', $username]);
             }
 
-
-            if ($val->enable != 'true') {
                 shell_exec("sudo killall -u " . $username);
                 shell_exec("bash Libs/sh/adduser " . $username . " " . $val->password);
-            }
+            
         }
         header("Location: users");
 
