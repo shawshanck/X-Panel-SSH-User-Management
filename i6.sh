@@ -27,7 +27,9 @@ port=$(echo "$po" | sed "s/Port //g")
 adminuser=$(mysql -N -e "use XPanel; select adminuser from setting where id='1';")
 adminpass=$(mysql -N -e "use XPanel; select adminpassword from setting where id='1';")
 ssh_tls_port=$(mysql -N -e "use XPanel; select ssh_tls_port from setting where id='1';")
-
+if [ -d "$folder_path" ]; then
+    rm -rf /var/www/html/cp
+fi
 clear
 if [ -n "$ssh_tls_port" -a "$ssh_tls_port" != "NULL" ]
 then
@@ -146,9 +148,6 @@ touch /var/www/xpanelport
 fi
 folder_path_cp="/var/www/html/cp"
 
-if [ -d "$folder_path" ]; then
-    rm -rf /var/www/html/cp
-fi
 link=$(sudo curl -Ls "$linkd" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
 sudo wget -O /var/www/html/update.zip $link
 sudo unzip -o /var/www/html/update.zip -d /var/www/html/ &
