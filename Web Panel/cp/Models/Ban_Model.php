@@ -16,7 +16,6 @@ class Ban_Model extends Model
         $query = $this->db->prepare("SELECT * FROM ip_list WHERE ip_address=:ip AND ip_status='ban'");
         $query->execute(['ip' => $ipAddress]);
         $queryCount = $query->rowCount();
-        echo $queryCount;
         if ($queryCount > 0) {
             http_response_code(429); // کد خطای Too Many Requests
             require_once('Views/Limit/ban.php');
