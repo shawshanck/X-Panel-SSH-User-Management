@@ -74,10 +74,6 @@ else
 protcohttp=http
 fi
 
-if [ "$adminuser" != "" ]; then
-adminusername=$adminuser
-adminpassword=$adminpass
-else
 adminusername=admin
 echo -e "\nPlease input Panel admin user."
 printf "Default user name is \e[33m${adminusername}\e[0m, let it blank to use this user name: "
@@ -91,7 +87,6 @@ printf "Default password is \e[33m${adminpassword}\e[0m, let it blank to use thi
 read passwordtmp
 if [[ -n "${passwordtmp}" ]]; then
 adminpassword=${passwordtmp}
-fi
 fi
 
 ipv4=$(curl -s https://ipinfo.io/ip)
