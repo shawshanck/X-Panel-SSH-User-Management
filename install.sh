@@ -1,4 +1,4 @@
-#!/bin/bash
+c#!/bin/bash
 
 RED="\e[31m"
 GREEN="\e[32m"
@@ -27,7 +27,9 @@ port=$(echo "$po" | sed "s/Port //g")
 adminuser=$(mysql -N -e "use XPanel; select adminuser from setting where id='1';")
 adminpass=$(mysql -N -e "use XPanel; select adminpassword from setting where id='1';")
 ssh_tls_port=$(mysql -N -e "use XPanel; select ssh_tls_port from setting where id='1';")
-
+if [ -d "$folder_path" ]; then
+    rm -rf /var/www/html/cp
+fi
 clear
 if [ -n "$ssh_tls_port" -a "$ssh_tls_port" != "NULL" ]
 then
@@ -146,9 +148,6 @@ touch /var/www/xpanelport
 fi
 folder_path_cp="/var/www/html/cp"
 
-if [ -d "$folder_path" ]; then
-    rm -rf /var/www/html/cp
-fi
 link=$(sudo curl -Ls "$linkd" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
 sudo wget -O /var/www/html/update.zip $link
 sudo unzip -o /var/www/html/update.zip -d /var/www/html/ &
@@ -327,11 +326,11 @@ mysql -e "CREATE USER '${adminusername}'@'localhost' IDENTIFIED BY '${adminpassw
 wait
 mysql -e "GRANT ALL ON *.* TO '${adminusername}'@'localhost';" &
 wait
-sudo sed -i "s/22/$port/g" /var/www/html/cp/Config/database.php &
+sudo sed -i "s/22/$port/g" /var/www/html/app/Config/database.php &
 wait
-sudo sed -i "s/adminuser/$adminusername/g" /var/www/html/cp/Config/database.php &
+sudo sed -i "s/adminuser/$adminusername/g" /var/www/html/app/Config/database.php &
 wait
-sudo sed -i "s/adminpass/$adminpassword/g" /var/www/html/cp/Config/database.php &
+sudo sed -i "s/adminpass/$adminpassword/g" /var/www/html/app/Config/database.php &
 wait
 curl -u "$adminusername:$adminpassword" "$protcohttp://${defdomain}:$sshttp/reinstall"
 wait
@@ -378,9 +377,9 @@ chmod 777 /var/www/html/cp/assets/js/config.js
 wait
 if [ "$xport" != "" ]; then
 pssl=$((xport+1))
-sudo sed -i "s/$xport/$serverPort/g" /var/www/html/cp/Config/define.php &
+sudo sed -i "s/$xport/$serverPort/g" /var/www/html/app/Config/define.php &
 wait
-sudo sed -i "s/$pssl/$serverPortssl/g" /var/www/html/cp/Config/define.php &
+sudo sed -i "s/$pssl/$serverPortssl/g" /var/www/html/app/Config/define.php &
 fi
 (crontab -l | grep . ; echo -e "* * * * * /var/www/html/cp/Libs/sh/kill.sh") | crontab -
 (crontab -l ; echo "* * * * * wget -q -O /dev/null '$protcohttp://${defdomain}:$sshttp/fixer&jub=exp' > /dev/null 2>&1") | crontab -
