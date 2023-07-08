@@ -12,12 +12,12 @@ class Login extends Controller
     public function index()
     {
         $maxRequests = 3; // حداکثر تعداد درخواست‌ها در بازه زمانی
-        $time = time();
+        $timeWindow = 900;
         $ipAddress = $_SERVER['REMOTE_ADDR']; // آدرس IP کاربر
-        $recentRequests = $this->model->getRecentRequests($ipAddress, $time);
+        $recentRequests = $this->model->getRecentRequests($ipAddress, $timeWindow);
         if ($recentRequests >= $maxRequests) {
             http_response_code(429); // کد خطای Too Many Requests
-            require_once ('Views/Limit/index.php');
+            require_once ('Views/Limit/Index.php');
             exit;
         }
         $this->login_user();
