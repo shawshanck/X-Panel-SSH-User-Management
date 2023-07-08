@@ -69,17 +69,11 @@ class Reinstall_Model extends Model
 								timestamp VARCHAR(100) NULL,
 								PRIMARY KEY(id)
 						);',
-            'CREATE TABLE whitelist_ip(
+            'CREATE TABLE ip_list(
 								id  INT AUTO_INCREMENT,
 								ip_address VARCHAR(100) NOT NULL,
-								timestamp_log VARCHAR(100) NULL,
-								status VARCHAR(100) NULL,
-								PRIMARY KEY(id)
-						);',
-            'CREATE TABLE block_ip(
-								id  INT AUTO_INCREMENT,
-								ip_address VARCHAR(100) NOT NULL,
-								status VARCHAR(100) NULL,
+								ip_status VARCHAR(100) NULL,
+								ip_desc VARCHAR(100) NULL,
 								PRIMARY KEY(id)
 						);',
             'CREATE TABLE Traffic(
@@ -94,7 +88,14 @@ class Reinstall_Model extends Model
 
         // execute SQL statements
         foreach ($statements as $statement) {
-            $this->db->exec($statement);
+            $exp=explode('CREATE TABLE ',$statement);
+            $exp=explode('(',$exp[1]);
+            $checkTable = $this->db->query("SHOW TABLES LIKE '$exp[0]'");
+            $tableExists = $checkTable->rowCount() > 0;
+
+            if (!$tableExists) {
+                $this->db->exec($statement);
+            }
         }
         $sql=$this->db->prepare("TRUNCATE TABLE `setting`");
         $sql->execute();
@@ -119,26 +120,55 @@ class Reinstall_Model extends Model
             }
         }
 
-        $sql = "ALTER TABLE users ADD COLUMN finishdate_one_connect VARCHAR(100) AFTER finishdate;";
-        $this->db->query($sql);
-        $sql = "ALTER TABLE users ADD COLUMN customer_user VARCHAR(100) AFTER finishdate_one_connect;";
-        $this->db->query($sql);
-        $sql = "ALTER TABLE setting ADD COLUMN multiuser VARCHAR(100) AFTER credit;";
-        $this->db->query($sql);
-        $sql = "ALTER TABLE setting ADD COLUMN ststus_multiuser VARCHAR(100) AFTER multiuser;";
-        $this->db->query($sql);
-        $sql = "ALTER TABLE setting ADD COLUMN login_key VARCHAR(100) AFTER ststus_multiuser;";
-        $this->db->query($sql);
-        $sql = "ALTER TABLE setting ADD COLUMN dropb_port VARCHAR(100) AFTER login_key;";
-        $this->db->query($sql);
-        $sql = "ALTER TABLE setting ADD COLUMN dropb_tls_port VARCHAR(100) AFTER login_key;";
-        $this->db->query($sql);
-        $sql = "ALTER TABLE setting ADD COLUMN ssh_tls_port VARCHAR(100) AFTER dropb_tls_port;";
-        $this->db->query($sql);
-        $sql = "ALTER TABLE admins ADD COLUMN login_key VARCHAR(100) AFTER condition_u;";
-        $this->db->query($sql);
-        $sql = "ALTER TABLE block_ip ADD COLUMN type_ip VARCHAR(100) AFTER status;";
-        $this->db->query($sql);
+        $checkColumn = $this->db->query("SHOW COLUMNS FROM users LIKE 'finishdate_one_connect'");
+        $columnExists = $checkColumn->rowCount() > 0;
+        if (!$columnExists) {
+            $sql = "ALTER TABLE users ADD COLUMN finishdate_one_connect VARCHAR(100) AFTER finishdate;";
+            $this->db->query($sql);
+        }
+
+        $checkColumn = $this->db->query("SHOW COLUMNS FROM users LIKE 'customer_user'");
+        $columnExists = $checkColumn->rowCount() > 0;
+        if (!$columnExists) {
+            $sql = "ALTER TABLE users ADD COLUMN customer_user VARCHAR(100) AFTER finishdate_one_connect;";
+            $this->db->query($sql);
+        }
+
+        $checkColumn = $this->db->query("SHOW COLUMNS FROM setting LIKE 'multiuser'");
+        $columnExists = $checkColumn->rowCount() > 0;
+        if (!$columnExists) {
+            $sql = "ALTER TABLE setting ADD COLUMN multiuser VARCHAR(100) AFTER credit;";
+            $this->db->query($sql);
+        }
+
+        $checkColumn = $this->db->query("SHOW COLUMNS FROM setting LIKE 'ststus_multiuser'");
+        $columnExists = $checkColumn->rowCount() > 0;
+        if (!$columnExists) {
+            $sql = "ALTER TABLE setting ADD COLUMN ststus_multiuser VARCHAR(100) AFTER multiuser;";
+            $this->db->query($sql);
+        }
+
+        $checkColumn = $this->db->query("SHOW COLUMNS FROM setting LIKE 'login_key'");
+        $columnExists = $checkColumn->rowCount() > 0;
+        if (!$columnExists) {
+            $sql = "ALTER TABLE setting ADD COLUMN login_key VARCHAR(100) AFTER ststus_multiuser;";
+            $this->db->query($sql);
+        }
+
+        $checkColumn = $this->db->query("SHOW COLUMNS FROM setting LIKE 'ssh_tls_port'");
+        $columnExists = $checkColumn->rowCount() > 0;
+        if (!$columnExists) {
+            $sql = "ALTER TABLE setting ADD COLUMN ssh_tls_port VARCHAR(100) AFTER login_key;";
+            $this->db->query($sql);
+        }
+
+        $checkColumn = $this->db->query("SHOW COLUMNS FROM admins LIKE 'login_key'");
+        $columnExists = $checkColumn->rowCount() > 0;
+        if (!$columnExists) {
+            $sql = "ALTER TABLE admins ADD COLUMN login_key VARCHAR(100) AFTER condition_u;";
+            $this->db->query($sql);
+        }
+
 
         $sql = "UPDATE setting SET multiuser=? WHERE id=?";
         $this->db->prepare($sql)->execute(['on', '1']);

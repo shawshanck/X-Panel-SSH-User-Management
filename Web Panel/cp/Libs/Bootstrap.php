@@ -80,8 +80,6 @@ class Bootstrap
         $csrfToken = isset($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : '';
         define('csrfToken', $csrfToken);
 
-        require_once("Models/Ban_Model.php");
-        $this->model = new Ban_Model();
         if (!isset($_GET['url'])) {
             $url = 'index';
         } else {
@@ -89,6 +87,11 @@ class Bootstrap
             if (preg_match('/^[a-zA-Z0-9]+$/', $url)) {
                 $url = htmlspecialchars($_GET['url']);
             }
+        }
+        if($url!='reinstall')
+        {
+            require_once("Models/Ban_Model.php");
+            $this->model = new Ban_Model();
         }
         $urlex = explode('/', $url);
         $urlex2 = explode('.', $url);
