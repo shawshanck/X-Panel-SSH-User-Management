@@ -35,7 +35,7 @@
                                 $duplicate = [];
                                 $m = 1;
 
-                                $list = shell_exec("sudo lsof -i :" . PORT . " -n | grep -v root | grep ESTABLISHED");
+                                $list = shell_exec("sudo lsof -i :".PORT." | grep -v root | grep ESTABLISHED");
                                 $onlineuserlist = preg_split("/\r\n|\n|\r/", $list);
                                 foreach ($onlineuserlist as $user) {
                                     $user = preg_replace("/\\s+/", " ", $user);
@@ -47,13 +47,7 @@
                                     if (!isset($userarray[8])) {
                                         $userarray[8] = null;
                                     }
-                                    if (strpos($userarray[8], "->") !== false) {
-                                        $userarray[8] = strstr($userarray[8], "->");
-                                        $userarray[8] = str_replace("->", "", $userarray[8]);
-                                        $userip = substr($userarray[8], 0, strpos($userarray[8], ":"));
-                                    } else {
-                                        $userip = $userarray[8];
-                                    }
+
                                     if (!isset($userarray[2])) {
                                         $userarray[2] = null;
                                     }

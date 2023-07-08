@@ -48,7 +48,7 @@ class Index extends Controller
                 sleep(2);
             }
         }
-        $list = shell_exec("sudo lsof -i :" . PORT . " -n | grep -v root | grep ESTABLISHED");
+        $list = shell_exec("sudo lsof -i :".PORT." | grep -v root | grep ESTABLISHED");
         $free = shell_exec("free");
         $free = (string)trim($free);
         $free_arr = explode("\n", $free);
