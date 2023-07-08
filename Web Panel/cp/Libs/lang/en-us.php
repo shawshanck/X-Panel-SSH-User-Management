@@ -193,3 +193,16 @@ define('setting_wordpress_install_lang','Start installing WordPress');
 
 //multiuser settings
 define('setting_multiuser_dec_lang','Due to slowness in the loading page, the option to display the number of connected users on the users page is selected');
+
+/// Security
+define('security_name_lang','Security');
+define('security_block_lang','Block');
+define('security_white_lang','White');
+define('security_requests_lang','List of requests');
+define('security_date_lang','Date');
+define('security_count_lang','Number of requests');
+define('security_requests_desc_lang','Report 7 days');
+define('security_ip_lang','IP licenses');
+define('security_desc_lang','Description');
+define('security_status_lang','Status');
+define('security_action_lang','Operation');

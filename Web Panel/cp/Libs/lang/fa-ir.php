@@ -192,3 +192,16 @@ define('setting_wordpress_install_lang','آغاز نصب وردپرس');
 
 //settings multiuser
 define('setting_multiuser_dec_lang','به دلیل ایجاد کندی در صفحه لود گزینه نمایش تعداد کاربران متصل در صفحه کاربران انتخابی می باشد');
+
+/// Security
+define('security_name_lang','امنیت');
+define('security_block_lang','بلاک');
+define('security_white_lang','سفید');
+define('security_requests_lang','لیست درخواست ها');
+define('security_date_lang','تاریخ');
+define('security_count_lang','تعداد درخواست');
+define('security_requests_desc_lang','گزارش 7 روز');
+define('security_ip_lang','مجوز های IP');
+define('security_desc_lang','توضیحات');
+define('security_status_lang','وضعیت');
+define('security_action_lang','عملیات');

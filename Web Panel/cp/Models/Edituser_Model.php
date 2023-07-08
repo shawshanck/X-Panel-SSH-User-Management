@@ -8,14 +8,19 @@ class Edituser_Model extends Model
         parent::__construct();
         if (isset($_COOKIE["xpkey"])) {
             $key_login = explode(':', $_COOKIE["xpkey"]);
-            $Ukey=$key_login[0];
-            $Pkey=$key_login[1];
-            $query = $this->db->prepare("select * from setting where adminuser='" .$Ukey. "' and login_key='" .$_COOKIE["xpkey"]. "'");
-            $query->execute();
+            $U=htmlspecialchars($key_login[0]);
+            $Ukey='';
+            if (preg_match('/^[a-zA-Z0-9]+$/', $U)) {
+                $Ukey = htmlspecialchars($U);
+            }
+            $query = $this->db->prepare("SELECT * FROM setting WHERE adminuser=:adminuser and login_key=:login_key");
+            $query->execute(['adminuser' => $Ukey,'login_key' => $_COOKIE["xpkey"]]);
             $queryCount = $query->rowCount();
-            $query_ress = $this->db->prepare("select * from admins where username_u='" . $Ukey . "' and login_key='" . $_COOKIE["xpkey"] . "'");
-            $query_ress->execute();
+
+            $query_ress = $this->db->prepare("SELECT * FROM admins WHERE username_u=:adminuser and login_key=:login_key");
+            $query_ress->execute(['adminuser' => $Ukey,'login_key' => $_COOKIE["xpkey"]]);
             $queryCount_ress = $query_ress->rowCount();
+
             if ($queryCount >0) {
                 define('permis','admin');
             }
@@ -34,12 +39,21 @@ class Edituser_Model extends Model
     {
         if (isset($_COOKIE["xpkey"])) {
             $key_login = explode(':', $_COOKIE["xpkey"]);
-            $Ukey = $key_login[0];
+            $U=htmlspecialchars($key_login[0]);
+            $Ukey='';
+            if (preg_match('/^[a-zA-Z0-9]+$/', $U)) {
+                $Ukey = htmlspecialchars($U);
+            }
         }
-        if(permis=='admin'){$where=''; } else{$where=" and customer_user='$Ukey' ";}
-        $query = $this->db->prepare("select * from users  WHERE username='".$data_sybmit['username']."' $where");
-        $query->execute();
-        $queryCount = $query->fetchAll();
+        if(permis=='admin') {
+            $query = $this->db->prepare("SELECT * FROM users WHERE username=:username");
+            $query->execute(['username' => $data_sybmit['username']]);
+        }
+        else{
+            $query = $this->db->prepare("SELECT * FROM users WHERE username=:username and customer_user=:customer_user");
+            $query->execute(['username' => $data_sybmit['username'],'customer_user' => $Ukey]);
+        }
+        $queryCount = $query->fetchAll(PDO::FETCH_ASSOC);
         return $queryCount;
     }
     public function submit_update($data_sybmit)

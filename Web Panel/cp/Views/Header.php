@@ -132,6 +132,19 @@
                     </a>
                 </li>
 
+                <li class="pc-item">
+                    <a href="security" class="pc-link">
+                        <i data-feather="shield"></i>
+                        <span class="pc-mtext"><?php echo security_requests_lang;?></span>
+                    </a>
+                </li>
+
+                <li class="pc-item">
+                    <a href="ip" class="pc-link">
+                        <i data-feather="shield"></i>
+                        <span class="pc-mtext"><?php echo security_ip_lang;?></span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

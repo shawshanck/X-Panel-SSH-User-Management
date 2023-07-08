@@ -10,8 +10,8 @@ class Api_Model extends Model
 
     public function check_token($data)
     {
-        $query = $this->db->prepare("select * from ApiToken where Token='$data' and enable='true'");
-        $query->execute();
+        $query = $this->db->prepare("SELECT * FROM ApiToken WHERE Token=:token");
+        $query->execute(['token' => $data]);
         $check_token = $query->fetchAll(PDO::FETCH_ASSOC);
         if($check_token[0]['Allowips']=='0.0.0.0/0')
         {
@@ -20,8 +20,8 @@ class Api_Model extends Model
         else
         {
             $ipremote= $_SERVER['REMOTE_ADDR'];
-            $query = $this->db->prepare("select * from ApiToken where Token='$data' and enable='true' and Allowips='$ipremote'");
-            $query->execute();
+            $query = $this->db->prepare("SELECT * FROM ApiToken WHERE Token=:token and enable='true' and Allowips=:Allowips");
+            $query->execute(['token' => $data,'Allowips' => $ipremote]);
             $queryCount = $query->rowCount();
             if($queryCount>0)
             {
@@ -43,15 +43,15 @@ class Api_Model extends Model
     }
     public function status_user($data)
     {
-        $query = $this->db->prepare("select users.*,Traffic.total,setting.ssh_tls_port from users,Traffic,setting where users.username=Traffic.user and enable='$data'");
-        $query->execute();
+        $query = $this->db->prepare("SELECT users.*,Traffic.total,setting.ssh_tls_port FROM users,Traffic,setting WHERE users.username=Traffic.user and users.enable=:enable");
+        $query->execute(['enable' => $data]);
         $queryCount = $query->fetchAll(PDO::FETCH_ASSOC);
         return $queryCount;
     }
     public function show_user($data)
     {
-        $query = $this->db->prepare("select users.*,Traffic.total,setting.ssh_tls_port from users,Traffic,setting where users.username='$data' and Traffic.user='$data'");
-        $query->execute();
+        $query = $this->db->prepare("SELECT users.*,Traffic.total,setting.ssh_tls_port FROM users,Traffic,setting WHERE users.username=:username and Traffic.user=:username");
+        $query->execute(['username' => $data]);
         $queryCount = $query->fetchAll(PDO::FETCH_ASSOC);
         return $queryCount;
     }
@@ -107,8 +107,8 @@ class Api_Model extends Model
         {
             $password=$data_sybmit['password'];
         }
-        $query = $this->db->prepare("select * from users where username='".$data_sybmit['username']."'");
-        $query->execute();
+        $query = $this->db->prepare("SELECT * FROM users WHERE username=:username");
+        $query->execute(['username' => $data_sybmit['username']]);
         $queryCount = $query->rowCount();
         if ($queryCount < 1) {
 
@@ -160,7 +160,7 @@ class Api_Model extends Model
         $username=$data_sybmit['username'];
         $stmt = $this->db->prepare("SELECT * FROM users WHERE username=:user");
         $stmt->execute(['user' => $username]);
-        $user = $stmt->fetch();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
         $sql = "UPDATE users SET enable=? WHERE username=?";
         $query=$this->db->prepare($sql)->execute(['true', $username]);
         if($query)
@@ -203,7 +203,7 @@ class Api_Model extends Model
         $end_inp = date('Y-m-d', strtotime($start_inp . " + $day_date days"));
         $stmt = $this->db->prepare("SELECT * FROM users WHERE username=:username");
         $stmt->execute(['username' => $username]);
-        $user = $stmt->fetchAll();
+        $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($user as $val) {
             if ($renewal_date == 'yes') {
                 $sql = "UPDATE users SET enable=?,startdate=?,finishdate=? WHERE username=?";

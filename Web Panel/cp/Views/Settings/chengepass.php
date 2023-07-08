@@ -5,6 +5,7 @@
                 <form class="validate-me" action="" method="post" enctype="multipart/form-data">
                   <div class="form-group row">
                     <div class="col-lg-6">
+                        <input type="hidden" name="csrf_token" value="<?php echo csrfToken; ?>">
                       <input class="form-control" value="<?php echo $adminuser;?>" disabled>
                       <input class="form-control" type="hidden" name="user_root" value="<?php echo $adminuser;?>" >
                       <small class="form-text text-muted"><?php echo username_tb_lang;?></small>

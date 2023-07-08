@@ -29,6 +29,7 @@
                 }
                 ?></div><br>
             <form class="validate-me" action="" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="<?php echo csrfToken; ?>">
                 <input type="submit" name="active_blockip" class="btn btn-warning" value="<?php echo active_u_act_tb_lang;?>">
                 <input type="submit" name="deactive_blockip" class="btn btn-success" value="<?php echo deactive_u_act_tb_lang;?>">
 

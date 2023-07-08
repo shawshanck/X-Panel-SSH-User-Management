@@ -15,6 +15,7 @@
                   <div class="form-group row">
                     <div class="col-lg-4 col-form-label"></div>
                     <div class="col-lg-6">
+                        <input type="hidden" name="csrf_token" value="<?php echo csrfToken; ?>">
                       <input type="submit" class="btn btn-primary" name="on_limit_user" value="<?php echo active_u_act_tb_lang;?>">
                       <input type="submit" class="btn btn-warning" name="off_limit_user" value="<?php echo deactive_u_act_tb_lang;?>">
                     </div>

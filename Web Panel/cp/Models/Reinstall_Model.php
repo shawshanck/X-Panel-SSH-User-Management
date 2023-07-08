@@ -63,6 +63,25 @@ class Reinstall_Model extends Model
 								condition_u VARCHAR(100) NULL,
 								PRIMARY KEY(id)
 						);',
+            'CREATE TABLE requests(
+								id  INT AUTO_INCREMENT,
+								ip_address VARCHAR(100) NOT NULL,
+								timestamp VARCHAR(100) NULL,
+								PRIMARY KEY(id)
+						);',
+            'CREATE TABLE whitelist_ip(
+								id  INT AUTO_INCREMENT,
+								ip_address VARCHAR(100) NOT NULL,
+								timestamp_log VARCHAR(100) NULL,
+								status VARCHAR(100) NULL,
+								PRIMARY KEY(id)
+						);',
+            'CREATE TABLE block_ip(
+								id  INT AUTO_INCREMENT,
+								ip_address VARCHAR(100) NOT NULL,
+								status VARCHAR(100) NULL,
+								PRIMARY KEY(id)
+						);',
             'CREATE TABLE Traffic(
 									id  INT AUTO_INCREMENT,
 									user  VARCHAR(100) NOT NULL,
@@ -117,6 +136,8 @@ class Reinstall_Model extends Model
         $sql = "ALTER TABLE setting ADD COLUMN ssh_tls_port VARCHAR(100) AFTER dropb_tls_port;";
         $this->db->query($sql);
         $sql = "ALTER TABLE admins ADD COLUMN login_key VARCHAR(100) AFTER condition_u;";
+        $this->db->query($sql);
+        $sql = "ALTER TABLE block_ip ADD COLUMN type_ip VARCHAR(100) AFTER status;";
         $this->db->query($sql);
 
         $sql = "UPDATE setting SET multiuser=? WHERE id=?";

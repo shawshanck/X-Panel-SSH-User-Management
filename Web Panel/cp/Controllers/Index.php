@@ -12,40 +12,37 @@ class Index extends Controller
 
     public function index()
     {
-        if(isset($_GET['logout'])) {
+        if(!empty(action) and action=='logout') {
             setcookie("xpkey", "", time()-86400);
             header("location: login");
 
         }
-        if(isset($_GET['lang'])) {
-            if (!empty($_GET["lang"])) {
-                $lang = htmlentities($_GET['lang']);
-                if($lang=='fa')
-                {
-                    file_put_contents("/var/www/html/cp/Config/database.php", str_replace("\$lang = \"".LANG."\"", "\$lang = \"fa-ir\"", file_get_contents("/var/www/html/cp/Config/database.php")));
-                    clearstatcache();
-                    sleep(2);
-                    header("location: index");
-                }
-                if($lang=='en')
-                {
-                    file_put_contents("/var/www/html/cp/Config/database.php", str_replace("\$lang = \"".LANG."\"", "\$lang = \"en-us\"", file_get_contents("/var/www/html/cp/Config/database.php")));
-                    clearstatcache();
-                    sleep(2);
-                    header("location: index");
-                }
+        if(!empty(action) and action=='lang') {
+            $lang = htmlspecialchars(action_run);
+            if($lang=='fa')
+            {
+                file_put_contents("/var/www/html/cp/Config/database.php", str_replace("\$lang = \"".LANG."\"", "\$lang = \"fa-ir\"", file_get_contents("/var/www/html/cp/Config/database.php")));
+                clearstatcache();
+                sleep(2);
+                header("location: index");
+            }
+            if($lang=='en')
+            {
+                file_put_contents("/var/www/html/cp/Config/database.php", str_replace("\$lang = \"".LANG."\"", "\$lang = \"en-us\"", file_get_contents("/var/www/html/cp/Config/database.php")));
+                clearstatcache();
+                sleep(2);
+                header("location: index");
             }
         }
-        if (isset($_GET['layout'])) {
-            $layout = htmlentities($_GET['layout']);
-            if($layout=='dark')
-            {
+
+        if(!empty(action) and action=='layout') {
+            $layout = htmlspecialchars(action_run);
+            if ($layout == 'dark') {
                 file_put_contents("/var/www/html/cp/assets/js/config.js", str_replace("var dark_layout = 'false'", "var dark_layout = 'true'", file_get_contents("/var/www/html/cp/assets/js/config.js")));
                 clearstatcache();
                 sleep(2);
             }
-            if($layout=='light')
-            {
+            if ($layout == 'light') {
                 file_put_contents("/var/www/html/cp/assets/js/config.js", str_replace("var dark_layout = 'true'", "var dark_layout = 'false'", file_get_contents("/var/www/html/cp/assets/js/config.js")));
                 clearstatcache();
                 sleep(2);

@@ -2,6 +2,7 @@
     <form class="validate-me" action="" method="post" enctype="multipart/form-data">
         <div class="form-group row">
             <div class="col-lg-6">
+                <input type="hidden" name="csrf_token" value="<?php echo csrfToken; ?>">
                 <input type="text" name="desc" class="form-control" required="">
                 <small class="form-text text-muted"><?php echo setting_api_desc_lang;?></small>
             </div>

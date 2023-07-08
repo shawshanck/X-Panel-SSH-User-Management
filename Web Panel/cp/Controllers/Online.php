@@ -10,17 +10,14 @@ class Online extends Controller
         parent::__construct();
         $this->model = new Index_Model();
 
-        if(isset($_GET['kill-id'])) {
-            if (!empty($_GET["kill-id"])) {
-                $killid = htmlentities($_GET['kill-id']);
-                shell_exec("sudo kill -9 " . $killid);
-            }
+        if (!empty(action) and action=='kill-id') {
+            $killid = htmlspecialchars(action_run);
+            shell_exec("sudo kill -9 " . $killid);
         }
-        if(isset($_GET['kill-user'])) {
-            if (!empty($_GET["kill-user"])) {
-                $killuser = htmlentities($_GET['kill-user']);
-                shell_exec("sudo killall -u " . $killuser);
-            }
+
+        if (!empty(action) and action=='kill-user') {
+            $killuser = htmlspecialchars(action_run);
+            shell_exec("sudo killall -u " . $killuser);
         }
         $this->view->Render("Online/index");
     }

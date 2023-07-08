@@ -13,6 +13,7 @@
         </div>
         <div class="form-group row">
             <div class="col-lg-6">
+                <input type="hidden" name="csrf_token" value="<?php echo csrfToken; ?>">
                 <input type="text" name="tokenbot" class="form-control" value="<?php echo $tgtoken;?>" required="">
                 <small class="form-text text-muted"><?php echo setting_telegram_token_lable_lang;?></small>
             </div>

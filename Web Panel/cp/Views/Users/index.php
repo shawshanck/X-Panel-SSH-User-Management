@@ -23,6 +23,7 @@
                 <div class="card table-card">
                     <div class="card-body">
                         <form action="" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="<?php echo csrfToken; ?>">
 
                             <div class="text-end p-4 pb-0">
                                 <a href="#" class="btn btn-primary d-inline-flex align-items-center"
@@ -350,6 +351,7 @@ Password:<?php echo $datum['password']; ?>&nbsp;
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="input-group">
+                                    <input type="hidden" name="csrf_token" value="<?php echo csrfToken; ?>">
                                     <input type="text" name="day_date" class="form-control" placeholder="30">
                                     <input type="hidden" name="username_re" id="input_user" value="" class="input_user form-control" placeholder="30">
                                 </div>
@@ -425,6 +427,7 @@ Password:<?php echo $datum['password']; ?>&nbsp;
                             <div class="col-lg-6">
                                 <div class="row">
                                     <div class="col-lg-12">
+                                        <input type="hidden" name="csrf_token" value="<?php echo csrfToken; ?>">
                                         <input type="text" name="username" class="form-control"
                                                placeholder="<?php echo modal_username_lang; ?>" autocomplete="off"
                                                onkeyup="if (/[^|a-z0-9]+/g.test(this.value)) this.value = this.value.replace(/[^-a-z0-9]+/g,'')"
@@ -574,6 +577,7 @@ Password:<?php echo $datum['password']; ?>&nbsp;
                             <div class="col-lg-3">
                                 <div class="row">
                                     <div class="col-lg-12">
+                                        <input type="hidden" name="csrf_token" value="<?php echo csrfToken; ?>">
                                         <input type="text" name="count_user" class="form-control" value="5"
                                                placeholder="<?php echo modal_b_count_lang; ?>" required>
                                         <small class="form-text text-muted"><?php echo modal_b_count_lable_lang; ?></small>

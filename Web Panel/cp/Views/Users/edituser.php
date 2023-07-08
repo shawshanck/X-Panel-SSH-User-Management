@@ -65,6 +65,7 @@
                                             <div class="col-lg-6">
                                                 <div class="row">
                                                     <div class="col-lg-12">
+                                                        <input type="hidden" name="csrf_token" value="<?php echo csrfToken; ?>">
                                                         <input type="text" class="form-control" placeholder="<?php echo modal_username_lang;?>" value="<?php echo $datum['username'];?>" disabled="">
                                                         <input type="hidden" name="username" class="form-control" placeholder="<?php echo modal_username_lang;?>" value="<?php echo $datum['username'];?>" >
                                                         <small class="form-text text-muted"><?php echo modal_username_lable_lang;?></small>

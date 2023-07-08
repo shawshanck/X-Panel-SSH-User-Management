@@ -14,8 +14,8 @@ class Fixer_Model extends Model
         $list_user = preg_split("/\r\n|\n|\r/", $list_user);
         foreach ($list_user as $us)
         {
-            $query = $this->db->prepare("select * from users where username='$us' ");
-            $query->execute();
+            $query = $this->db->prepare("SELECT * FROM users WHERE username=:username");
+            $query->execute(['username' => $us]);
             $queryCount = $query->rowCount();
             if ($queryCount <1) {
                 shell_exec("sudo killall -u " . $us);
@@ -26,7 +26,7 @@ class Fixer_Model extends Model
 
         $query = $this->db->prepare("select * from users where enable='true' ORDER BY id DESC");
         $query->execute();
-        $queryCount = $query->fetchAll();
+        $queryCount = $query->fetchAll(PDO::FETCH_ASSOC);
         foreach ($queryCount as $us) {
             if (!empty($us["finishdate"])) {
                 $expiredate = strtotime(date("Y-m-d", strtotime($us["finishdate"])));
@@ -42,7 +42,7 @@ class Fixer_Model extends Model
 
             $stmt = $this->db->prepare("SELECT * FROM Traffic WHERE user=:user");
             $stmt->execute(['user' => $us['username']]);
-            $user = $stmt->fetchAll();
+            $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($user as $usernamet)
             {
                 $total=$usernamet["total"];
@@ -63,7 +63,7 @@ class Fixer_Model extends Model
 
         $query_setting = $this->db->prepare("select * from setting");
         $query_setting->execute();
-        $queryCount_setting = $query_setting->fetchAll();
+        $queryCount_setting = $query_setting->fetchAll(PDO::FETCH_ASSOC);
         foreach ($queryCount_setting as $val) {
             $multiuser = $val['multiuser'];
         }
@@ -84,9 +84,9 @@ class Fixer_Model extends Model
         $onlinecount = array_count_values($onlinelist);
 
         foreach ($onlinelist as $useron) {
-            $query = $this->db->prepare("select * from users where username='$useron'");
-            $query->execute();
-            $queryCount = $query->fetchAll();
+            $query = $this->db->prepare("SELECT * FROM users WHERE username=:username");
+            $query->execute(['username' => $useron]);
+            $queryCount = $query->fetchAll(PDO::FETCH_ASSOC);
             foreach ($queryCount as $row) {
                 $limitation = $row['multiuser'];
                 $username = $row['username'];
@@ -125,12 +125,12 @@ class Fixer_Model extends Model
     {
         $query = $this->db->prepare("select * from users where enable='true' ORDER BY id DESC");
         $query->execute();
-        $queryCount = $query->fetchAll();
+        $queryCount = $query->fetchAll(PDO::FETCH_ASSOC);
         foreach ($queryCount as $us) {
 
             $stmt = $this->db->prepare("SELECT * FROM Traffic WHERE user=:user");
             $stmt->execute(['user' => $us['username']]);
-            $user = $stmt->fetchAll();
+            $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($user as $usernamet)
             {
                 $total=$usernamet["total"];
@@ -229,7 +229,7 @@ class Fixer_Model extends Model
         foreach ($newarray as $username => $usr) {
             $stmt = $this->db->prepare("SELECT * FROM Traffic WHERE user=:user");
             $stmt->execute(['user' => $username]);
-            $user = $stmt->fetch();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
             $userdownload = $user["download"];
             $userupload = $user["upload"];
             $usertotal = $user["total"];
@@ -243,8 +243,8 @@ class Fixer_Model extends Model
             $lastdownload = $userdownload + $rx;
             $lastupload = $userupload + $tx;
             $lasttotal = $usertotal + $tot;
-            $query = $this->db->prepare("select * from Traffic where user='" . $username . "'");
-            $query->execute();
+            $query = $this->db->prepare("SELECT * FROM Traffic WHERE user=:username");
+            $query->execute(['username' => $username]);
             $queryCount = $query->rowCount();
             if ($queryCount < 1) {
                 $sql = "INSERT INTO `Traffic` (`id`,`user`, `download`, `upload`, `total` ) VALUES (NULL,?,?,?,?)";
@@ -261,7 +261,7 @@ class Fixer_Model extends Model
 
         $query_setting = $this->db->prepare("select * from setting");
         $query_setting->execute();
-        $queryCount_setting = $query_setting->fetchAll();
+        $queryCount_setting = $query_setting->fetchAll(PDO::FETCH_ASSOC);
         foreach ($queryCount_setting as $val) {
             $multiuser = $val['multiuser'];
         }
@@ -281,9 +281,9 @@ class Fixer_Model extends Model
         $onlinecount = array_count_values($onlinelist);
 
         foreach ($onlinelist as $useron) {
-            $query = $this->db->prepare("select * from users where username='$useron'");
-            $query->execute();
-            $queryCount = $query->fetchAll();
+            $query = $this->db->prepare("SELECT * FROM users WHERE username=:username");
+            $query->execute(['username' => $useron]);
+            $queryCount = $query->fetchAll(PDO::FETCH_ASSOC);
             foreach ($queryCount as $row) {
                 $limitation = $row['multiuser'];
                 $username = $row['username'];

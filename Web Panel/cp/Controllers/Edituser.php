@@ -13,7 +13,7 @@ class Edituser extends Controller
     {
         if(isset($_GET['username'])) {
             if (!empty($_GET["username"])) {
-                $usernme = htmlentities($_GET['username']);
+                $usernme = htmlspecialchars($_GET['username']);
                 $data_sybmit = array(
                     'username' => $usernme
                 );
@@ -22,26 +22,26 @@ class Edituser extends Controller
                     "for" => $user
                 );
                 if (isset($_POST['submit'])) {
-                    $username = htmlentities($_POST['username']);
-                    $password = htmlentities($_POST['password']);
-                    $email = htmlentities($_POST['email']);
-                    $mobile = htmlentities($_POST['mobile']);
-                    $multiuser = htmlentities($_POST['multiuser']);
-                    $traffic = htmlentities($_POST['traffic']);
-                    $type_traffic = htmlentities($_POST['type_traffic']);
-                    $expdate = htmlentities($_POST['expdate']);
-                    $desc = htmlentities($_POST['desc']);
-                    $activate = htmlentities($_POST['activate']);
+                    $username = htmlspecialchars($_POST['username']);
+                    $password = htmlspecialchars($_POST['password']);
+                    $email = htmlspecialchars($_POST['email']);
+                    $mobile = htmlspecialchars($_POST['mobile']);
+                    $multiuser = htmlspecialchars($_POST['multiuser']);
+                    $traffic = htmlspecialchars($_POST['traffic']);
+                    $type_traffic = htmlspecialchars($_POST['type_traffic']);
+                    $expdate = htmlspecialchars($_POST['expdate']);
+                    $desc = htmlspecialchars($_POST['desc']);
+                    $activate = htmlspecialchars($_POST['activate']);
                     if (preg_match('/^[a-zA-Z0-9-#?]+$/', $password)
                         and preg_match('/^[-a-zA-Z0-9]+$/', $username)
-                        and preg_match('/^[a-zA-Z0-9-@]+$/', $email)
-                        and preg_match('/^[a-zA-Z0-9-@]+$/', $mobile)
+                        and empty($email) or preg_match('/^[a-zA-Z0-9-@]+$/', $email)
+                        and empty($mobile) or preg_match('/^[a-zA-Z0-9-@]+$/', $mobile)
                         and preg_match('/^[a-zA-Z0-9-@]+$/', $multiuser)
                         and preg_match('/^[a-zA-Z0-9-@]+$/', $activate)
                         and preg_match('/^[a-zA-Z0-9-@]+$/', $traffic)
                         and preg_match('/^[a-zA-Z0-9-@]+$/', $type_traffic)
-                        and preg_match('/^[\/-a-zA-Z0-9-۱۲۳۴۵۶۷۸۹۰]+$/', $expdate)
-                        and preg_match('/^[a-zA-Z0-9-@-اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $desc)) {
+                        and empty($expdate) or preg_match('/^[\/-a-zA-Z0-9-۱۲۳۴۵۶۷۸۹۰]+$/', $expdate)
+                        and empty($desc) or preg_match('/^[a-zA-Z0-9-@-اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $desc)) {
                         if ($type_traffic == "gb") {
                             $traffic = $traffic * 1024;
                         } else {

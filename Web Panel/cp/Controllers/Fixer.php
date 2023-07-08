@@ -11,18 +11,16 @@ class Fixer extends Controller
     }
     public function index()
     {
-        if (isset($_GET['jub'])) {
-            if (!empty($_GET["jub"]) and $_GET["jub"] == 'exp') {
+                if(!empty(action) and action=='jub' and action_run=='exp') {
                 $this->model->cronexp();
             }
-            if (!empty($_GET["jub"]) and $_GET["jub"] == 'synstraffic') {
+            if (!empty($_GET["jub"]) and $_GET["jub"] == 'synstraffic')
+                if(!empty(action) and action=='jub' and action_run=='synstraffic') {
                 $this->model->synstraffic();
             }
 
-            if (!empty($_GET["jub"]) and $_GET["jub"] == 'multi') {
+                if(!empty(action) and action=='jub' and action_run=='multi') {
                 $this->model->multiuser();
             }
-        }
-
     }
 }

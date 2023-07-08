@@ -2,6 +2,7 @@
     <form class="validate-me" action="" method="post" enctype="multipart/form-data">
         <div class="form-group row">
             <div class="col-lg-6">
+                <input type="hidden" name="csrf_token" value="<?php echo csrfToken; ?>">
                 <input type="submit" name="savebackup" class="btn btn-primary" value="<?php echo setting_backup_make_lang;?>">
             </div>
         </div>
@@ -11,6 +12,7 @@
         <div class="form-group row">
             <div class="col-lg-6">
                 <div class="UppyInput form"><div class="uppy-Root uppy-FileInput-container">
+                        <input type="hidden" name="csrf_token" value="<?php echo csrfToken; ?>">
                         <input class="uppy-FileInput-input form-control" type="file" name="fileToUpload" multiple="" style="">
                         <small class="form-text text-muted"><?php echo setting_backup_make_lable_lang;?></small>
                         <br>

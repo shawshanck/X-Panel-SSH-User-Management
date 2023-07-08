@@ -9,14 +9,19 @@ class Users_Model extends Model
 
         if (isset($_COOKIE["xpkey"])) {
             $key_login = explode(':', $_COOKIE["xpkey"]);
-            $Ukey=$key_login[0];
-            $Pkey=$key_login[1];
-            $query = $this->db->prepare("select * from setting where adminuser='" .$Ukey. "' and login_key='" .$_COOKIE["xpkey"]. "'");
-            $query->execute();
+            $U=htmlspecialchars($key_login[0]);
+            $Ukey='';
+            if (preg_match('/^[a-zA-Z0-9]+$/', $U)) {
+                $Ukey = htmlspecialchars($U);
+            }
+            $query = $this->db->prepare("SELECT * FROM setting WHERE adminuser=:adminuser and login_key=:login_key");
+            $query->execute(['adminuser' => $Ukey,'login_key' => $_COOKIE["xpkey"]]);
             $queryCount = $query->rowCount();
-            $query_ress = $this->db->prepare("select * from admins where username_u='" . $Ukey . "' and login_key='" . $_COOKIE["xpkey"] . "'");
-            $query_ress->execute();
+
+            $query_ress = $this->db->prepare("SELECT * FROM admins WHERE username_u=:adminuser and login_key=:login_key");
+            $query_ress->execute(['adminuser' => $Ukey,'login_key' => $_COOKIE["xpkey"]]);
             $queryCount_ress = $query_ress->rowCount();
+
             if ($queryCount >0) {
                 define('permis','admin');
             }
@@ -35,19 +40,28 @@ class Users_Model extends Model
     {
         if (isset($_COOKIE["xpkey"])) {
             $key_login = explode(':', $_COOKIE["xpkey"]);
-            $Ukey = $key_login[0];
+            $U=htmlspecialchars($key_login[0]);
+            $Ukey='';
+            if (preg_match('/^[a-zA-Z0-9]+$/', $U)) {
+                $Ukey = htmlspecialchars($U);
+            }
         }
-        if(permis=='admin'){$where='';} else{$where=" and users.customer_user='$Ukey' ";}
-        $query = $this->db->prepare("select * from users,Traffic where users.username=Traffic.user $where ORDER BY users.id DESC");
-        $query->execute();
-        $queryCount = $query->fetchAll();
+        if(permis=='admin') {
+            $query = $this->db->prepare("SELECT * FROM users,Traffic WHERE users.username=Traffic.user ORDER BY ORDER BY users.id DESC");
+            $query->execute();
+        }
+        else{
+            $query = $this->db->prepare("SELECT * FROM users,Traffic WHERE users.customer_user=:customer_user AND users.customer_user=:customer_user ORDER BY ORDER BY users.id DESC");
+            $query->execute(['customer_user' => $Ukey]);
+        }
+        $queryCount = $query->fetchAll(PDO::FETCH_ASSOC);
         return $queryCount;
     }
     public function Get_settings()
     {
         $query = $this->db->prepare("select * from setting");
         $query->execute();
-        $queryCount = $query->fetchAll();
+        $queryCount = $query->fetchAll(PDO::FETCH_ASSOC);
         return $queryCount;
     }
 
@@ -55,7 +69,7 @@ class Users_Model extends Model
     {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE username=:user");
         $stmt->execute(['user' => $data_sybmit['username']]);
-        $user = $stmt->fetch();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
         $username=$data_sybmit['username'];
         $sql = "UPDATE users SET enable=? WHERE username=?";
         $this->db->prepare($sql)->execute(['true', $username]);
@@ -94,8 +108,8 @@ class Users_Model extends Model
         {
             $password=$data_sybmit['password'];
         }
-        $query = $this->db->prepare("select * from users where username='".$data_sybmit['username']."'");
-        $query->execute();
+        $query = $this->db->prepare("SELECT * FROM users WHERE username=:username");
+        $query->execute(['username' => $data_sybmit['username']]);
         $queryCount = $query->rowCount();
         if ($queryCount < 1) {
             if(LANG=='fa-ir') {
@@ -186,7 +200,7 @@ class Users_Model extends Model
         $end_inp = date('Y-m-d', strtotime($start_inp . " + $day_date days"));
         $stmt = $this->db->prepare("SELECT * FROM users WHERE username=:username");
         $stmt->execute(['username' => $username]);
-        $user = $stmt->fetchAll();
+        $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($user as $val) {
             if ($renewal_date == 'yes') {
                 $sql = "UPDATE users SET enable=?,startdate=?,finishdate=? WHERE username=?";

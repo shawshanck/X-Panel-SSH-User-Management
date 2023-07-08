@@ -16,29 +16,24 @@ class Managers extends Controller
         $data = array(
             "for" => $users
         );
-        if(isset($_GET['active'])) {
-            if (!empty($_GET["active"])) {
-                $usernme = htmlentities($_GET['active']);
-                $data_sybmit = array(
-                    'username' => $usernme
-                );
-                $this->model->submit_ative($data_sybmit);
-            }
+        if (!empty(action) and action=='active') {
+            $usernme = htmlspecialchars(action_run);
+            $data_sybmit = array(
+                'username' => $usernme
+            );
+            $this->model->submit_ative($data_sybmit);
         }
 
-        if(isset($_GET['deactive'])) {
-            if (!empty($_GET["deactive"])) {
-                $usernme = htmlentities($_GET['deactive']);
-                $data_sybmit = array(
-                    'username' => $usernme
-                );
-                $this->model->submit_deative($data_sybmit);
-            }
+        if (!empty(action) and action=='deactive') {
+            $usernme = htmlspecialchars(action_run);
+            $data_sybmit = array(
+                'username' => $usernme
+            );
+            $this->model->submit_deative($data_sybmit);
         }
 
-        if(isset($_GET['delete']))
-        {
-            $usernme = htmlentities($_GET['delete']);
+        if (!empty(action) and action=='delete') {
+            $usernme = htmlspecialchars(action_run);
             $data_sybmit = array(
                 'username' =>$usernme
             );
@@ -54,16 +49,17 @@ class Managers extends Controller
 
         if (isset($_POST['submit']))
         {
-            $username = htmlentities($_POST['username']);
-            $password = htmlentities($_POST['password']);
-
-            $data_sybmit = array(
-                'username' =>$username,
-                'password' => $password
-            );
-            //shell_exec("bash adduser " . $username . " " . $password);
-            $this->model->submit_index($data_sybmit);
-            //header('location: users');
+            $username = htmlspecialchars($_POST['username']);
+            $password = htmlspecialchars($_POST['password']);
+            if (preg_match('/^[a-zA-Z0-9-#?]+$/', $password)
+                and preg_match('/^[-a-zA-Z0-9]+$/', $username)) {
+                $data_sybmit = array(
+                    'username' => $username,
+                    'password' => $password
+                );
+                //shell_exec("bash adduser " . $username . " " . $password);
+                $this->model->submit_index($data_sybmit);
+            }
 
 
         }

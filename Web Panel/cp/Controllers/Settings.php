@@ -15,28 +15,20 @@ class Settings extends Controller
             "for" => $settings,
             "api" => $api_index
         );
-        if(isset($_GET['pos']))
+        if (empty(sort))
         {
-            $pos= htmlentities($_GET['pos']);
-            if($pos=='success')
+            header("Location: Settings&sort=chengepass");
+        }
+        if (!empty(sort) and sort=='backup' and action=='delete-backup')
+        {
+            $delete_backup= htmlspecialchars(action_run);
+            if(file_exists("storage/backup/".$delete_backup.'.sql'))
             {
-                header("Location: Settings&sort=chengepass");
+                unlink("storage/backup/".$delete_backup.'.sql');
             }
-        }
-        if(isset($_GET['sort']))
-        {
-            $sort = htmlentities($_GET['sort']);
-            define("sort", $sort);
-        }
-        else {
-            define("sort", 'chengepass');
-        }
-        if(isset($_GET['delete-backup']))
-        {
-            $delete_backup= htmlentities($_GET['delete-backup']);
-            if(file_exists("storage/backup/".$delete_backup))
+            if(file_exists("storage/backup/".$delete_backup.'.php'))
             {
-                unlink("storage/backup/".$delete_backup);
+                unlink("storage/backup/".$delete_backup.'.php');
             }
         }
 
@@ -48,9 +40,9 @@ class Settings extends Controller
     {
 
         if (isset($_POST['changepass'])) {
-            $username = htmlentities($_POST['user_root']);
-            $password = htmlentities($_POST['changhe_pass_root']);
-            $password_old = htmlentities($_POST['changhe_pass_root_old']);
+            $username = htmlspecialchars($_POST['user_root']);
+            $password = htmlspecialchars($_POST['changhe_pass_root']);
+            $password_old = htmlspecialchars($_POST['changhe_pass_root_old']);
             $data_sybmit = array(
                 'username_r' => $username,
                 'password' => $password,
@@ -60,9 +52,9 @@ class Settings extends Controller
         }
 
         if (isset($_POST['changeport'])) {
-            $ssh_port = htmlentities($_POST['ssh_port']);
-            $ssh_port_old = htmlentities($_POST['ssh_port_old']);
-            $sshtlsport = htmlentities($_POST['sshtlsport']);
+            $ssh_port = htmlspecialchars($_POST['ssh_port']);
+            $ssh_port_old = htmlspecialchars($_POST['ssh_port_old']);
+            $sshtlsport = htmlspecialchars($_POST['sshtlsport']);
             $data_sybmit = array(
                 'sshport' => $ssh_port,
                 'sshport_old' => $ssh_port_old,
@@ -71,8 +63,8 @@ class Settings extends Controller
             $this->model->submit_port($data_sybmit);
         }
         if (isset($_POST['addapi'])) {
-            $desc = htmlentities($_POST['desc']);
-            $allowip = htmlentities($_POST['allowip']);
+            $desc = htmlspecialchars($_POST['desc']);
+            $allowip = htmlspecialchars($_POST['allowip']);
             $data_sybmit = array(
                 'desc' => $desc,
                 'allowip' => $allowip
@@ -80,18 +72,18 @@ class Settings extends Controller
             $this->model->submit_api($data_sybmit);
         }
 
-        if (isset($_GET['sort']) and $_GET['sort']=='api' and !empty($_GET['delete'])) {
-            $token = htmlentities($_GET['delete']);
+        if (!empty(sort) and sort=='api' and action=='delete' and !empty(action_run)) {
+            $token = htmlspecialchars(action_run);
             $this->model->delete_api($token);
         }
-        if (isset($_GET['sort']) and $_GET['sort']=='api' and !empty($_GET['renew'])) {
-            $renew = htmlentities($_GET['renew']);
+        if (!empty(sort) and sort=='api' and action=='renew' and !empty(action_run)) {
+            $renew = htmlspecialchars(action_run);
             $this->model->renew_api($renew);
         }
 
         if (isset($_POST['fakeurl'])) {
-            $fake_address = htmlentities($_POST['fake_address']);
-            $fake_address_old = htmlentities($_POST['fake_address_old']);
+            $fake_address = htmlspecialchars($_POST['fake_address']);
+            $fake_address_old = htmlspecialchars($_POST['fake_address_old']);
             $data_sybmit = array(
                 'fake_address' => $fake_address,
                 'fake_address_old' => $fake_address_old
@@ -114,8 +106,8 @@ class Settings extends Controller
         }
         if (isset($_POST['submitbot'])) {
 
-            $tokenbot = htmlentities($_POST['tokenbot']);
-            $idtelegram = htmlentities($_POST['idtelegram']);
+            $tokenbot = htmlspecialchars($_POST['tokenbot']);
+            $idtelegram = htmlspecialchars($_POST['idtelegram']);
             $data_sybmit = array(
                 'tokenbot' => $tokenbot,
                 'idtelegram' => $idtelegram
@@ -164,12 +156,15 @@ class Settings extends Controller
             }
         }
 
-        if (isset($_GET['run'])) {
-            $run_backup = htmlentities($_GET['run']);
-            $data_sybmit = array(
-                'name' => $run_backup
-            );
-            $this->model->submit_restor_backup($data_sybmit);
+        if (!empty(sort) and sort=='backup' and action=='run' and !empty(action_run)) {
+            $run_backup = htmlspecialchars(action_run);
+            if (file_exists("storage/backup/" . $run_backup . '.sql')) {
+
+                $data_sybmit = array(
+                    'name' => $run_backup. '.sql'
+                );
+                $this->model->submit_restor_backup($data_sybmit);
+            }
         }
 
         if (isset($_POST['active_blockip'])) {

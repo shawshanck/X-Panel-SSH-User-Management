@@ -51,6 +51,7 @@
 
             </div>
             <div class="form-group mb-3">
+                <input type="hidden" name="csrf_token" value="<?php echo csrfToken; ?>">
               <input type="text" class="form-control" name="username" placeholder="<?php echo username_lang;?>">
             </div>
             <div class="form-group mb-3">

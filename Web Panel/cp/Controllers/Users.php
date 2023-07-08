@@ -23,43 +23,38 @@ class Users extends Controller
             "setting" => $setting,
             "password" => $password
         );
-        if(isset($_GET['active'])) {
-            if (!empty($_GET["active"])) {
-                $usernme = htmlentities($_GET['active']);
-                if (preg_match('/^[-a-zA-Z0-9]+$/', $usernme)) {
-                    $data_sybmit = array(
-                        'username' => $usernme
-                    );
-                    $this->model->submit_ative($data_sybmit);
-                }
-            }
-        }
-
-        if(isset($_GET['deactive'])) {
-            if (!empty($_GET["deactive"])) {
-                $usernme = htmlentities($_GET['deactive']);
-                if (preg_match('/^[-a-zA-Z0-9]+$/', $usernme)) {
-                    $data_sybmit = array(
-                        'username' => $usernme
-                    );
-                    $this->model->submit_deative($data_sybmit);
-                }
-            }
-        }
-
-        if(isset($_GET['delete']))
-        {
-            $usernme = htmlentities($_GET['delete']);
+        if (!empty(action) and action=='active') {
+            $usernme = htmlspecialchars(action_run);
             if (preg_match('/^[-a-zA-Z0-9]+$/', $usernme)) {
-            $data_sybmit = array(
-                'username' =>$usernme
-            );
-            $this->model->delete_user($data_sybmit);
-        }
+                $data_sybmit = array(
+                    'username' => $usernme
+                );
+                $this->model->submit_ative($data_sybmit);
+            }
         }
 
-        if(isset($_GET['reset-traffic'])) {
-            $usernme = htmlentities($_GET['reset-traffic']);
+        if(!empty(action) and action=='deactive') {
+            $usernme = htmlspecialchars(action_run);
+            if (preg_match('/^[-a-zA-Z0-9]+$/', $usernme)) {
+                $data_sybmit = array(
+                    'username' => $usernme
+                );
+                $this->model->submit_deative($data_sybmit);
+            }
+        }
+
+        if(!empty(action) and action=='delete') {
+            $usernme = htmlspecialchars(action_run);
+            if (preg_match('/^[-a-zA-Z0-9]+$/', $usernme)) {
+                $data_sybmit = array(
+                    'username' =>$usernme
+                );
+                $this->model->delete_user($data_sybmit);
+            }
+        }
+
+        if(!empty(action) and action=='reset-traffic') {
+            $usernme = htmlspecialchars(action_run);
             if (preg_match('/^[-a-zA-Z0-9]+$/', $usernme)) {
                 $data_sybmit = array(
                     'username' => $usernme
@@ -76,10 +71,10 @@ class Users extends Controller
     }
     function bulk_delete(){
 
-        if (isset($_POST['delete'])) {
-            $checkbox = $_POST['usernamed'];
-            if (preg_match('/^[-a-zA-Z0-9]+$/', $checkbox)) {
-                foreach ($checkbox as $val) {
+        if (isset($_POST['delete']) and csrfAccess=='true') {
+            $checkbox = htmlspecialchars($_POST['usernamed']);
+            foreach ($checkbox as $val) {
+                if (preg_match('/^[-a-zA-Z0-9]+$/', $val)) {
                     $data_sybmit = array(
                         'username' => $val
                     );
@@ -91,54 +86,53 @@ class Users extends Controller
     }
     function renewal_date(){
 
-        if (isset($_POST['renewal_date'])) {
-            $username_re = htmlentities($_POST['username_re']);
-            $day_date = htmlentities($_POST['day_date']);
+        if (isset($_POST['renewal_date']) and csrfAccess=='true') {
+            $username_re = htmlspecialchars($_POST['username_re']);
+            $day_date = htmlspecialchars($_POST['day_date']);
 
-            $renewal_date = htmlentities($_POST['re_date']);
-            $renewal_traffic = htmlentities($_POST['re_traffic']);
+            $renewal_date = htmlspecialchars($_POST['re_date']);
+            $renewal_traffic = htmlspecialchars($_POST['re_traffic']);
             if (preg_match('/^[-a-zA-Z0-9]+$/', $username_re)
                 and preg_match('/^[a-zA-Z0-9-@]+$/', $day_date)
                 and preg_match('/^[a-zA-Z0-9-@]+$/', $renewal_date)
                 and preg_match('/^[a-zA-Z0-9-@]+$/', $renewal_traffic)) {
-            $data_sybmit = array(
-                'username' => $username_re,
-                'day_date' => $day_date,
-                'renewal_date' => $renewal_date,
-                'renewal_traffic' => $renewal_traffic
-            );
+                $data_sybmit = array(
+                    'username' => $username_re,
+                    'day_date' => $day_date,
+                    'renewal_date' => $renewal_date,
+                    'renewal_traffic' => $renewal_traffic
+                );
 
-            //shell_exec("bash adduser " . $username . " " . $password);
-            $this->model->renewal_update($data_sybmit);
-        }
+                //shell_exec("bash adduser " . $username . " " . $password);
+                $this->model->renewal_update($data_sybmit);
+            }
         }
 
     }
     function submit_index(){
 
-        if (isset($_POST['submit']))
+        if (isset($_POST['submit']) and csrfAccess=='true')
         {
-            $username = htmlentities($_POST['username']);
-            $password = htmlentities($_POST['password']);
-            $email = htmlentities($_POST['email']);
-            $mobile = htmlentities($_POST['mobile']);
-            $multiuser = htmlentities($_POST['multiuser']);
-            $connection_start = htmlentities($_POST['connection_start']);
-            $traffic = htmlentities($_POST['traffic']);
-            $type_traffic = htmlentities($_POST['type_traffic']);
-            $expdate = htmlentities($_POST['expdate']);
-            $desc = htmlentities($_POST['desc']);
+            $username = htmlspecialchars($_POST['username']);
+            $password = htmlspecialchars($_POST['password']);
+            $email = htmlspecialchars($_POST['email']);
+            $mobile = htmlspecialchars($_POST['mobile']);
+            $multiuser = htmlspecialchars($_POST['multiuser']);
+            $connection_start = htmlspecialchars($_POST['connection_start']);
+            $traffic = htmlspecialchars($_POST['traffic']);
+            $type_traffic = htmlspecialchars($_POST['type_traffic']);
+            $expdate = htmlspecialchars($_POST['expdate']);
+            $desc = htmlspecialchars($_POST['desc']);
             if (preg_match('/^[a-zA-Z0-9-#?]+$/', $password)
                 and preg_match('/^[-a-zA-Z0-9]+$/', $username)
-                and preg_match('/^[a-zA-Z0-9-@]+$/', $email)
-                and preg_match('/^[a-zA-Z0-9-@]+$/', $mobile)
+                and empty($email) or preg_match('/^[a-zA-Z0-9-@]+$/', $email)
+                and empty($mobile) or preg_match('/^[a-zA-Z0-9-@]+$/', $mobile)
                 and preg_match('/^[a-zA-Z0-9-@]+$/', $multiuser)
-                and preg_match('/^[a-zA-Z0-9-@]+$/', $connection_start)
+                and empty($connection_start) or preg_match('/^[a-zA-Z0-9-@]+$/', $connection_start)
                 and preg_match('/^[a-zA-Z0-9-@]+$/', $traffic)
                 and preg_match('/^[a-zA-Z0-9-@]+$/', $type_traffic)
-                and preg_match('/^[\/-a-zA-Z0-9-۱۲۳۴۵۶۷۸۹۰]+$/', $expdate)
-                and preg_match('/^[a-zA-Z0-9-@-اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $desc)) {
-
+                and empty($expdate) or preg_match('/^[\/-a-zA-Z0-9-۱۲۳۴۵۶۷۸۹۰]+$/', $expdate)
+                and empty($desc) or preg_match('/^[a-zA-Z0-9-@-اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $desc)) {
                 if (!empty($connection_start)) {
                     $st_date = '';
                 } else {
@@ -163,6 +157,7 @@ class Users extends Controller
                     'referral' => '',
                     'info' => $desc
                 );
+                print_r($data_sybmit);
                 //shell_exec("bash adduser " . $username . " " . $password);
                 $this->model->submit_index($data_sybmit);
                 //header('location: users');
@@ -176,22 +171,22 @@ class Users extends Controller
     function submit_index_bulk(){
 
 
-        if (isset($_POST['bulk']))
+        if (isset($_POST['bulk']) and csrfAccess=='true')
         {
-            $count_user = htmlentities($_POST['count_user']);
-            $start_user = htmlentities($_POST['start_user']);
-            $start_number = htmlentities($_POST['start_number']);
+            $count_user = htmlspecialchars($_POST['count_user']);
+            $start_user = htmlspecialchars($_POST['start_user']);
+            $start_number = htmlspecialchars($_POST['start_number']);
 
-            $password = htmlentities($_POST['password']);
-            $pass_random = htmlentities($_POST['pass_random']);
-            $char_pass = htmlentities($_POST['char_pass']);
+            $password = htmlspecialchars($_POST['password']);
+            $pass_random = htmlspecialchars($_POST['pass_random']);
+            $char_pass = htmlspecialchars($_POST['char_pass']);
 
-            $multiuser = htmlentities($_POST['multiuser']);
-            $connection_start = htmlentities($_POST['connection_start']);
-            $traffic = htmlentities($_POST['traffic']);
-            $type_traffic = htmlentities($_POST['type_traffic']);
+            $multiuser = htmlspecialchars($_POST['multiuser']);
+            $connection_start = htmlspecialchars($_POST['connection_start']);
+            $traffic = htmlspecialchars($_POST['traffic']);
+            $type_traffic = htmlspecialchars($_POST['type_traffic']);
             if (preg_match('/^[0-9]+$/', $count_user)
-                and preg_match('/^[-a-zA-Z0-9-@]+$/', $password)
+                and empty($password) or preg_match('/^[-a-zA-Z0-9-@]+$/', $password)
                 and preg_match('/^[-a-zA-Z0-9-@]+$/', $pass_random)
                 and preg_match('/^[-a-zA-Z0-9-@]+$/', $char_pass)
                 and preg_match('/^[a-zA-Z0-9]+$/', $start_user)
