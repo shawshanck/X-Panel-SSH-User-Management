@@ -27,7 +27,7 @@ class Limit_Model extends Model
 
     function saveRequest($ipAddress, $timestamp)
     {
-        $query = $this->db->prepare("SELECT * FROM whitelist_ip WHERE ip_address=:ip");
+        $query = $this->db->prepare("SELECT * FROM ip_list WHERE ip_address=:ip AND ip_status='allow'");
         $query->execute(['ip' => $ipAddress]);
         $queryCount = $query->rowCount();
         if ($queryCount < 1) {

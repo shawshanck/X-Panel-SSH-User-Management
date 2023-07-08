@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d50d8e18-a0fd-450a-835d-0b5aea5e7d6b" name="Changes" comment="Fix Version 3.6">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Models/Ban_Model.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Models/Ban_Model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Models/Limit_Model.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Models/Limit_Model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/Views/Footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/Views/Footer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,14 +103,8 @@
       <workItem from="1688424501097" duration="15113000" />
       <workItem from="1688512799090" duration="16792000" />
       <workItem from="1688603104123" duration="63677000" />
-      <workItem from="1688799649140" duration="24497000" />
-    </task>
-    <task id="LOCAL-00033" summary="Fix BUG Version 3.2">
-      <created>1686408622056</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1686408622056</updated>
+      <workItem from="1688799649140" duration="25109000" />
+      <workItem from="1688835338342" duration="1610000" />
     </task>
     <task id="LOCAL-00034" summary="Fix BUG Version 3.2">
       <created>1686408974302</created>
@@ -446,7 +442,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688825541383</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="Fix Version 3.6">
+      <created>1688826305064</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1688826305064</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
