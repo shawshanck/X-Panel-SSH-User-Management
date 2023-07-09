@@ -97,8 +97,7 @@ sudo sed -i '/apache/d' /etc/sudoers &
 wait
 
 if command -v apt-get >/dev/null; then
-rm -fr /etc/php/7.4/apache2/conf.d/00-ioncube.ini
-sudo apt-get purge '^php7.*'
+
 sudo NEETRESTART_MODE=a apt-get update --yes
 sudo apt-get -y install software-properties-common
 apt-get install -y stunnel4 && apt-get install -y cmake && apt-get install -y screenfetch && apt-get install -y openssl
@@ -113,6 +112,8 @@ if [[ $phpv == *"8.1"* ]]; then
 apt autoremove -y
   echo "PHP Is Installed :)"
 else
+rm -fr /etc/php/7.4/apache2/conf.d/00-ioncube.ini
+sudo apt-get purge '^php7.*' -y
 apt remove php* -y
 apt remove php -y
 apt autoremove -y
