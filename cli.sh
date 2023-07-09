@@ -30,6 +30,9 @@ fi
 if [ "$ssh_tls_port" == "" ]; then
 ssh_tls_port=444
 fi
+if [ "$ssh_tls_port" == "NULL" ]; then
+ssh_tls_port=444
+fi
 function show_menu() {
     clear
     echo "Detail XPanel"
