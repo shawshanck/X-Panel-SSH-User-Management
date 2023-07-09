@@ -66,7 +66,7 @@ https://t.me/Xpanelssh
 
 Ubuntu 18+ (پیشنهادی :Ubuntu 20)<br>
 
-حذف XPanel  از روی سرور (نسخه 3.6 به بالاتر)
+تغییر نام کاربری، کلمه عبور و پورت همچنین حذف XPanel از روی سرور (نسخه 3.6 به بالاتر)
 ```
 bash /root/xpanel.sh OR bash xpanel.sh 
 ```
