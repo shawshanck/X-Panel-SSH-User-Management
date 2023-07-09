@@ -50,11 +50,9 @@ X-Panel is a lightweight web application for SSH accounts management. With the h
 Supported operating systems<br>
 - **Ubuntu 18+ (recommended: Ubuntu 20)** <br>
 
-If your currently installed X-Panel is below version 2 you must first remove the panel with the command below:<br>
+Changing username, password and port as well as removing XPanel from the server (version 3.6 and higher)<br>
 ```
-rm -rf /var/www/html/
-mkdir /var/www/html/
-chmod 777 /var/www/html/
+bash /root/xpanel.sh OR bash xpanel.sh 
 ```
 
 To install the X-Panel simply input the following command in the terminal:<br>

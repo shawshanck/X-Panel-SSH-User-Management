@@ -74,10 +74,6 @@ else
 protcohttp=http
 fi
 
-if [ "$adminuser" != "" ]; then
-adminusername=$adminuser
-adminpassword=$adminpass
-else
 adminusername=admin
 echo -e "\nPlease input Panel admin user."
 printf "Default user name is \e[33m${adminusername}\e[0m, let it blank to use this user name: "
@@ -92,7 +88,6 @@ read passwordtmp
 if [[ -n "${passwordtmp}" ]]; then
 adminpassword=${passwordtmp}
 fi
-fi
 
 ipv4=$(curl -s https://ipinfo.io/ip)
 sudo sed -i '/www-data/d' /etc/sudoers &
@@ -101,16 +96,27 @@ sudo sed -i '/apache/d' /etc/sudoers &
 wait
 
 if command -v apt-get >/dev/null; then
+rm -fr /etc/php/7.4/apache2/conf.d/00-ioncube.ini
 sudo apt-get purge '^php7.*'
 sudo NEETRESTART_MODE=a apt-get update --yes
 sudo apt-get -y install software-properties-common
 apt-get install -y stunnel4 && apt-get install -y cmake && apt-get install -y screenfetch && apt-get install -y openssl
+sudo apt-get -y install software-properties-common
 sudo add-apt-repository ppa:ondrej/php -y
-#sudo DEBIAN_FRONTEND=noninteractive apt-get install postfix -y
+apt install apache2 zip unzip net-tools curl mariadb-server  -y
+apt-get install apache2 zip unzip net-tools curl mariadb-server -y
+wait
+phpv=$(php -v)
+if [[ $phpv == *"8.1"* ]]; then
 
-apt-get install apache2 php8.1 zip unzip net-tools curl mariadb-server -y
-sudo apt-get install php8.1 php8.1-cli php8.1-fpm php8.1-mysql php8.1-curl php8.1-gd php8.1-mbstring php8.1-xml
-
+apt autoremove -y
+  echo "PHP Is Installed :)"
+else
+apt remove php* -y
+apt remove php -y
+apt autoremove -y
+apt install php8.1 php8.1-mysql php8.1-xml php8.1-curl cron -y
+fi
 echo "/bin/false" >> /etc/shells
 echo "/usr/sbin/nologin" >> /etc/shells
     

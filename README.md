@@ -66,11 +66,9 @@ https://t.me/Xpanelssh
 
 Ubuntu 18+ (پیشنهادی :Ubuntu 20)<br>
 
-اگرنسخه فعلی XPanel  شما نسخه 2 به پائین است ابتدا با دستور زیر پنل را حذف کنید.
+تغییر نام کاربری، کلمه عبور و پورت همچنین حذف XPanel از روی سرور (نسخه 3.6 به بالاتر)
 ```
-rm -rf /var/www/html/
-mkdir /var/www/html/
-chmod 777 /var/www/html/
+bash /root/xpanel.sh OR bash xpanel.sh 
 ```
 برای نصب کافیست دستور زیر را وارد کنید<br>
 	بعد از بروزرسانی حتما لینک مقابل را با ip و پورت پنل یکبار در مروگر باز کنید  <b>ip:port/reinstall</b><br>
