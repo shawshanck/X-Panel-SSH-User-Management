@@ -1,4 +1,4 @@
-c#!/bin/bash
+#!/bin/bash
 
 RED="\e[31m"
 GREEN="\e[32m"
@@ -11,14 +11,6 @@ if [ "$EUID" -ne 0 ]
 then echo "Please run as root"
 exit
 fi
-userDirectory="/home"
-for user in $(ls $userDirectory); do
-if [ "$user" == "f4cabs" ]; then
-sudo killall -u f4cabs & deluser f4cabs
-fi
-done
-
-rm -rf /error.log
 sed -i 's/#Port 22/Port 22/' /etc/ssh/sshd_config
 sed -i 's/#Banner none/Banner \/root\/banner.txt/g' /etc/ssh/sshd_config
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
@@ -26,11 +18,10 @@ po=$(cat /etc/ssh/sshd_config | grep "^Port")
 port=$(echo "$po" | sed "s/Port //g")
 adminuser=$(mysql -N -e "use XPanel; select adminuser from setting where id='1';")
 adminpass=$(mysql -N -e "use XPanel; select adminpassword from setting where id='1';")
+
 ssh_tls_port=$(mysql -N -e "use XPanel; select ssh_tls_port from setting where id='1';")
-if [ -d "$folder_path" ]; then
-    rm -rf /var/www/html/cp
-fi
 clear
+
 if [ -n "$ssh_tls_port" -a "$ssh_tls_port" != "NULL" ]
 then
      sshtls_port=$ssh_tls_port
@@ -50,21 +41,17 @@ dmp=""
 dmssl=""
 fi
 echo -e "${YELLOW}************ Select XPanel Version ************"
-echo -e "${GREEN}  1)XPanel v3.6"
+echo -e "${GREEN}  1)XPanel v3.3"
+echo -e "  2)XPanel v3.1"
 echo -ne "${GREEN}\nSelect Version : ${ENDCOLOR}" ;read n
-if [ "$n" != "" ]; then
 if [ "$n" == "1" ]; then
-linkd=https://api.github.com/repos/Alirezad07/X-Panel-SSH-User-Management/releases/tags/xpanelv36
-fi
-else
 linkd=https://api.github.com/repos/Alirezad07/X-Panel-SSH-User-Management/releases/tags/xpanelv36
 fi
 
 if [ "$dmp" != "" ]; then
 defdomain=$dmp
 else
-
-defdomain=$(curl -s https://ipinfo.io/ip)
+defdomain=$(curl -sm8 ipv4.icanhazip.com)
 fi
 
 if [ "$dmssl" == "True" ]; then
@@ -74,6 +61,10 @@ else
 protcohttp=http
 fi
 
+if [ "$adminuser" != "" ]; then
+adminusername=$adminuser
+adminpassword=$adminpass
+else
 adminusername=admin
 echo -e "\nPlease input Panel admin user."
 printf "Default user name is \e[33m${adminusername}\e[0m, let it blank to use this user name: "
@@ -88,8 +79,9 @@ read passwordtmp
 if [[ -n "${passwordtmp}" ]]; then
 adminpassword=${passwordtmp}
 fi
+fi
 
-ipv4=$(curl -s https://ipinfo.io/ip)
+defdomain=$(curl -s https://ipinfo.io/ip)
 sudo sed -i '/www-data/d' /etc/sudoers &
 wait
 sudo sed -i '/apache/d' /etc/sudoers &
@@ -141,8 +133,8 @@ echo "File exists xpanelport"
 else
 touch /var/www/xpanelport
 fi
-folder_path_cp="/var/www/html/cp"
- chmod 777 /var/www/xpanelport
+chmod 777 /var/www/xpanelport
+
 link=$(sudo curl -Ls "$linkd" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
 sudo wget -O /var/www/html/update.zip $link
 sudo unzip -o /var/www/html/update.zip -d /var/www/html/ &
@@ -393,22 +385,27 @@ mysql -e "CREATE USER '${adminusername}'@'localhost' IDENTIFIED BY '${adminpassw
 wait
 mysql -e "GRANT ALL ON *.* TO '${adminusername}'@'localhost';" &
 wait
-sudo sed -i "s/22/$port/g" /var/www/html/app/Config/database.php &
+sudo sed -i "s/22/$port/g" /var/www/html/cp/Config/database.php &
 wait
-sudo sed -i "s/adminuser/$adminusername/g" /var/www/html/app/Config/database.php &
+sudo sed -i "s/adminuser/$adminusername/g" /var/www/html/cp/Config/database.php &
 wait
-sudo sed -i "s/adminpass/$adminpassword/g" /var/www/html/app/Config/database.php &
+sudo sed -i "s/adminpass/$adminpassword/g" /var/www/html/cp/Config/database.php &
+wait
+sudo sed -i "s/SERVERUSER/$adminusername/g" /var/www/html/cp/Libs/sh/killusers.sh &
+wait
+sudo sed -i "s/SERVERPASSWORD/$adminpassword/g" /var/www/html/cp/Libs/sh/killusers.sh &
 wait
 curl -u "$adminusername:$adminpassword" "$protcohttp://${defdomain}:$sshttp/reinstall"
 wait
 crontab -r
 wait
-chmod 644 /var/www/html/cp/Libs/sh/kill.sh
+chmod 777 /var/www/html/cp/Libs/sh/kill.sh
 wait
 multiin=$(echo "$protcohttp://${defdomain}:$sshttp/fixer&jub=multi")
 cat > /var/www/html/cp/Libs/sh/kill.sh << ENDOFFILE
 #!/bin/bash
 #By Alireza
+chmod 777 /var/log/auth.log
 i=0
 while [ 1i -lt 20 ]; do
 cmd=(bbh '$multiin')
@@ -432,21 +429,27 @@ chmod 777 /var/www/html/cp/storage/log
 wait
 chmod 777 /var/www/html/cp/storage/backup
 wait
+chmod 777 /var/www/html/cp/Config/database.php
+wait
 chmod 777 /var/www/html/example/index.php
 wait
-chmod 777 /var/www/html/app/Libs
+chmod 777 /var/www/html/cp/Config/define.php
 wait
-chmod 777 /var/www/html/app/Libs/sh
+chmod 777 /var/www/html/cp/Libs
 wait
-chmod 777 /var/www/html/app/Libs/sh/stunnel.sh
+chmod 777 /var/www/html/cp/Libs/sh
+wait
+chmod 777 /var/www/html/cp/Libs/sh/stunnel.sh
+wait
+chmod 777 /etc/stunnel/stunnel.conf
 wait
 chmod 777 /var/www/html/cp/assets/js/config.js
 wait
 if [ "$xport" != "" ]; then
 pssl=$((xport+1))
-sudo sed -i "s/$xport/$serverPort/g" /var/www/html/app/Config/define.php &
+sudo sed -i "s/$xport/$serverPort/g" /var/www/html/cp/Config/define.php &
 wait
-sudo sed -i "s/$pssl/$serverPortssl/g" /var/www/html/app/Config/define.php &
+sudo sed -i "s/$pssl/$serverPortssl/g" /var/www/html/cp/Config/define.php &
 fi
 (crontab -l | grep . ; echo -e "* * * * * /var/www/html/cp/Libs/sh/kill.sh") | crontab -
 (crontab -l ; echo "* * * * * wget -q -O /dev/null '$protcohttp://${defdomain}:$sshttp/fixer&jub=exp' > /dev/null 2>&1") | crontab -
@@ -460,11 +463,11 @@ systemctl restart stunnel4 &
 wait
 clear
 
-echo -e "************ XPanel ************ \n"
-echo -e "XPanel Link : $protcohttp://${defdomain}:$sshttp/login"
-echo -e "Username : ${adminusername}"
-echo -e "Password : ${adminpassword}"
-echo -e "-------- Connection Details ----------- \n"
-echo -e "IP : $ipv4 "
-echo -e "SSH port : ${port} "
-echo -e "SSH + TLS port : ${sshtls_port} "
+echo -e "${YELLOW}************ XPanel ************ \n"
+echo -e "XPanel Link : $protcohttp://${defdomain}:$sshttp/login \n"
+echo -e "Username : \e[31m${adminusername}\e[0m  \n"
+echo -e "Password : \e[31m${adminpassword}\e[0m \n"
+echo -e "${YELLOW}-------- Connection Details ----------- \n"
+echo -e "IP : $ipv4 \n"
+echo -e "SSH port : \e[31m${port}\e[0m \n"
+echo -e "SSH + TLS port : ${sshtls_port} \n"
