@@ -111,7 +111,7 @@ echo "/usr/sbin/nologin" >> /etc/shells
     
 #Banner 
 cat << EOF > /root/banner.txt
-XPanel
+Connect to Server
 EOF
 #Configuring stunnel
 mkdir /etc/stunnel
