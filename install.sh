@@ -27,7 +27,8 @@ port=$(echo "$po" | sed "s/Port //g")
 adminuser=$(mysql -N -e "use XPanel; select adminuser from setting where id='1';")
 adminpass=$(mysql -N -e "use XPanel; select adminpassword from setting where id='1';")
 ssh_tls_port=$(mysql -N -e "use XPanel; select ssh_tls_port from setting where id='1';")
-if [ -d "$folder_path" ]; then
+folder_path_cp="/var/www/html/cp"
+if [ -d "$folder_path_cp" ]; then
     rm -rf /var/www/html/cp
 fi
 clear
@@ -122,7 +123,7 @@ echo "/usr/sbin/nologin" >> /etc/shells
     
 #Banner 
 cat << EOF > /root/banner.txt
-Connect to Server
+XPanel
 EOF
 #Configuring stunnel
 mkdir /etc/stunnel
@@ -152,8 +153,6 @@ echo "File exists xpanelport"
 else
 touch /var/www/xpanelport
 fi
-folder_path_cp="/var/www/html/cp"
-
 link=$(sudo curl -Ls "$linkd" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
 sudo wget -O /var/www/html/update.zip $link
 sudo unzip -o /var/www/html/update.zip -d /var/www/html/ &
@@ -397,7 +396,8 @@ systemctl enable stunnel4 &
 wait
 systemctl restart stunnel4 &
 wait
-wget -O /root/xpanel.sh https://raw.githubusercontent.com/Alirezad07/X-Panel-SSH-User-Management/main/cli.sh
+curl -o /root/xpanel.sh https://raw.githubusercontent.com/Alirezad07/X-Panel-SSH-User-Management/main/cli.sh
+
 clear
 
 echo -e "************ XPanel ************ \n"
