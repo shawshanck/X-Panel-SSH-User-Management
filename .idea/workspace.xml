@@ -3,7 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="d50d8e18-a0fd-450a-835d-0b5aea5e7d6b" name="Changes" comment="Fix Version 3.6">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/View.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/Libs/View.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/adduser" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/Libs/sh/adduser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/changepass" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/Libs/sh/changepass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/deleteuser" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/Libs/sh/deleteuser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/stunnel.sh" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/Libs/sh/stunnel.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/userdelete" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/Libs/sh/userdelete" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/install.sh" beforeDir="false" afterPath="$PROJECT_DIR$/install.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,14 +115,7 @@
       <workItem from="1688512799090" duration="16792000" />
       <workItem from="1688603104123" duration="63677000" />
       <workItem from="1688799649140" duration="25109000" />
-      <workItem from="1688835338342" duration="18957000" />
-    </task>
-    <task id="LOCAL-00042" summary="Fix BUG Version 3.2">
-      <created>1686659661623</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1686659661623</updated>
+      <workItem from="1688835338342" duration="37039000" />
     </task>
     <task id="LOCAL-00043" summary="Fix BUG Version 3.2">
       <created>1686660446787</created>
@@ -455,7 +453,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688856390190</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="Fix Version 3.6">
+      <created>1688857689828</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1688857689828</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

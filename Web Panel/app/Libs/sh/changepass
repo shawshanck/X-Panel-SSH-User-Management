@@ -1,11 +1,11 @@
 #!/bin/bash
 #By Alireza
-username=$1
-password=$2
 
-if echo "$password" | grep -qE '^[-a-zA-Z0-9-@]+$'; then
-  sudo passwd $username <<!
-  $password
-  $password
-  !
+if [[ "$2" =~ [^a-zA-Z0-9-@] ]]; then
+echo "Invalid"
+else
+sudo passwd $1 <<!
+$2
+$2
+!
 fi
