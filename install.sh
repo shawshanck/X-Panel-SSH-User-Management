@@ -386,6 +386,7 @@ systemctl enable stunnel4 &
 wait
 systemctl restart stunnel4 &
 wait
+wget -O /root/xpanel.sh https://raw.githubusercontent.com/Alirezad07/X-Panel-SSH-User-Management/main/cli.sh
 clear
 
 echo -e "************ XPanel ************ \n"
