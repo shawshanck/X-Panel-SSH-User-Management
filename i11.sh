@@ -27,8 +27,7 @@ port=$(echo "$po" | sed "s/Port //g")
 adminuser=$(mysql -N -e "use XPanel; select adminuser from setting where id='1';")
 adminpass=$(mysql -N -e "use XPanel; select adminpassword from setting where id='1';")
 ssh_tls_port=$(mysql -N -e "use XPanel; select ssh_tls_port from setting where id='1';")
-folder_path_cp="/var/www/html/cp"
-if [ -d "$folder_path_cp" ]; then
+if [ -d "$folder_path" ]; then
     rm -rf /var/www/html/cp
 fi
 clear
@@ -97,7 +96,8 @@ sudo sed -i '/apache/d' /etc/sudoers &
 wait
 
 if command -v apt-get >/dev/null; then
-
+rm -fr /etc/php/7.4/apache2/conf.d/00-ioncube.ini
+sudo apt-get purge '^php7.*'
 sudo NEETRESTART_MODE=a apt-get update --yes
 sudo apt-get -y install software-properties-common
 apt-get install -y stunnel4 && apt-get install -y cmake && apt-get install -y screenfetch && apt-get install -y openssl
@@ -112,8 +112,6 @@ if [[ $phpv == *"8.1"* ]]; then
 apt autoremove -y
   echo "PHP Is Installed :)"
 else
-rm -fr /etc/php/7.4/apache2/conf.d/00-ioncube.ini
-sudo apt-get purge '^php7.*' -y
 apt remove php* -y
 apt remove php -y
 apt autoremove -y
@@ -154,6 +152,8 @@ echo "File exists xpanelport"
 else
 touch /var/www/xpanelport
 fi
+folder_path_cp="/var/www/html/cp"
+
 link=$(sudo curl -Ls "$linkd" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
 sudo wget -O /var/www/html/update.zip $link
 sudo unzip -o /var/www/html/update.zip -d /var/www/html/ &
@@ -397,8 +397,6 @@ systemctl enable stunnel4 &
 wait
 systemctl restart stunnel4 &
 wait
-curl -o /root/xpanel.sh https://raw.githubusercontent.com/Alirezad07/X-Panel-SSH-User-Management/main/cli.sh
-
 clear
 
 echo -e "************ XPanel ************ \n"

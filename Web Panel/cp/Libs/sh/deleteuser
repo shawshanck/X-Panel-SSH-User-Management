@@ -1,7 +1,0 @@
-#!/bin/bash
-username=$1
-if echo "$username" | grep -qE '^[a-zA-Z0-9]+$'; then
-   sudo killall -u $username
-   wait
-   sudo userdel -r $username
-fi

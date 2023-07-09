@@ -1,7 +1,4 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header('Access-Control-Allow-Credentials: true');
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 function curl_get_contents($url) {
     $ch = curl_init();
     $header[0] = "Accept: text/xml,application/xml,application/xhtml+xml,font/woff,font/woff2,";
