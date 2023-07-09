@@ -95,6 +95,9 @@ function select_option() {
         echo "You accept the risk of removing the panel (y/n)"
         read risk
         if [ "$risk" == "y" ]; then
+        rm -rf /var/www/html/cp
+        rm -rf /var/www/html/example
+        rm -rf /var/www/html/app
         sudo apt-get purge '^php8.*' -y
         sudo apt purge stunnel4 -y
         sudo apt-get purge apache2 php8.1 zip unzip net-tools curl mariadb-server php8.1-cli php8.1-fpm php8.1-mysql php8.1-curl php8.1-gd php8.1-mbstring php8.1-xml -y
