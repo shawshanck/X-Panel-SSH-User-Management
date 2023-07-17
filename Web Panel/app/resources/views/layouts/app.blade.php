@@ -46,9 +46,6 @@
                 <div class="card-body">
             @yield('content')
                 </div>
-                <div class="text-center">
-                    <a href="login&lang=en">English</a> / <a href="login&lang=fa">Persian</a>
-                </div>
             </div>
         </div>
     </div>

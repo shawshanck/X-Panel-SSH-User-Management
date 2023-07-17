@@ -10,7 +10,7 @@
 
                         </div>
                         <div class="form-group mb-3">
-                            <input id="email" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
+                            <input id="email" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" placeholder="Username" required autocomplete="username" autofocus>
 
                             @error('username')
                             <span class="invalid-feedback" role="alert">
@@ -19,7 +19,7 @@
                             @enderror
                         </div>
                         <div class="form-group mb-3">
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Password" required autocomplete="current-password">
 
                             @error('password')
                             <span class="invalid-feedback" role="alert">

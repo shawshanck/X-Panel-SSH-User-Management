@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d50d8e18-a0fd-450a-835d-0b5aea5e7d6b" name="Changes" comment="Fix Version 3.7 Laravel Package">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/resources/views/auth/login.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/resources/views/layouts/app.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/resources/views/layouts/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/resources/views/layouts/master.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +58,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Web Panel/app" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.tabs" />
     <property name="two.files.diff.last.used.folder" value="$PROJECT_DIR$/WebPanel" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -117,21 +122,7 @@
       <workItem from="1689407901794" duration="20695000" />
       <workItem from="1689458518835" duration="18614000" />
       <workItem from="1689516448544" duration="7678000" />
-      <workItem from="1689572704215" duration="9983000" />
-    </task>
-    <task id="LOCAL-00048" summary="Fix Version 3.3">
-      <created>1686746276985</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1686746276985</updated>
-    </task>
-    <task id="LOCAL-00049" summary="Fix Version 3.3">
-      <created>1686746732230</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1686746732230</updated>
+      <workItem from="1689572704215" duration="10957000" />
     </task>
     <task id="LOCAL-00050" summary="Fix Version 3.3">
       <created>1686922288666</created>
@@ -462,7 +453,21 @@
       <option name="project" value="LOCAL" />
       <updated>1689583289236</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="Fix Version 3.7 Laravel Package">
+      <created>1689583313144</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1689583313144</updated>
+    </task>
+    <task id="LOCAL-00098" summary="Fix Version 3.7 Laravel Package">
+      <created>1689583427424</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1689583427424</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
