@@ -51,7 +51,7 @@ Route::prefix('cp')->group(function()
     Route::post('/settings/api',[SettingsController::class,'insert_api'])->name('settings.api');
     Route::get('/settings/api/renew/{id}',[SettingsController::class,'renew_api'])->name('settings.token.renew');
     Route::get('/settings/api/delete/{id}',[SettingsController::class,'delete_api'])->name('settings.token.delete');
-    Route::post('/settings/block',[SettingsController::class,'insert_api'])->name('settings.block');
+    Route::post('/settings/block',[SettingsController::class,'block'])->name('settings.block');
     Route::post('/settings/fake',[SettingsController::class,'fakeurl'])->name('settings.fakeurl');
     Route::get('/managers',[AdminsController::class,'index'])->name('admins');
     Route::post('/managers',[AdminsController::class,'insert'])->name('admin.new');
@@ -67,16 +67,16 @@ Route::prefix('cp')->group(function()
 });
 Route::prefix('api')->group(function()
 {
-Route::get('/{token}/listuser',[ApiController::class,'listuser'])->name('api.listuser');
-Route::get('/{token}/listuser/{sort}',[ApiController::class,'sort_listuser'])->name('api.listuser.sort');
-Route::post('/adduser',[ApiController::class,'add_user'])->name('api.add.user');
-Route::get('/{token}/user/{username}',[ApiController::class,'show_detail'])->name('api.show.detail');
-Route::post('/edituser',[ApiController::class,'edit'])->name('api.user.edit');
-Route::post('/delete',[ApiController::class,'delete_user'])->name('api.user.delete');
-Route::post('/active',[ApiController::class,'active_user'])->name('api.user.active');
-Route::post('/deactive',[ApiController::class,'deactive_user'])->name('api.user.deactive');
-Route::post('/retraffic',[ApiController::class,'retraffic_user'])->name('api.user.retraffic');
-Route::post('/renewal',[ApiController::class,'renewal_user'])->name('api.user.renewal');
+    Route::get('/{token}/listuser',[ApiController::class,'listuser'])->name('api.listuser');
+    Route::get('/{token}/listuser/{sort}',[ApiController::class,'sort_listuser'])->name('api.listuser.sort');
+    Route::post('/adduser',[ApiController::class,'add_user'])->name('api.add.user');
+    Route::get('/{token}/user/{username}',[ApiController::class,'show_detail'])->name('api.show.detail');
+    Route::post('/edituser',[ApiController::class,'edit'])->name('api.user.edit');
+    Route::post('/delete',[ApiController::class,'delete_user'])->name('api.user.delete');
+    Route::post('/active',[ApiController::class,'active_user'])->name('api.user.active');
+    Route::post('/deactive',[ApiController::class,'deactive_user'])->name('api.user.deactive');
+    Route::post('/retraffic',[ApiController::class,'retraffic_user'])->name('api.user.retraffic');
+    Route::post('/renewal',[ApiController::class,'renewal_user'])->name('api.user.renewal');
 });
 Route::prefix('fixer')->group(function() {
     Route::get('/exp', [FixerController::class, 'cronexp'])->name('exp');

@@ -100,7 +100,7 @@ class UserController extends Controller
             ]);
 
             Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$request->username}");
-            Process::run("echo '{$request->username}:{$request->password}' | sudo chpasswd");
+            Process::input($request->password."\n".$request->password."\n")->timeout(120)->run("sudo passwd {$request->username}");
 
         }
         return redirect()->intended(route('users'));
@@ -176,7 +176,7 @@ class UserController extends Controller
                     'total' => '0'
                 ]);
                 Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user}");
-                Process::run("echo '{$user}:{$password}' | sudo chpasswd");
+                Process::input($password."\n".$password."\n")->timeout(120)->run("sudo passwd {$user}");
             }
         }
         return redirect()->intended(route('users'));
@@ -197,8 +197,9 @@ class UserController extends Controller
                 $user = DB::table('users')
                     ->where('username', $username)
                     ->get();
-                Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user[0]->username}");
-                Process::run("echo '{$user[0]->username}:{$user[0]->password}' | sudo chpasswd");
+                $password=$user[0]->password;
+                Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$username}");
+                Process::input($password."\n".$password."\n")->timeout(120)->run("sudo passwd {$username}");
             }
         }
         else{
@@ -210,8 +211,9 @@ class UserController extends Controller
                 $user = DB::table('users')
                     ->where('username', $username)
                     ->get();
-                Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user[0]->username}");
-                Process::run("echo '{$user[0]->username}:{$user[0]->password}' | sudo chpasswd");
+                $password=$user[0]->username;
+                Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$username}");
+                Process::input($password."\n".$password."\n")->timeout(120)->run("sudo passwd {$username}");
             }
         }
 
@@ -249,7 +251,7 @@ class UserController extends Controller
 
                 Process::run("sudo killall -u {$user[0]->username}");
                 Process::run("sudo userdel -r {$user[0]->username}");
-        }
+            }
         }
         return redirect()->back()->with('success', 'Deactivated');
 
@@ -290,27 +292,24 @@ class UserController extends Controller
         {
             $check_user = DB::table('users')->where('username', $username)->count();
             if ($check_user > 0) {
-                $user = DB::table('users')
-                    ->where('username', $username)
-                    ->get();
 
-                Process::run("sudo killall -u {$user[0]->username}");
-                Process::run("sudo userdel -r {$user[0]->username}");
-                DB::table('users')->where('username', $username)->delete();
-                DB::table('traffic')->where('username', $username)->delete();
+                Process::run("sudo killall -u {$username}");
+                $userdelProcess =Process::run("sudo userdel -r {$username}");
+                if ($userdelProcess->successful()) {
+                    DB::table('users')->where('username', $username)->delete();
+                    DB::table('traffic')->where('username', $username)->delete();
+                }
             }
         }
         else {
             $check_user = DB::table('users')->where('username', $username)->where('customer_user', $user->username)->count();
             if ($check_user > 0) {
-                $user = DB::table('users')
-                    ->where('username', $username)
-                    ->get();
-
-                Process::run("sudo killall -u {$user[0]->username}");
-                Process::run("sudo userdel -r {$user[0]->username}");
-                DB::table('users')->where('username', $username)->delete();
-                DB::table('traffic')->where('username', $username)->delete();
+                Process::run("sudo killall -u {$username}");
+                $userdelProcess =Process::run("sudo userdel -r {$username}");
+                if ($userdelProcess->successful()) {
+                    DB::table('users')->where('username', $username)->delete();
+                    DB::table('traffic')->where('username', $username)->delete();
+                }
             }
         }
         return redirect()->back()->with('success', 'Deleted');
@@ -320,35 +319,35 @@ class UserController extends Controller
 
         $user = Auth::user();
 
-            if ($user->permission == 'admin') {
-                foreach ($request->usernamed as $username) {
-                    $check_user = DB::table('users')->where('username', $username)->count();
-                    if ($check_user > 0) {
-                        $user = DB::table('users')
-                            ->where('username', $username)
-                            ->get();
-
-                        Process::run("sudo killall -u {$username}");
-                        Process::run("sudo userdel -r {$username}");
-                        DB::table('users')->where('username', $username)->delete();
-                        DB::table('traffic')->where('username', $username)->delete();
-                    }
-                }
-            } else {
-                foreach ($request->usernamed as $username) {
-                    $check_user = DB::table('users')->where('username', $username)->where('customer_user', $user->username)->count();
-                    if ($check_user > 0) {
-                        $user = DB::table('users')
-                            ->where('username', $username)
-                            ->get();
-
-                        Process::run("sudo killall -u {$username}");
-                        Process::run("sudo userdel -r {$username}");
+        if ($user->permission == 'admin') {
+            foreach ($request->usernamed as $username) {
+                $check_user = DB::table('users')->where('username', $username)->count();
+                if ($check_user > 0) {
+                    Process::run("sudo killall -u {$username}");
+                    $userdelProcess =Process::run("sudo userdel -r {$username}");
+                    if ($userdelProcess->successful()) {
                         DB::table('users')->where('username', $username)->delete();
                         DB::table('traffic')->where('username', $username)->delete();
                     }
                 }
             }
+        } else {
+            foreach ($request->usernamed as $username) {
+                $check_user = DB::table('users')->where('username', $username)->where('customer_user', $user->username)->count();
+                if ($check_user > 0) {
+                    $user = DB::table('users')
+                        ->where('username', $username)
+                        ->get();
+
+                    Process::run("sudo killall -u {$username}");
+                    $userdelProcess =Process::run("sudo userdel -r {$username}");
+                    if ($userdelProcess->successful()) {
+                        DB::table('users')->where('username', $username)->delete();
+                        DB::table('traffic')->where('username', $username)->delete();
+                    }
+                }
+            }
+        }
 
         return redirect()->back()->with('success', 'Deleted');
     }
@@ -373,8 +372,10 @@ class UserController extends Controller
                 $user = DB::table('users')
                     ->where('username', $request->username_re)
                     ->get();
-                Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user[0]->username}");
-                Process::run("echo '{$user[0]->username}:{$user[0]->password}' | sudo chpasswd");
+                $username=$user[0]->username;
+                $password=$user[0]->password;
+                Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$username}");
+                Process::input($password."\n".$password."\n")->timeout(120)->run("sudo passwd {$username}");
                 if ($request->re_date == 'yes') {
                     DB::table('users')
                         ->where('username', $request->username_re)
@@ -397,8 +398,10 @@ class UserController extends Controller
                 $user = DB::table('users')
                     ->where('username', $request->username_re)
                     ->get();
-                Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user[0]->username}");
-                Process::run("echo '{$user[0]->username}:{$user[0]->password}' | sudo chpasswd");
+                $username=$user[0]->username;
+                $password=$user[0]->password;
+                Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$username}");
+                Process::input($password."\n".$password."\n")->timeout(120)->run("sudo passwd {$username}");
                 if ($request->re_date == 'yes') {
                     DB::table('users')
                         ->where('username', $request->username_re)
@@ -485,13 +488,14 @@ class UserController extends Controller
                     ]);
                 if ($request->activate == "active") {
                     Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$request->username}");
-                    Process::run("echo '{$request->username}:{$request->password}' | sudo chpasswd");
+                    Process::input($request->password."\n".$request->password."\n")->timeout(120)->run("sudo passwd {$request->username}");
                 } else {
                     Process::run("sudo killall -u {$request->username}");
                     Process::run("sudo userdel -r {$request->username}");
                 }
                 if ($user->password != $request->password) {
-                    Process::run("echo '{$request->username}:{$request->password}' | sudo chpasswd");
+                    Process::input($request->password."\n".$request->password."\n")->timeout(120)->run("sudo passwd {$request->username}");
+
                 }
             }
         }
@@ -513,13 +517,13 @@ class UserController extends Controller
                     ]);
                 if ($request->activate == "active") {
                     Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$request->username}");
-                    Process::run("echo '{$request->username}:{$request->password}' | sudo chpasswd");
+                    Process::input($request->password."\n".$request->password."\n")->timeout(120)->run("sudo passwd {$request->username}");
                 } else {
                     Process::run("sudo killall -u {$request->username}");
                     Process::run("sudo userdel -r {$request->username}");
                 }
                 if ($user->password != $request->password) {
-                    Process::run("echo '{$request->username}:{$request->password}' | sudo chpasswd");
+                    Process::input($request->password."\n".$request->password."\n")->timeout(120)->run("sudo passwd {$request->username}");
                 }
             }
         }

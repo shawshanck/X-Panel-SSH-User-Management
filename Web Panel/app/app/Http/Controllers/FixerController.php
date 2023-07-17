@@ -32,12 +32,14 @@ class FixerController extends Controller
             if (!empty($us->end_date)) {
                 $expiredate = strtotime(date("Y-m-d", strtotime($us->end_date)));
                 if ($expiredate < strtotime(date("Y-m-d")) || $expiredate == strtotime(date("Y-m-d"))) {
-                    DB::table('users')
-                        ->where('username', $us->username)
-                        ->update(['status' => 'expired']);
                     $username=$us->username;
                     Process::run("sudo killall -u {$username}");
-                    Process::run("sudo userdel -r {$username}");
+                    $userdelProcess =Process::run("sudo userdel -r {$username}");
+                    if ($userdelProcess->successful()) {
+                        DB::table('users')
+                            ->where('username', $us->username)
+                            ->update(['status' => 'expired']);
+                    }
                 }
             }
         }
@@ -57,7 +59,13 @@ class FixerController extends Controller
                         ->update(['status' => 'traffic']);
                     $username=$us->username;
                     Process::run("sudo killall -u {$username}");
-                    Process::run("sudo userdel -r {$username}");
+                    $userdelProcess =Process::run("sudo userdel -r {$username}");
+                    if ($userdelProcess->successful()) {
+                        DB::table('users')
+                            ->where('username', $us->username)
+                            ->update(['status' => 'traffic']);
+                    }
+
                 }
             }
 
@@ -82,7 +90,6 @@ class FixerController extends Controller
             }
             $onlinelist[] = $userarray[2];
         }
-        echo "success";
         //print_r($onlinelist);
         $onlinelist = array_replace($onlinelist, array_fill_keys(array_keys($onlinelist, null), ''));
         $onlinecount = array_count_values($onlinelist);
@@ -136,12 +143,14 @@ class FixerController extends Controller
                 $total = $usernamet->total;
 
                 if ($us->traffic < $total && !empty($us->traffic) && $us->traffic > 0) {
-                    DB::table('users')
-                        ->where('username', $us->username)
-                        ->update(['status' => 'traffic']);
                     $username = $us->username;
                     Process::run("sudo killall -u {$username}");
-                    Process::run("sudo userdel -r {$username}");
+                    $userdelProcess =Process::run("sudo userdel -r {$username}");
+                    if ($userdelProcess->successful()) {
+                        DB::table('users')
+                            ->where('username', $us->username)
+                            ->update(['status' => 'traffic']);
+                    }
                 }
             }
         }
@@ -149,7 +158,6 @@ class FixerController extends Controller
 
     public function synstraffics()
     {
-        echo"suucess";
         $list = Process::run("pgrep nethogs");
         $output = $list->output();
         $pid = preg_replace("/\\s+/", "", $output);

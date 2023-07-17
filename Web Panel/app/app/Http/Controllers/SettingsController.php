@@ -183,7 +183,7 @@ class SettingsController extends Controller
                             //
                         } else {
                             DB::table('traffic')->insert([
-                                'username' => $data[1],
+                                'username' => $data[0],
                                 'download' => $data[1],
                                 'upload' => $data[2],
                                 'total' => $data[3]
@@ -207,7 +207,7 @@ class SettingsController extends Controller
                             //
                         } else {
                             DB::table('traffic')->insert([
-                                'username' => $data[1],
+                                'username' => $data[0],
                                 'download' => $data[1],
                                 'upload' => $data[2],
                                 'total' => $data[3]
@@ -223,7 +223,7 @@ class SettingsController extends Controller
             $users = DB::table('users')->get();
             foreach ($users as $user) {
                 Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user->username}");
-                Process::run("echo '{$user->username}:{$user->password}' | sudo chpasswd");
+                Process::input($user->password."\n".$user->password."\n")->timeout(120)->run("sudo passwd {$user->username}");
                 if (DB::table('traffic')->where('username', $user->username)->exists()) {
                     // ایمیل وجود دارد
                 } else {
@@ -276,7 +276,7 @@ class SettingsController extends Controller
         $users = DB::table('users')->get();
         foreach ($users as $user) {
             Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user->username}");
-            Process::run("echo '{$user->username}:{$user->password}' | sudo chpasswd");
+            Process::input($user->password."\n".$user->password."\n")->timeout(120)->run("sudo passwd {$user->username}");
             if (DB::table('traffic')->where('username', $user->username)->exists()) {
                 // ایمیل وجود دارد
             } else {

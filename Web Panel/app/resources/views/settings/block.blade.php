@@ -34,10 +34,10 @@
                                             @if (0 < $status)
                                                 <span class="badge bg-light-success rounded-pill f-12" style="width:100px">Active</span>
                                             @else
-                                              <span class="badge bg-light-danger rounded-pill f-12" style="width:100px">Deactive</span>
+                                                <span class="badge bg-light-danger rounded-pill f-12" style="width:100px">Deactive</span>
                                             @endif
                                         </div><br>
-                                        <form class="validate-me" action="{{route('settings.backup.make')}}" method="post" enctype="multipart/form-data">
+                                        <form class="validate-me" action="{{route('settings.block')}}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             Active
                                             <input type="radio" class="form-check-input input-primary"
