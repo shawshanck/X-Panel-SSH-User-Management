@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Function to display the menu
-adminuser=$(mysql -N -e "use XPanel; select adminuser from setting where id='1';")
-adminpass=$(mysql -N -e "use XPanel; select adminpassword from setting where id='1';")
-sshport=$(mysql -N -e "use XPanel; select sshport from setting where id='1';")
-ssh_tls_port=$(mysql -N -e "use XPanel; select ssh_tls_port from setting where id='1';")
+adminuser=$(mysql -N -e "use XPanel_plus; select username from admins where id='1';")
+adminpass=$(mysql -N -e "use XPanel_plus; select password from admins where id='1';")
+sshport=$(mysql -N -e "use XPanel_plus; select ssh_port from settings where id='1';")
+ssh_tls_port=$(mysql -N -e "use XPanel_plus; select tls_port from settings where id='1';")
 if [ -f "/var/www/xpanelport" ]; then
 domain=$(cat /var/www/xpanelport | grep "^DomainPanel")
 ssl=$(cat /var/www/xpanelport | grep "^SSLPanel")
@@ -70,16 +70,16 @@ function select_option() {
             mysql -e "CREATE USER '${username}'@'localhost' IDENTIFIED BY '${password}';" &
             wait
             mysql -e "GRANT ALL ON *.* TO '${username}'@'localhost';" &
-            sudo sed -i "s/$adminuser/$username/g" /var/www/html/app/Config/database.php &
-            sudo sed -i "s/$adminpass/$password/g" /var/www/html/app/Config/database.php &
-            echo "OPEN Link Browser $protcol://${domain}:$panelport/reinstall"
+            sed -i "s/DB_USERNAME=$adminuser/DB_USERNAME=$username/" /var/www/html/app/.env
+            sed -i "s/DB_PASSWORD=$adminpass/DB_PASSWORD=$password/" /var/www/html/app/.env
+            mysql -e "USE XPanel_plus; UPDATE admins SET username = '${username}' where id='1';"
+            mysql -e "USE XPanel_plus; UPDATE admins SET password = '${password}' where id='1';"
             ;;
         2)
             echo "Please enter a SSH port:"
             read port
-            sudo sed -i "s/$sshport/$port/g" /var/www/html/app/Config/database.php &
-            sudo sed -i "s/Port $sshport/Port $port/g" /etc/ssh/sshd_config
-            mysql -e "USE XPanel; UPDATE setting SET sshport = '${port}' where id='1';"
+            sed -i "s/PORT_SSH=$sshport/PORT_SSH=$port/" /var/www/html/app/.env
+            mysql -e "USE XPanel_plus; UPDATE settings SET ssh_port = '${port}' where id='1';"
             reboot
             ;;
         3)
@@ -88,7 +88,7 @@ function select_option() {
             bash /var/www/html/app/Libs/sh/stunnel.sh $tlsport $sshport &
             systemctl enable stunnel4
             systemctl restart stunnel4
-            mysql -e "USE XPanel; UPDATE setting SET ssh_tls_port = '${tlsport}' where id='1';"
+            mysql -e "USE XPanel_plus; UPDATE settings SET tls_port = '${tlsport}' where id='1';"
             reboot
             ;;
         4)
