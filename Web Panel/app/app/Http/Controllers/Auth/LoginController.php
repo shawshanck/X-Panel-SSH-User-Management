@@ -22,10 +22,9 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         $pssword= env('DB_PASSWORD');
-        DB::table('admins')
-            ->where('id', '1')
-            ->update(['password' => $pssword]);
-
+        $data2 = Admins::find(1);
+        $data2->password = Hash::make($pssword);
+        $data2->update();
         return view('auth.login');
     }
 
