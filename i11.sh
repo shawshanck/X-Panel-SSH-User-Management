@@ -292,8 +292,8 @@ mysql -e "CREATE USER '${adminusername}'@'localhost' IDENTIFIED BY '${adminpassw
 wait
 mysql -e "GRANT ALL ON *.* TO '${adminusername}'@'localhost';" &
 wait
-sed -i "s/DB_USERNAME=test/DB_USERNAME=${adminusername}/" /var/www/html/app/.env
-sed -i "s/DB_PASSWORD=test/DB_PASSWORD=${adminpassword}/" /var/www/html/app/.env
+sed -i "s/DB_USERNAME=test/DB_USERNAME=$adminusername/" /var/www/html/app/.env
+sed -i "s/DB_PASSWORD=test/DB_PASSWORD=$adminpassword/" /var/www/html/app/.env
 crontab -r
 wait
 chmod 644 /var/www/html/kill.sh
