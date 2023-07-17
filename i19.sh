@@ -334,9 +334,15 @@ sed -i "s/DB_USERNAME=test/DB_USERNAME=$adminusername/" /var/www/html/app/.env
 sed -i "s/DB_PASSWORD=test/DB_PASSWORD=$adminpassword/" /var/www/html/app/.env
 cd /var/www/html/app
 php artisan migrate
+if [ -n "$adminuser" -a "$adminuser" != "NULL" ]
+then
+ mysql -e "USE XPanel_plus; UPDATE admins SET username = '${adminusername}' where id='1';"
+ mysql -e "USE XPanel_plus; UPDATE admins SET password = '${adminpassword}' where id='1';"
+else
 mysql -e "USE XPanel_plus; INSERT INTO admins (username, password, permission, credit, status) VALUES ('${adminusername}', '${adminpassword}', 'admin', '', 'active');"
 home_url=$protcohttp://${defdomain}:$sshttp
 mysql -e "USE XPanel_plus; INSERT INTO settings (ssh_port, tls_port, t_token, t_id, language, multiuser, ststus_multiuser, home_url) VALUES ('22', '444', '', '', '', 'active', '', "$home_url");"
+fi
 sudo chown -R www-data:www-data /var/www/html/app
 crontab -r
 wait
