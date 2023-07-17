@@ -17,6 +17,8 @@ cp dbip-country-lite-${YR}-${MON}.csv.gz /usr/share/xt_geoip/
 rm dbip-country-lite-${YR}-${MON}.csv.gz
 gunzip /usr/share/xt_geoip/dbip-country-lite-${YR}-${MON}.csv.gz
 /usr/libexec/xtables-addons/xt_geoip_build -D /usr/share/xt_geoip/ -i /usr/share/xt_geoip/dbip-country-lite-${YR}-${MON}.csv
+/usr/libexec/xtables-addons/xt_geoip_build -D /usr/share/xt_geoip/ -i /usr/share/xt_geoip/dbip-country-lite-${YR}-${MON}.csv
+
 modprobe xt_geoip
 lsmod | grep ^xt_geoip
 wait
