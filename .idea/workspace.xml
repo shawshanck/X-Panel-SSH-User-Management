@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d50d8e18-a0fd-450a-835d-0b5aea5e7d6b" name="Changes" comment="Fix Version 3.7 Laravel Package">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/resources/views/auth/login.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/resources/views/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/resources/views/layouts/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/resources/views/layouts/master.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,14 +119,7 @@
       <workItem from="1689407901794" duration="20695000" />
       <workItem from="1689458518835" duration="18614000" />
       <workItem from="1689516448544" duration="7678000" />
-      <workItem from="1689572704215" duration="10957000" />
-    </task>
-    <task id="LOCAL-00050" summary="Fix Version 3.3">
-      <created>1686922288666</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1686922288666</updated>
+      <workItem from="1689572704215" duration="14509000" />
     </task>
     <task id="LOCAL-00051" summary="Fix Version 3.4">
       <created>1686932719934</created>
@@ -467,7 +457,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689583427424</updated>
     </task>
-    <option name="localTasksCounter" value="99" />
+    <task id="LOCAL-00099" summary="Fix Version 3.7 Laravel Package">
+      <created>1689584295426</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1689584295426</updated>
+    </task>
+    <option name="localTasksCounter" value="100" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
