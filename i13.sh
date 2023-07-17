@@ -68,7 +68,7 @@ fi
 echo -e "\nPlease input IP Server"
 printf "IP: "
 read ip
-if [ -n "$ip" -a "$ip" != "" ]; then
+if [ -n "$ip" -a "$ip" == " " ]; then
 echo -e "\nPlease input IP Server"
 printf "IP: "
 read ip
