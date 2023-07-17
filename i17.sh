@@ -68,7 +68,7 @@ fi
 echo -e "\nPlease input IP Server"
 printf "IP: "
 read ip
-if [ -n "$ip" -a "$ip" != "" ]
+if [ -n "$ip" -a "$ip" == " " ]; then
 echo -e "\nPlease input IP Server"
 printf "IP: "
 read ip
@@ -115,6 +115,7 @@ sudo apt-get -y install software-properties-common
 sudo add-apt-repository ppa:ondrej/php -y
 apt-get install apache2 zip unzip net-tools curl mariadb-server -y
 apt-get install php php-cli php-mbstring php-dom php-pdo php-mysql -y
+apt-get install npm -y
 wait
 phpv=$(php -v)
 if [[ $phpv == *"8.1"* ]]; then
@@ -129,6 +130,7 @@ apt remove php -y
 apt autoremove -y
 apt install php8.1 php8.1-mysql php8.1-xml php8.1-curl cron -y
 fi
+curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 echo "/bin/false" >> /etc/shells
 echo "/usr/sbin/nologin" >> /etc/shells
     
@@ -137,7 +139,7 @@ cat << EOF > /root/banner.txt
 Connect To Server
 EOF
 #Configuring stunnel
-mkdir /etc/stunnel
+sudo mkdir /etc/stunnel
 cat << EOF > /etc/stunnel/stunnel.conf
  cert = /etc/stunnel/stunnel.pem
  [openssh]
@@ -296,12 +298,11 @@ sed -i "s/DB_USERNAME=test/DB_USERNAME=$adminusername/" /var/www/html/app/.env
 sed -i "s/DB_PASSWORD=test/DB_PASSWORD=$adminpassword/" /var/www/html/app/.env
 cd /var/www/html/app
 php artisan migrate
-mysql -e "USE XPanel_plus; INSERT INTO admins (username, password, permission, credit, status) VALUES ($adminusername, $adminpassword, 'admin', '', 'active');"
+mysql -e "USE XPanel_plus; INSERT INTO admins (username, password, permission, credit, status) VALUES ('${adminusername}', '${adminpassword}', 'admin', '', 'active');"
 home_url=$protcohttp://${defdomain}:$sshttp
-mysql -e "USE XPanel_plus; INSERT INTO settings (ssh_port, tls_port, t_token, t_id, language, multiuser, ststus_multiuser, home_url) VALUES ('22', '444', '', '', '', 'active', '', $home_url);"
+mysql -e "USE XPanel_plus; INSERT INTO settings (ssh_port, tls_port, t_token, t_id, language, multiuser, ststus_multiuser, home_url) VALUES ('22', '444', '', '', '', 'active', '', "$home_url");"
+sudo chown -R www-data:www-data /var/www/html/app
 crontab -r
-wait
-chmod 644 /var/www/html/kill.sh
 wait
 multiin=$(echo "$protcohttp://${defdomain}:$sshttp/fixer/multiuser")
 cat > /var/www/html/kill.sh << ENDOFFILE
