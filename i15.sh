@@ -298,9 +298,9 @@ sed -i "s/DB_USERNAME=test/DB_USERNAME=$adminusername/" /var/www/html/app/.env
 sed -i "s/DB_PASSWORD=test/DB_PASSWORD=$adminpassword/" /var/www/html/app/.env
 cd /var/www/html/app
 php artisan migrate
-mysql -e "USE XPanel_plus; INSERT INTO admins (username, password, permission, credit, status) VALUES ($adminusername, $adminpassword, 'admin', '', 'active');"
+mysql -e "USE XPanel_plus; INSERT INTO admins (username, password, permission, credit, status) VALUES ("$adminusername", "$adminpassword", 'admin', '', 'active');"
 home_url=$protcohttp://${defdomain}:$sshttp
-mysql -e "USE XPanel_plus; INSERT INTO settings (ssh_port, tls_port, t_token, t_id, language, multiuser, ststus_multiuser, home_url) VALUES ('22', '444', '', '', '', 'active', '', $home_url);"
+mysql -e "USE XPanel_plus; INSERT INTO settings (ssh_port, tls_port, t_token, t_id, language, multiuser, ststus_multiuser, home_url) VALUES ('22', '444', '', '', '', 'active', '', "$home_url");"
 sudo chown -R www-data:www-data /var/www/html/app
 # Run the Vite development server...
 npm run dev
