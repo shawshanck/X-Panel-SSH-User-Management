@@ -301,8 +301,6 @@ home_url=$protcohttp://${defdomain}:$sshttp
 mysql -e "USE XPanel_plus; INSERT INTO settings (ssh_port, tls_port, t_token, t_id, language, multiuser, ststus_multiuser, home_url) VALUES ('22', '444', '', '', '', 'active', '', $home_url);"
 crontab -r
 wait
-chmod 644 /var/www/html/kill.sh
-wait
 multiin=$(echo "$protcohttp://${defdomain}:$sshttp/fixer/multiuser")
 cat > /var/www/html/kill.sh << ENDOFFILE
 #!/bin/bash
