@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Process\ProcessResult;
 use Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class OnlineController extends Controller
 {
@@ -22,15 +24,16 @@ class OnlineController extends Controller
             exit(view('access'));
         }
     }
-
     public function index()
     {
         $this->check();
         $duplicate = [];
         $data = [];
-        $list = Process::run("sudo lsof -i :" . env('PORT_SSH') . " -n | grep -v root | grep ESTABLISHED");
-        $output = $list->output();
+
+        $command = "sudo lsof -i :" . env('PORT_SSH') . " -n | grep -v root | grep ESTABLISHED";
+        $output = shell_exec($command);
         $onlineuserlist = preg_split("/\r\n|\n|\r/", $output);
+
         foreach ($onlineuserlist as $user) {
             $user = preg_replace("/\\s+/", " ", $user);
             if (strpos($user, ":AAAA") !== false) {
@@ -55,8 +58,7 @@ class OnlineController extends Controller
                 $color = "#269393";
                 array_push($duplicate, $userarray[2]);
             }
-            if (!empty($userarray[1]) and !empty($userarray[2]) and $userarray[2] !== "sshd" && $userarray[2] !== "root") {
-                $drop_dup = $userarray[2];
+            if (!empty($userarray[1]) && !empty($userarray[2]) && $userarray[2] !== "sshd" && $userarray[2] !== "root") {
                 $data[] = [
                     "username" => $userarray[2],
                     "color" => $color,
@@ -65,7 +67,8 @@ class OnlineController extends Controller
                 ];
             }
         }
-        return view('users.online')->with('data', $data);
+        $data = json_decode(json_encode($data));
+        return view('users.online', compact('data'));
     }
     public function filtering()
     {
@@ -106,8 +109,8 @@ class OnlineController extends Controller
                 ];
             }
         }
-        echo "<pre>";
-        print_r($data);
+        $data = json_decode(json_encode($data));
+
         return view('dashboard.filtering')->with('data', $data);
     }
 }
