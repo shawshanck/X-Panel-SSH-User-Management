@@ -1,10 +1,197 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d50d8e18-a0fd-450a-835d-0b5aea5e7d6b" name="Changes" comment="Fix Version 3.6">
+    <list default="true" id="d50d8e18-a0fd-450a-835d-0b5aea5e7d6b" name="Changes" comment="Fix Version 3.7 Laravel Package">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/Views/Footer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/.htaccess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Config/database.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Config/define.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/.htaccess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Api.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Checkip.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Documents.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Edituser.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Fixer.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Ip.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Login.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Managers.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Online.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Protection.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Reinstall.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Security.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Settings.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Controllers/Users.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/.htaccess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/Bootstrap.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/Controller.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/Database.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/Session.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/View.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/checkuser.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/jdf.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/lang/en-us.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/lang/fa-ir.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/.htaccess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/adduser" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/banip.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/changepass" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/deleteuser" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/kill.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/stunnel.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/traffic.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Libs/sh/userdelete" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/.htaccess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/Api_Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/Ban_Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/Edituser_Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/Fixer_Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/Index_Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/Limit_Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/Login_Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/Managers_Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/Permission_Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/Reinstall_Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/Security_Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/Settings_Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Models/Users_Model.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/.htaccess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Checkip/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Document/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Footer.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Header.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Index/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Limit/Index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Limit/ban.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Login/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Managers/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Online/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Protection.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Security/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Security/ip.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Settings/api.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Settings/backup.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Settings/block.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Settings/fakeaddress.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Settings/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Settings/telegram.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Settings/user.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Settings/wordpress.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Users/edituser.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/Views/Users/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/.htaccess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/css/persian-datepicker.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/css/style-en-us.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/css/style-fa-ir.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/css/style-preset.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/IRANYekanX-Regular.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/feather.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/feather/feathere8ab.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/feather/feathere8ab.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/feather/feathere8ab.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/feather/feathere8ab.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-brands-400.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-brands-400.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-brands-400.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-brands-400.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-brands-400.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-brands-400d41d.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-regular-400.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-regular-400.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-regular-400.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-regular-400.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-regular-400.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-regular-400d41d.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-solid-900.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-solid-900.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-solid-900.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-solid-900.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-solid-900.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/fontawesome/fa-solid-900d41d.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/inter/Inter-italic.var32a8.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/inter/Inter-roman.var32a8.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/inter/inter.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/material/material.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/tabler-icons.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/tabler/tabler-icons.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/tabler/tabler-icons.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/tabler/tabler-icons.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/tabler/tabler-icons.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/tabler/tabler-icons.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/fonts/tabler/tabler-iconsd41d.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/application/img-cal-bg.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/authentication/img-auth-bg-dark.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/authentication/img-auth-bg.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/ae.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/at.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/bg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/br.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/ch.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/cz.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/de.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/fi.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/fr.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/hk.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/il.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/in.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/ir.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/it.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/kz.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/lt.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/md.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/nl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/pl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/pt.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/rs.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/ru.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/th.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/tr.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/ua.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/uk.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/flags/us.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/layout/img-announcement-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/layout/img-announcement-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/layout/img-announcement-3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/layout/img-announcement-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/layout/img-profile-card.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/pages/img-cunstruct-1-bg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/user/avatar-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/user/avatar-2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/user/avatar-3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/user/avatar-4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/user/avatar-5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/widget/img-gpay.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/widget/img-paypal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/widget/img-phonepay.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/images/xlogo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/clipboard.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/fonts/custom-font.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/pages/dashboard-analytics.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/pages/dashboard-default.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/pcoded.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/persian-date.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/persian-datepicker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/persian-datepicker.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/plugins/apexcharts.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/plugins/bootstrap.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/plugins/feather.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/plugins/main.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/plugins/popper.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/plugins/quill.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/plugins/simple-datatables-en-us.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/plugins/simple-datatables-fa-ir.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/plugins/simplebar.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/plugins/sweetalert2.all.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/plugins/uppy.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/storage/backup/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/storage/log/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/example/index.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/example/telegram.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,14 +298,15 @@
       <workItem from="1688512799090" duration="16792000" />
       <workItem from="1688603104123" duration="63677000" />
       <workItem from="1688799649140" duration="25109000" />
-      <workItem from="1688835338342" duration="37252000" />
-    </task>
-    <task id="LOCAL-00044" summary="Fix BUG Version 3.2">
-      <created>1686665551459</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1686665551459</updated>
+      <workItem from="1688835338342" duration="38505000" />
+      <workItem from="1689019529532" duration="30074000" />
+      <workItem from="1689097544527" duration="27430000" />
+      <workItem from="1689181651055" duration="24832000" />
+      <workItem from="1689342214460" duration="3102000" />
+      <workItem from="1689407901794" duration="20695000" />
+      <workItem from="1689458518835" duration="18614000" />
+      <workItem from="1689516448544" duration="7678000" />
+      <workItem from="1689572704215" duration="9570000" />
     </task>
     <task id="LOCAL-00045" summary="Fix BUG Version 3.2">
       <created>1686741323610</created>
@@ -456,7 +644,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688876286058</updated>
     </task>
-    <option name="localTasksCounter" value="93" />
+    <task id="LOCAL-00093" summary="Fix Version 3.6">
+      <created>1688876504047</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1688876504047</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -495,6 +690,22 @@
     <MESSAGE value="Fix Version 3.4" />
     <MESSAGE value="Fix Version 3.5" />
     <MESSAGE value="Fix Version 3.6" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix Version 3.6" />
+    <MESSAGE value="Fix Version 3.7 Laravel Package" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix Version 3.7 Laravel Package" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php-line-method">
+          <url>remoteDeploymentFS://&lt;147320f3-c08e-4d32-8305-306c9f0c6c67&gt;/html/app/app/Http/Controllers/ApiController.php</url>
+          <line>298</line>
+          <properties>
+            <option name="className" value="\App\Http\Controllers\ApiController" />
+            <option name="methodName" value="renewal_user" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

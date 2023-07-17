@@ -1,9 +1,0 @@
-#!/bin/bash
-#By Alireza
-
-if [[ "$1" =~ [^a-zA-Z0-9-] ]]; then
-echo "Invalid"
-else
-sudo killall -u $1
-sudo userdel -r $1
-fi
