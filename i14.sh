@@ -299,6 +299,11 @@ php artisan migrate
 mysql -e "USE XPanel_plus; INSERT INTO admins (username, password, permission, credit, status) VALUES ($adminusername, $adminpassword, 'admin', '', 'active');"
 home_url=$protcohttp://${defdomain}:$sshttp
 mysql -e "USE XPanel_plus; INSERT INTO settings (ssh_port, tls_port, t_token, t_id, language, multiuser, ststus_multiuser, home_url) VALUES ('22', '444', '', '', '', 'active', '', $home_url);"
+sudo chown -R www-data:www-data /var/www/html/app
+# Run the Vite development server...
+npm run dev
+# Build and version the assets for production...
+npm run build
 crontab -r
 wait
 multiin=$(echo "$protcohttp://${defdomain}:$sshttp/fixer/multiuser")
