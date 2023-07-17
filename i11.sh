@@ -113,8 +113,8 @@ sudo apt-get -y install software-properties-common
 apt-get install -y stunnel4 && apt-get install -y cmake && apt-get install -y screenfetch && apt-get install -y openssl
 sudo apt-get -y install software-properties-common
 sudo add-apt-repository ppa:ondrej/php -y
-apt install apache2 zip unzip net-tools curl mariadb-server  -y
 apt-get install apache2 zip unzip net-tools curl mariadb-server -y
+apt-get install php php-cli php-mbstring php-dom php-pdo php-mysql -y
 wait
 phpv=$(php -v)
 if [[ $phpv == *"8.1"* ]]; then
@@ -294,6 +294,11 @@ mysql -e "GRANT ALL ON *.* TO '${adminusername}'@'localhost';" &
 wait
 sed -i "s/DB_USERNAME=test/DB_USERNAME=$adminusername/" /var/www/html/app/.env
 sed -i "s/DB_PASSWORD=test/DB_PASSWORD=$adminpassword/" /var/www/html/app/.env
+cd /var/www/html/app
+php artisan migrate
+mysql -e "USE XPanel_plus; INSERT INTO admins (username, password, permission, credit, status) VALUES ($adminusername, $adminpassword, 'admin', '', 'active');"
+home_url=$protcohttp://${defdomain}:$sshttp
+mysql -e "USE XPanel_plus; INSERT INTO settings (ssh_port, tls_port, t_token, t_id, language, multiuser, ststus_multiuser, home_url) VALUES ('22', '444', '', '', '', 'active', '', $home_url);"
 crontab -r
 wait
 chmod 644 /var/www/html/kill.sh
