@@ -367,7 +367,8 @@ sudo sed -i 's/1i/$i/' /var/www/html/kill.sh
 wait
 sudo sed -i 's/((/$((/' /var/www/html/kill.sh
 wait
-
+chmod +x /var/www/html/kill.sh
+wait
 if [ "$xport" != "" ]; then
 pssl=$((xport+1))
 fi
