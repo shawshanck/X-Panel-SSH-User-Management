@@ -5,9 +5,9 @@ sudo apt-get install xtables-addons-common -y
 sudo apt-get install libtext-csv-xs-perl libmoosex-types-netaddr-ip-perl -y
 wait
 sudo mkdir /usr/share/xt_geoip
-sudo mkdir /usr/lib/xtables-addons/
-sudo mkdir /usr/lib/xtables-addons/xt_geoip_build
-chmod 777 /usr/lib/xtables-addons/xt_geoip_build
+sudo mkdir /usr/libexec/xtables-addons/
+sudo mkdir /usr/libexec/xtables-addons/xt_geoip_build
+chmod +x /usr/libexec/xtables-addons/xt_geoip_build
 wait
 MON=$(date +"%m")
 YR=$(date +"%Y")
