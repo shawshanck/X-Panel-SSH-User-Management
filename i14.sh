@@ -137,7 +137,7 @@ cat << EOF > /root/banner.txt
 Connect To Server
 EOF
 #Configuring stunnel
-mkdir /etc/stunnel
+sudo mkdir /etc/stunnel
 cat << EOF > /etc/stunnel/stunnel.conf
  cert = /etc/stunnel/stunnel.pem
  [openssh]
