@@ -7,7 +7,7 @@ wait
 sudo mkdir /usr/share/xt_geoip
 sudo mkdir /usr/libexec/xtables-addons/
 sudo mkdir /usr/libexec/xtables-addons/xt_geoip_build
-chmod +x /usr/libexec/xtables-addons/xt_geoip_build
+chmod 777 /usr/libexec/xtables-addons/xt_geoip_build
 wait
 MON=$(date +"%m")
 YR=$(date +"%Y")
