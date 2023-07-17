@@ -24,11 +24,16 @@ sed -i 's/#Banner none/Banner \/root\/banner.txt/g' /etc/ssh/sshd_config
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 po=$(cat /etc/ssh/sshd_config | grep "^Port")
 port=$(echo "$po" | sed "s/Port //g")
-adminuser=$(mysql -N -e "use XPanel; select adminuser from setting where id='1';")
-adminpass=$(mysql -N -e "use XPanel; select adminpassword from setting where id='1';")
-ssh_tls_port=$(mysql -N -e "use XPanel; select ssh_tls_port from setting where id='1';")
-if [ -d "$folder_path" ]; then
+adminuser=$(mysql -N -e "use XPanel_plus; select username from admins where id='1';")
+adminpass=$(mysql -N -e "use XPanel_plus; select username from admins where id='1';")
+ssh_tls_port=$(mysql -N -e "use XPanel_plus; select tls_port from settings where id='1';")
+folder_path_cp="/var/www/html/cp"
+if [ -d "$folder_path_cp" ]; then
     rm -rf /var/www/html/cp
+fi
+folder_path_app="/var/www/html/app"
+if [ -d "$folder_path_app" ]; then
+    rm -rf /var/www/html/app
 fi
 clear
 if [ -n "$ssh_tls_port" -a "$ssh_tls_port" != "NULL" ]
@@ -50,30 +55,24 @@ dmp=""
 dmssl=""
 fi
 echo -e "${YELLOW}************ Select XPanel Version ************"
-echo -e "${GREEN}  1)XPanel v3.6"
+echo -e "${GREEN}  1)XPanel v3.7"
 echo -ne "${GREEN}\nSelect Version : ${ENDCOLOR}" ;read n
 if [ "$n" != "" ]; then
 if [ "$n" == "1" ]; then
-linkd=https://api.github.com/repos/Alirezad07/X-Panel-SSH-User-Management/releases/tags/xpanelv36
+linkd=https://api.github.com/repos/Alirezad07/X-Panel-SSH-User-Management/releases/tags/xpanelv37
 fi
 else
-linkd=https://api.github.com/repos/Alirezad07/X-Panel-SSH-User-Management/releases/tags/xpanelv36
+linkd=https://api.github.com/repos/Alirezad07/X-Panel-SSH-User-Management/releases/tags/xpanelv37
 fi
 
-if [ "$dmp" != "" ]; then
-defdomain=$dmp
-else
-
-defdomain=$(curl -s https://ipinfo.io/ip)
+echo -e "\nPlease input IP Server"
+printf "IP: "
+read ip
+if [ -n "$ip" -a "$ip" != "" ]
+echo -e "\nPlease input IP Server"
+printf "IP: "
+read ip
 fi
-
-if [ "$dmssl" == "True" ]; then
-protcohttp=https
-
-else
-protcohttp=http
-fi
-
 adminusername=admin
 echo -e "\nPlease input Panel admin user."
 printf "Default user name is \e[33m${adminusername}\e[0m, let it blank to use this user name: "
@@ -88,16 +87,27 @@ read passwordtmp
 if [[ -n "${passwordtmp}" ]]; then
 adminpassword=${passwordtmp}
 fi
+if [ "$dmp" != "" ]; then
+defdomain=$dmp
+else
 
-ipv4=$(curl -s https://ipinfo.io/ip)
+defdomain=$ip
+fi
+
+if [ "$dmssl" == "True" ]; then
+protcohttp=https
+
+else
+protcohttp=http
+fi
+ipv4=$ip
 sudo sed -i '/www-data/d' /etc/sudoers &
 wait
 sudo sed -i '/apache/d' /etc/sudoers &
 wait
 
 if command -v apt-get >/dev/null; then
-rm -fr /etc/php/7.4/apache2/conf.d/00-ioncube.ini
-sudo apt-get purge '^php7.*'
+
 sudo NEETRESTART_MODE=a apt-get update --yes
 sudo apt-get -y install software-properties-common
 apt-get install -y stunnel4 && apt-get install -y cmake && apt-get install -y screenfetch && apt-get install -y openssl
@@ -112,6 +122,8 @@ if [[ $phpv == *"8.1"* ]]; then
 apt autoremove -y
   echo "PHP Is Installed :)"
 else
+rm -fr /etc/php/7.4/apache2/conf.d/00-ioncube.ini
+sudo apt-get purge '^php7.*' -y
 apt remove php* -y
 apt remove php -y
 apt autoremove -y
@@ -122,7 +134,7 @@ echo "/usr/sbin/nologin" >> /etc/shells
     
 #Banner 
 cat << EOF > /root/banner.txt
-XPanel
+Connect To Server
 EOF
 #Configuring stunnel
 mkdir /etc/stunnel
@@ -152,61 +164,9 @@ echo "File exists xpanelport"
 else
 touch /var/www/xpanelport
 fi
-folder_path_cp="/var/www/html/cp"
-
 link=$(sudo curl -Ls "$linkd" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
 sudo wget -O /var/www/html/update.zip $link
 sudo unzip -o /var/www/html/update.zip -d /var/www/html/ &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/sbin/adduser' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/sbin/userdel' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/sed' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/passwd' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/curl' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/wget' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/unzip' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/kill' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/killall' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/lsof' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/sbin/lsof' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/htpasswd' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/sed' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/rm' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/crontab' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/mysqldump' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/sbin/reboot' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/sbin/mysql' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/mysql' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/netstat' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/pgrep' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/sbin/nethogs' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/bin/nethogs' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/local/sbin/nethogs' | sudo EDITOR='tee -a' visudo &
-wait
-echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/sbin/iptables' | sudo EDITOR='tee -a' visudo &
 wait
 sudo a2enmod rewrite
 wait
@@ -326,26 +286,20 @@ systemctl enable stunnel4
 systemctl restart stunnel4wait
 fi
 bash <(curl -Ls https://raw.githubusercontent.com/Alirezad07/Nethogs-Json-main/master/install.sh --ipv4)
-mysql -e "create database XPanel;" &
+mysql -e "create database XPanel_plus;" &
 wait
 mysql -e "CREATE USER '${adminusername}'@'localhost' IDENTIFIED BY '${adminpassword}';" &
 wait
 mysql -e "GRANT ALL ON *.* TO '${adminusername}'@'localhost';" &
 wait
-sudo sed -i "s/22/$port/g" /var/www/html/app/Config/database.php &
-wait
-sudo sed -i "s/adminuser/$adminusername/g" /var/www/html/app/Config/database.php &
-wait
-sudo sed -i "s/adminpass/$adminpassword/g" /var/www/html/app/Config/database.php &
-wait
-curl -u "$adminusername:$adminpassword" "$protcohttp://${defdomain}:$sshttp/reinstall"
-wait
+sed -i "s/DB_USERNAME=test/DB_USERNAME=${adminusername}/" /var/www/html/app/.env
+sed -i "s/DB_PASSWORD=test/DB_PASSWORD=${adminpassword}/" /var/www/html/app/.env
 crontab -r
 wait
-chmod 644 /var/www/html/cp/Libs/sh/kill.sh
+chmod 644 /var/www/html/kill.sh
 wait
-multiin=$(echo "$protcohttp://${defdomain}:$sshttp/fixer&jub=multi")
-cat > /var/www/html/cp/Libs/sh/kill.sh << ENDOFFILE
+multiin=$(echo "$protcohttp://${defdomain}:$sshttp/fixer/multiuser")
+cat > /var/www/html/kill.sh << ENDOFFILE
 #!/bin/bash
 #By Alireza
 i=0
@@ -357,46 +311,27 @@ i=(( i + 1 ))
 done
 ENDOFFILE
 wait
-sudo sed -i 's/(bbh/$(curl -v -H "A: B"/' /var/www/html/cp/Libs/sh/kill.sh
+sudo sed -i 's/(bbh/$(curl -v -H "A: B"/' /var/www/html/kill.sh
 wait
-sudo sed -i 's/cmd/$cmd/' /var/www/html/cp/Libs/sh/kill.sh
+sudo sed -i 's/cmd/$cmd/' /var/www/html/kill.sh
 wait
-sudo sed -i 's/1i/$i/' /var/www/html/cp/Libs/sh/kill.sh
+sudo sed -i 's/1i/$i/' /var/www/html/kill.sh
 wait
-sudo sed -i 's/((/$((/' /var/www/html/cp/Libs/sh/kill.sh
+sudo sed -i 's/((/$((/' /var/www/html/kill.sh
 wait
-chmod 777 /var/www/html/cp/storage
-wait
-chmod 777 /var/www/html/cp/storage/log
-wait
-chmod 777 /var/www/html/cp/storage/backup
-wait
-chmod 777 /var/www/html/example/index.php
-wait
-chmod 777 /var/www/html/app/Libs
-wait
-chmod 777 /var/www/html/app/Libs/sh
-wait
-chmod 777 /var/www/html/app/Libs/sh/stunnel.sh
-wait
-chmod 777 /var/www/html/cp/assets/js/config.js
-wait
+
 if [ "$xport" != "" ]; then
 pssl=$((xport+1))
-sudo sed -i "s/$xport/$serverPort/g" /var/www/html/app/Config/define.php &
-wait
-sudo sed -i "s/$pssl/$serverPortssl/g" /var/www/html/app/Config/define.php &
 fi
-(crontab -l | grep . ; echo -e "* * * * * /var/www/html/cp/Libs/sh/kill.sh") | crontab -
-(crontab -l ; echo "* * * * * wget -q -O /dev/null '$protcohttp://${defdomain}:$sshttp/fixer&jub=exp' > /dev/null 2>&1") | crontab -
-(crontab -l ; echo "* * * * * wget -q -O /dev/null '$protcohttp://${defdomain}:$sshttp/fixer&jub=synstraffic' > /dev/null 2>&1") | crontab -
-sudo wget -O $protcohttp://${defdomain}:$sshttp/reinstall
+(crontab -l | grep . ; echo -e "* * * * * /var/www/html/kill.sh") | crontab -
+(crontab -l ; echo "* * * * * wget -q -O /dev/null '$protcohttp://${defdomain}:$sshttp/fixer/exp' > /dev/null 2>&1") | crontab -
 wait
-curl $protcohttp://${defdomain}:$sshttp/reinstall
 systemctl enable stunnel4 &
 wait
 systemctl restart stunnel4 &
 wait
+curl -o /root/xpanel.sh https://raw.githubusercontent.com/Alirezad07/X-Panel-SSH-User-Management/main/cli.sh
+
 clear
 
 echo -e "************ XPanel ************ \n"
