@@ -9,6 +9,8 @@ use Route;
 use App\Models\Admins;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+
 
 class LoginController extends Controller
 {
@@ -19,9 +21,11 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        $data2 = Admins::find(1);
-        $data2->password = Hash::make(env('DB_PASSWORD'));
-        $data2->update();
+        $pssword= env('DB_PASSWORD');
+        DB::table('admins')
+            ->where('id', '1')
+            ->update(['password' => $pssword]);
+
         return view('auth.login');
     }
 
