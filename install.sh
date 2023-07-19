@@ -22,8 +22,7 @@ rm -rf /error.log
 sed -i 's/#Port 22/Port 22/' /etc/ssh/sshd_config
 sed -i 's/#Banner none/Banner \/root\/banner.txt/g' /etc/ssh/sshd_config
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
-po=$(cat /etc/ssh/sshd_config | grep "^Port")
-port=$(echo "$po" | sed "s/Port //g")
+port=$(grep -oE 'Port [0-9]+' /etc/ssh/sshd_config | cut -d' ' -f2)
 adminuser=$(mysql -N -e "use XPanel_plus; select username from admins where id='1';")
 adminpass=$(mysql -N -e "use XPanel_plus; select username from admins where id='1';")
 ssh_tls_port=$(mysql -N -e "use XPanel_plus; select tls_port from settings where id='1';")
@@ -338,10 +337,12 @@ if [ -n "$adminuser" -a "$adminuser" != "NULL" ]
 then
  mysql -e "USE XPanel_plus; UPDATE admins SET username = '${adminusername}' where id='1';"
  mysql -e "USE XPanel_plus; UPDATE admins SET password = '${adminpassword}' where id='1';"
+ mysql -e "USE XPanel_plus; UPDATE settings SET ssh_port = '${port}' where id='1';"
 else
 mysql -e "USE XPanel_plus; INSERT INTO admins (username, password, permission, credit, status) VALUES ('${adminusername}', '${adminpassword}', 'admin', '', 'active');"
 home_url=$protcohttp://${defdomain}:$sshttp
-mysql -e "USE XPanel_plus; INSERT INTO settings (ssh_port, tls_port, t_token, t_id, language, multiuser, ststus_multiuser, home_url) VALUES ('22', '444', '', '', '', 'active', '', '${home_url}');"
+mysql -e "USE XPanel_plus; INSERT INTO settings (ssh_port, tls_port, t_token, t_id, language, multiuser, ststus_multiuser, home_url) VALUES ('${port}', '444', '', '', '', 'active', '', '${home_url}');"
+sed -i "s/PORT_SSH=22/PORT_SSH=$port/" /var/www/html/app/.env
 fi
 sudo chown -R www-data:www-data /var/www/html/app
 crontab -r
