@@ -78,6 +78,7 @@ function select_option() {
         2)
             echo "Please enter a SSH port:"
             read port
+            sed -i "s/Port $sshport/Port $port/" /etc/ssh/sshd_config
             sed -i "s/PORT_SSH=$sshport/PORT_SSH=$port/" /var/www/html/app/.env
             mysql -e "USE XPanel_plus; UPDATE settings SET ssh_port = '${port}' where id='1';"
             reboot
