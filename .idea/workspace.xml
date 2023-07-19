@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d50d8e18-a0fd-450a-835d-0b5aea5e7d6b" name="Changes" comment="Fix Version 3.7.2 Laravel Package">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/resources/views/layouts/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/resources/views/layouts/footer.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Web Panel/app/storage/backup/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/storage/backup/XPanel-2023-07-15---01-53-29.sql" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,14 +120,7 @@
       <workItem from="1689458518835" duration="18614000" />
       <workItem from="1689516448544" duration="7678000" />
       <workItem from="1689572704215" duration="30095000" />
-      <workItem from="1689752035282" duration="23830000" />
-    </task>
-    <task id="LOCAL-00061" summary="Fix Version 3.4">
-      <created>1686957538710</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1686957538710</updated>
+      <workItem from="1689752035282" duration="24620000" />
     </task>
     <task id="LOCAL-00062" summary="Fix Version 3.4">
       <created>1687603561641</created>
@@ -466,7 +458,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689800666072</updated>
     </task>
-    <option name="localTasksCounter" value="110" />
+    <task id="LOCAL-00110" summary="Fix Version 3.7.2 Laravel Package">
+      <created>1689800733867</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1689800733867</updated>
+    </task>
+    <option name="localTasksCounter" value="111" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
