@@ -18,8 +18,7 @@ class OnlineController extends Controller
     public function check()
     {
         $user = Auth::user();
-        $check_admin = DB::table('admins')->where('id', $user->id)->get();
-        if($check_admin[0]->permission=='reseller')
+        if($user->permission=='reseller')
         {
             exit(view('access'));
         }
@@ -110,7 +109,6 @@ class OnlineController extends Controller
             }
         }
         $data = json_decode(json_encode($data));
-
-        return view('dashboard.filtering')->with('data', $data);
+        return view('dashboard.filtering', compact('data'));
     }
 }

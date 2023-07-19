@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Settings;
+use App\Models\Traffic;
+use App\Models\Users;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Process;
-
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -16,36 +19,22 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        $password = substr( str_shuffle( $chars ), 0, 8 );
+        $password_auto = Str::random(8);
         if($user->permission=='admin')
         {
-            $users = DB::table('users')
-                ->join('traffic', 'users.username', '=', 'traffic.username')
-                ->orderBy('users.id', 'desc')
-                ->get();
+            $users = Users::orderBy('id', 'desc')->get();
         }
         else{
-            $users = DB::table('users')
-                ->join('traffic', 'users.username', '=', 'traffic.username')
-                ->where('users.customer_user',$user->username)
-                ->orderBy('users.id', 'desc')
-                ->get();
+            $users = Users::where('customer_user', $user->username)->orderby('id', 'desc')->get();
         }
-        $settings = DB::table('settings')->get();
+        $settings = Settings::all();
 
-        return view('users.home')->with('users', $users)->with('settings', $settings)->with('password_auto', $password);
+        return view('users.home', compact('users', 'settings','password_auto'));
     }
     public function create()
     {
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        $password = substr( str_shuffle( $chars ), 0, 8 );
-        $users = DB::table('users')
-            ->join('traffic', 'users.username', '=', 'traffic.username')
-            ->orderBy('users.id', 'desc')
-            ->get();
-        $settings = DB::table('settings')->get();
-        return view('users.create')->with('password_auto', $password);
+        $password_auto = Str::random(8);
+        return view('users.create', compact('password_auto'));
     }
 
     public function newuser(Request $request)
@@ -63,6 +52,7 @@ class UserController extends Controller
             'type_traffic'=>'required|string',
             'desc'=>'nullable|string'
         ]);
+
         if (!empty($request->connection_start)) {
             $start_date = '';
         } else {
@@ -73,10 +63,10 @@ class UserController extends Controller
         } else {
             $traffic = $request->traffic;
         }
-        if (DB::table('users')->where('username', $request->username)->exists()) {
-            // ایمیل وجود دارد
-        } else {
-            DB::table('users')->insert([
+        $check_user = Users::where('username',$request->username)->count();
+        if ($check_user < 1) {
+            DB::beginTransaction();
+            $user = Users::create([
                 'username' => $request->username,
                 'password' => $request->password,
                 'email' => $request->email,
@@ -92,17 +82,19 @@ class UserController extends Controller
                 'desc' => $request->desc
             ]);
 
-            DB::table('traffic')->insert([
-                'username' => $request->username,
+            Traffic::create([
+                'username' => $user->username,
                 'download' => '0',
                 'upload' => '0',
                 'total' => '0'
             ]);
 
-            Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$request->username}");
-            Process::input($request->password."\n".$request->password."\n")->timeout(120)->run("sudo passwd {$request->username}");
+            Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user->username}");
+            Process::input($user->password."\n".$user->password."\n")->timeout(120)->run("sudo passwd {$user->username}");
 
+            DB::commit();
         }
+
         return redirect()->intended(route('users'));
     }
 
@@ -150,10 +142,10 @@ class UserController extends Controller
             {
                 $password=$request->password;
             }
-            if (DB::table('users')->where('username', $user)->exists()) {
-                // وجود دارد
-            } else {
-                DB::table('users')->insert([
+            $check_user = Users::where('username',$request->username)->count();
+            if ($check_user < 1) {
+                DB::beginTransaction();
+                $user = Users::create([
                     'username' => $user,
                     'password' => $password,
                     'email' => '',
@@ -169,14 +161,19 @@ class UserController extends Controller
                     'desc' => ''
                 ]);
 
-                DB::table('traffic')->insert([
-                    'username' => $user,
+                Traffic::create([
+                    'user_id' => $user->id,
+                    'username' => $user->username,
                     'download' => '0',
                     'upload' => '0',
                     'total' => '0'
                 ]);
-                Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user}");
-                Process::input($password."\n".$password."\n")->timeout(120)->run("sudo passwd {$user}");
+
+                Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user->username}");
+                Process::input($user->password."\n".$user->password."\n")->timeout(120)->run("sudo passwd {$user->username}");
+
+                DB::commit();
+
             }
         }
         return redirect()->intended(route('users'));
@@ -189,28 +186,22 @@ class UserController extends Controller
         $user = Auth::user();
         if($user->permission=='admin')
         {
-            $check_user = DB::table('users')->where('username', $username)->count();
+            $check_user = Users::where('username',$username)->count();
             if ($check_user > 0) {
-                DB::table('users')
-                    ->where('username', $username)
-                    ->update(['status' => 'active']);
-                $user = DB::table('users')
-                    ->where('username', $username)
-                    ->get();
+                Users::where('username', $username)->update(['status' => 'active']);
+
+                $user = Users::where('username',$username)->get();
                 $password=$user[0]->password;
                 Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$username}");
                 Process::input($password."\n".$password."\n")->timeout(120)->run("sudo passwd {$username}");
             }
         }
         else{
-            $check_user = DB::table('users')->where('username', $username)->where('customer_user', $user->username)->count();
+            $check_user = Users::where('username', $username)->where('customer_user', $user->username)->count();
             if ($check_user > 0) {
-                DB::table('users')
-                    ->where('username', $username)
-                    ->update(['status' => 'active']);
-                $user = DB::table('users')
-                    ->where('username', $username)
-                    ->get();
+                Users::where('username', $username)->update(['status' => 'active']);
+
+                $user = Users::where('username',$username)->get();
                 $password=$user[0]->username;
                 Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$username}");
                 Process::input($password."\n".$password."\n")->timeout(120)->run("sudo passwd {$username}");
@@ -226,31 +217,19 @@ class UserController extends Controller
         }
         $user = Auth::user();
         if($user->permission=='admin') {
-            $check_user = DB::table('users')->where('username', $username)->count();
+            $check_user = Users::where('username',$username)->count();
             if ($check_user > 0) {
-                DB::table('users')
-                    ->where('username', $username)
-                    ->update(['status' => 'deactive']);
-                $user = DB::table('users')
-                    ->where('username', $username)
-                    ->get();
-
-                Process::run("sudo killall -u {$user[0]->username}");
-                Process::run("sudo userdel -r {$user[0]->username}");
+                Users::where('username', $username)->update(['status' => 'deactive']);
+                Process::run("sudo killall -u {$username}");
+                Process::run("sudo userdel -r {$username}");
             }
         }
         else{
-            $check_user = DB::table('users')->where('username', $username)->where('customer_user', $user->username)->count();
+            $check_user = Users::where('username', $username)->where('customer_user', $user->username)->count();
             if ($check_user > 0) {
-                DB::table('users')
-                    ->where('username', $username)
-                    ->update(['status' => 'deactive']);
-                $user = DB::table('users')
-                    ->where('username', $username)
-                    ->get();
-
-                Process::run("sudo killall -u {$user[0]->username}");
-                Process::run("sudo userdel -r {$user[0]->username}");
+                Users::where('username', $username)->update(['status' => 'deactive']);
+                Process::run("sudo killall -u {$username}");
+                Process::run("sudo userdel -r {$username}");
             }
         }
         return redirect()->back()->with('success', 'Deactivated');
@@ -263,20 +242,16 @@ class UserController extends Controller
         }
         $user = Auth::user();
         if($user->permission=='admin') {
-            $check_user = DB::table('users')->where('username', $username)->count();
+            $check_user = Users::where('username',$username)->count();
             if ($check_user > 0) {
-                DB::table('traffic')
-                    ->where('username', $username)
-                    ->update(['download' => '0', 'upload' => '0', 'total' => '0']);
+                Traffic::where('username', $username)->update(['download' => '0', 'upload' => '0', 'total' => '0']);
             }
         }
         else
         {
-            $check_user = DB::table('users')->where('username', $username)->where('customer_user', $user->username)->count();
+            $check_user = Users::where('username', $username)->where('customer_user', $user->username)->count();
             if ($check_user > 0) {
-                DB::table('traffic')
-                    ->where('username', $username)
-                    ->update(['download' => '0', 'upload' => '0', 'total' => '0']);
+                Traffic::where('username', $username)->update(['download' => '0', 'upload' => '0', 'total' => '0']);
             }
         }
         return redirect()->back()->with('success', 'Reset Traffic');
@@ -290,25 +265,25 @@ class UserController extends Controller
         $user = Auth::user();
         if($user->permission=='admin')
         {
-            $check_user = DB::table('users')->where('username', $username)->count();
+            $check_user = Users::where('username',$username)->count();
             if ($check_user > 0) {
 
                 Process::run("sudo killall -u {$username}");
                 $userdelProcess =Process::run("sudo userdel -r {$username}");
                 if ($userdelProcess->successful()) {
-                    DB::table('users')->where('username', $username)->delete();
-                    DB::table('traffic')->where('username', $username)->delete();
+                    Users::where('username', $username)->delete();
+                    Traffic::where('username', $username)->delete();
                 }
             }
         }
         else {
-            $check_user = DB::table('users')->where('username', $username)->where('customer_user', $user->username)->count();
+            $check_user = Users::where('username', $username)->where('customer_user', $user->username)->count();
             if ($check_user > 0) {
                 Process::run("sudo killall -u {$username}");
                 $userdelProcess =Process::run("sudo userdel -r {$username}");
                 if ($userdelProcess->successful()) {
-                    DB::table('users')->where('username', $username)->delete();
-                    DB::table('traffic')->where('username', $username)->delete();
+                    Users::where('username', $username)->delete();
+                    Traffic::where('username', $username)->delete();
                 }
             }
         }
@@ -318,32 +293,27 @@ class UserController extends Controller
     {
 
         $user = Auth::user();
-
         if ($user->permission == 'admin') {
             foreach ($request->usernamed as $username) {
-                $check_user = DB::table('users')->where('username', $username)->count();
+                $check_user = Users::where('username',$username)->count();
                 if ($check_user > 0) {
                     Process::run("sudo killall -u {$username}");
                     $userdelProcess =Process::run("sudo userdel -r {$username}");
                     if ($userdelProcess->successful()) {
-                        DB::table('users')->where('username', $username)->delete();
-                        DB::table('traffic')->where('username', $username)->delete();
+                        Users::where('username', $username)->delete();
+                        Traffic::where('username', $username)->delete();
                     }
                 }
             }
         } else {
             foreach ($request->usernamed as $username) {
-                $check_user = DB::table('users')->where('username', $username)->where('customer_user', $user->username)->count();
+                $check_user = Users::where('username', $username)->where('customer_user', $user->username)->count();
                 if ($check_user > 0) {
-                    $user = DB::table('users')
-                        ->where('username', $username)
-                        ->get();
-
                     Process::run("sudo killall -u {$username}");
                     $userdelProcess =Process::run("sudo userdel -r {$username}");
                     if ($userdelProcess->successful()) {
-                        DB::table('users')->where('username', $username)->delete();
-                        DB::table('traffic')->where('username', $username)->delete();
+                        Users::where('username', $username)->delete();
+                        Traffic::where('username', $username)->delete();
                     }
                 }
             }
@@ -364,53 +334,42 @@ class UserController extends Controller
         $newdate = date('Y-m-d', strtotime($newdate . " + $request->day_date days"));
         $user = Auth::user();
         if($user->permission=='admin') {
-            $check_user = DB::table('users')->where('username', $request->username_re)->count();
+            $check_user = Users::where('username', $request->username_re)->count();
             if ($check_user > 0) {
-                DB::table('users')
-                    ->where('username', $request->username_re)
-                    ->update(['status' => 'active', 'end_date' => $newdate]);
-                $user = DB::table('users')
-                    ->where('username', $request->username_re)
-                    ->get();
+                Users::where('username', $request->username_re)->update(['status' => 'active', 'end_date' => $newdate]);
+
+                $user = Users::where('username', $request->username_re)->get();
                 $username=$user[0]->username;
                 $password=$user[0]->password;
                 Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$username}");
                 Process::input($password."\n".$password."\n")->timeout(120)->run("sudo passwd {$username}");
                 if ($request->re_date == 'yes') {
-                    DB::table('users')
-                        ->where('username', $request->username_re)
-                        ->update(['start_date' => date("Y-m-d")]);
+                    Users::where('username', $request->username_re)->update(['start_date' => date("Y-m-d")]);
                 }
                 if ($request->re_traffic == 'yes') {
-                    DB::table('traffic')
-                        ->where('username', $request->username_re)
-                        ->update(['download' => '0', 'upload' => '0', 'total' => '0']);
+                    Traffic::where('username', $request->username_re)->update(['download' => '0', 'upload' => '0', 'total' => '0']);
+
                 }
             }
         }
         else
         {
-            $check_user = DB::table('users')->where('username', $request->username_re)->where('customer_user', $user->username)->count();
+            $check_user = Users::where('username', $request->username_re)->where('customer_user', $user->username)->count();
             if ($check_user > 0) {
-                DB::table('users')
-                    ->where('username', $request->username_re)
-                    ->update(['status' => 'active', 'end_date' => $newdate]);
-                $user = DB::table('users')
-                    ->where('username', $request->username_re)
-                    ->get();
+                Users::where('username', $request->username_re)->update(['status' => 'active', 'end_date' => $newdate]);
+
+                $user = Users::where('username', $request->username_re)->get();
                 $username=$user[0]->username;
                 $password=$user[0]->password;
                 Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$username}");
                 Process::input($password."\n".$password."\n")->timeout(120)->run("sudo passwd {$username}");
                 if ($request->re_date == 'yes') {
-                    DB::table('users')
-                        ->where('username', $request->username_re)
-                        ->update(['start_date' => date("Y-m-d")]);
+                    Users::where('username', $request->username_re)->update(['start_date' => date("Y-m-d")]);
+
                 }
                 if ($request->re_traffic == 'yes') {
-                    DB::table('traffic')
-                        ->where('username', $request->username_re)
-                        ->update(['download' => '0', 'upload' => '0', 'total' => '0']);
+                    Traffic::where('username', $request->username_re)->update(['download' => '0', 'upload' => '0', 'total' => '0']);
+
                 }
             }
         }
@@ -424,25 +383,21 @@ class UserController extends Controller
         }
         $user = Auth::user();
         if($user->permission=='admin') {
-            $check_user = DB::table('users')->where('username', $username)->count();
+            $check_user = Users::where('username', $username)->count();
             if ($check_user > 0) {
-                $user = DB::table('users')
-                    ->where('username', $username)
-                    ->get();
-                $user = $user[0];
-                return view('users.edit')->with('show', $user);
+                $user = Users::where('username', $request->username_re)->get();
+                $show = $user[0];
+                return view('users.edit', compact('show'));
             } else {
                 return redirect()->back()->with('success', 'Not User');
             }
         }
         else{
-            $check_user = DB::table('users')->where('username', $username)->where('customer_user', $user->username)->count();
+            $check_user = Users::where('username', $username)->where('customer_user', $user->username)->count();
             if ($check_user > 0) {
-                $user = DB::table('users')
-                    ->where('username', $username)
-                    ->get();
-                $user = $user[0];
-                return view('users.edit')->with('show', $user);
+                $user = Users::where('username', $request->username_re)->get();
+                $show = $user[0];
+                return view('users.edit', compact('show'));
             } else {
                 return redirect()->back()->with('success', 'Not User');
             }
@@ -468,14 +423,11 @@ class UserController extends Controller
         } else {
             $traffic = $request->traffic;
         }
-        $user = DB::table('users')->where('username', $request->username)->get();
-        $user = $user[0];
         $user = Auth::user();
         if($user->permission=='admin') {
-            $check_user = DB::table('users')->where('username', $request->username)->count();
+            $check_user = Users::where('username', $request->username)->count();
             if ($check_user > 0) {
-                DB::table('users')
-                    ->where('username', $request->username)
+                Users::where('username', $request->username)
                     ->update([
                         'password' => $request->password,
                         'email' => $request->email,
@@ -501,10 +453,9 @@ class UserController extends Controller
         }
         else
         {
-            $check_user = DB::table('users')->where('username', $request->username)->where('customer_user', $user->username)->count();
+            $check_user = Users::where('username', $request->username)->where('customer_user', $user->username)->count();
             if ($check_user > 0) {
-                DB::table('users')
-                    ->where('username', $request->username)
+                Users::where('username', $request->username)
                     ->update([
                         'password' => $request->password,
                         'email' => $request->email,

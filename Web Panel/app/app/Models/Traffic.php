@@ -14,4 +14,8 @@ class Traffic extends Model
         'upload',
         'total'
     ];
+    public function users()
+    {
+        return $this->belongsTo(Users::class);
+    }
 }

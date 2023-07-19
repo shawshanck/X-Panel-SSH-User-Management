@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Admins;
+use App\Models\Users;
+use App\Models\Traffic;
+use Illuminate\Support\Facades\Process;
+
 
 class DahboardController extends Controller
 {
@@ -15,18 +20,18 @@ class DahboardController extends Controller
     public function check()
     {
         $user = Auth::user();
-        $check_admin = DB::table('admins')->where('id', $user->id)->get();
-        if($check_admin[0]->permission=='reseller')
+        if($user->permission=='reseller')
         {
-           exit(redirect()->intended(route('users')));
+            exit(redirect()->intended(route('users')));
         }
     }
     public function index()
     {
         $this->check();
         $u_online=0;
-        $list_user = shell_exec("sudo lsof -i :".env('PORT_SSH')." | grep ESTABLISHED");
-        $onlineuserlist = preg_split("/\r\n|\n|\r/", $list_user);
+        $list = Process::run("sudo lsof -i :" . env('PORT_SSH') . " -n | grep -v root | grep ESTABLISHED");
+        $output = $list->output();
+        $onlineuserlist = preg_split("/\r\n|\n|\r/", $output);
         foreach ($onlineuserlist as $user) {
             $user = preg_replace("/\\s+/", " ", $user);
             if (strpos($user, ":AAAA") !== false) {
@@ -61,14 +66,18 @@ class DahboardController extends Controller
         $memfree = str_replace(" MB", "", $memfree);
         $usedperc = 100 / $memtotal * $memused;
         $exec_loads = sys_getloadavg();
-        $exec_cores = trim(shell_exec("grep -P '^processor' /proc/cpuinfo|wc -l"));
+        $exec_cores = Process::run("grep -P '^processor' /proc/cpuinfo|wc -l");
+        $exec_cores = $exec_cores->output();
+        $exec_cores = trim($exec_cores);
         $cpu = round($exec_loads[1] / ($exec_cores + 1) * 100, 0);
         $diskfree = round(disk_free_space(".") / 1000000000);
         $disktotal = round(disk_total_space(".") / 1000000000);
         $diskused = round($disktotal - $diskfree);
         $diskusage = round($diskused / $disktotal * 100);
-        $traffic_rx = shell_exec("netstat -e -n -i |  grep \"RX packets\" | grep -v \"RX packets 0\" | grep -v \" B)\"");
-        $traffic_tx = shell_exec("netstat -e -n -i |  grep \"TX packets\" | grep -v \"TX packets 0\" | grep -v \" B)\"");
+        $traffic_rx = Process::run("netstat -e -n -i |  grep \"RX packets\" | grep -v \"RX packets 0\" | grep -v \" B)\"");
+        $traffic_rx = $traffic_rx->output();
+        $traffic_tx = Process::run("netstat -e -n -i |  grep \"TX packets\" | grep -v \"TX packets 0\" | grep -v \" B)\"");
+        $traffic_tx = $traffic_tx->output();
         $res = preg_split("/\r\n|\n|\r/", $traffic_rx);
         $upload="0"; $download="0";
         foreach ($res as $resline) {
@@ -105,29 +114,16 @@ class DahboardController extends Controller
         $cpu_free = round($cpu);
         $ram_free = round($usedperc);
         $disk_free = round($diskusage);
-        $all_user = DB::table('users')->count();
-        $active_user = DB::table('users')->where('status', 'active')->count();
-        $deactive_user = DB::table('users')->where('status', 'deactive')->count();
-        $users_band = DB::table('users')
-            ->join('traffic', 'users.username', '=', 'traffic.username')
-            ->orderBy('traffic.total', 'desc')
-            ->limit(10)
-            ->get();
-        $traffic_total = DB::table('traffic')->sum('total');
+        $all_user = Users::count();
+        $active_user = Users::where('status', 'active')->count();
+        $deactive_user = Users::where('status', 'deactive')->count();
+        $traffic_total = Traffic::sum('total');
 
         $traffic_total = formatBytes(($traffic_total*1024)*1024);
 
-        return view('dashboard.home')
-            ->with('alluser', $all_user)
-            ->with('active_user', $active_user)
-            ->with('deactive_user', $deactive_user)
-            ->with('online_user', $u_online)
-            ->with('cpu_free', $cpu_free)
-            ->with('ram_free', $ram_free)
-            ->with('disk_free', $disk_free)
-            ->with('traffic_total', $traffic_total)
-            ->with('total', $total)
-            ->with('user_band', $users_band);
+        $alluser=$all_user;
+        $online_user=$u_online;
+        return view('dashboard.home', compact('alluser','active_user','deactive_user','online_user','cpu_free','ram_free','disk_free','traffic_total','total'));
     }
 
 }

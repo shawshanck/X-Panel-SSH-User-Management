@@ -18,8 +18,7 @@ class AdminsController extends Controller
     public function check()
     {
         $user = Auth::user();
-        $check_admin = DB::table('admins')->where('id', $user->id)->get();
-        if($check_admin[0]->permission=='reseller')
+        if($user->permission=='reseller')
         {
             exit(view('access'));
         }
@@ -27,12 +26,9 @@ class AdminsController extends Controller
     public function index()
     {
         $this->check();
-        $admins = DB::table('admins')
-            ->where('permission', 'reseller')
-            ->orderBy('id', 'desc')
-            ->get();
+        $admins = Admins::where('permission', 'reseller')->orderBy('id', 'desc')->get();
 
-        return view('admins.index')->with('admins', $admins);
+        return view('admins.index', compact('admins'));
     }
 
     public function insert(Request $request)
@@ -43,10 +39,9 @@ class AdminsController extends Controller
             'password'=>'required|string'
         ]);
         $hashedPassword = Hash::make($request->password);
-        if (DB::table('admins')->where('username', $request->username)->exists()) {
-            // ایمیل وجود دارد
-        } else {
-            DB::table('admins')->insert([
+        $check_user = Admins::where('username',$request->username)->count();
+        if ($check_user < 1) {
+            Admins::create([
                 'username' => $request->username,
                 'password' => $hashedPassword,
                 'permission' => 'reseller',
@@ -63,10 +58,9 @@ class AdminsController extends Controller
         if (!is_string($username)) {
             abort(400, 'Not Valid Username');
         }
-        $check_user = DB::table('admins')->where('username', $username)->count();
+        $check_user = Admins::where('username',$username)->count();
         if ($check_user > 0) {
-            DB::table('admins')
-                ->where('username', $username)
+            Admins::where('username', $username)
                 ->update(['status' => 'active']);
         }
         return redirect()->back()->with('success', 'Activated');
@@ -77,10 +71,9 @@ class AdminsController extends Controller
         if (!is_string($username)) {
             abort(400, 'Not Valid Username');
         }
-        $check_user = DB::table('admins')->where('username', $username)->count();
+        $check_user = Admins::where('username',$username)->count();
         if ($check_user > 0) {
-            DB::table('admins')
-                ->where('username', $username)
+            Admins::where('username', $username)
                 ->update(['status' => 'deactive']);
         }
         return redirect()->back()->with('success', 'Deactivated');
@@ -91,9 +84,9 @@ class AdminsController extends Controller
         if (!is_string($username)) {
             abort(400, 'Not Valid Username');
         }
-        $check_user = DB::table('admins')->where('username', $username)->count();
+        $check_user = Admins::where('username',$username)->count();
         if ($check_user > 0) {
-            DB::table('admins')->where('username', $username)->delete();
+            Admins::where('username', $username)->delete();
         }
         return redirect()->back()->with('success', 'Deleted');
     }
@@ -103,10 +96,9 @@ class AdminsController extends Controller
         if (!is_string($username)) {
             abort(400, 'Not Valid Username');
         }
-        $check_user = DB::table('admins')->where('username', $username)->count();
+        $check_user = Admins::where('username',$username)->count();
         if ($check_user > 0) {
-            $user = DB::table('admins')
-                ->where('username', $username)
+            $user = Admins::where('username', $username)
                 ->get();
             $user = $user[0];
             return view('admins.edit')->with('show', $user);
@@ -124,8 +116,7 @@ class AdminsController extends Controller
             'password' => 'required|string'
         ]);
         $hashedPassword = Hash::make($request->password);
-        DB::table('admins')
-            ->where('username', $request->username)
+        Admins::where('username', $request->username)
             ->where('permission', 'reseller')
             ->update(['password' => $hashedPassword]);
         return redirect()->back()->with('success', 'Update Success');

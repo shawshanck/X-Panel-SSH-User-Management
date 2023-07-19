@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Users;
+use App\Models\Admins;
+use App\Models\Api;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Settings;
+use App\Models\Traffic;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
@@ -21,7 +24,7 @@ class SettingsController extends Controller
     public function check()
     {
         $user = Auth::user();
-        $check_admin = DB::table('admins')->where('id', $user->id)->get();
+        $check_admin = Admins::where('id', $user->id)->get();
         if($check_admin[0]->permission=='reseller')
         {
             exit(view('access'));
@@ -38,25 +41,29 @@ class SettingsController extends Controller
         if (!is_string($name)) {
             abort(400, 'Not Valid Username');
         }
-        $setting = DB::table('settings')
-            ->where('id', '1')
-            ->get();
-        $apis = DB::table('apis')->get();
-        if($name=='user') {return view('settings.index')->with('status', $setting[0]->multiuser);}
-        if($name=='telegram') {return view('settings.telegram')->with('token', $setting[0]->t_token)->with('id', $setting[0]->t_id);}
+        $setting = Settings::all();
+        $apis =Api::all();
+        if($name=='user') {
+            $status=$setting[0]->multiuser;
+            return view('settings.index', compact('status'));}
+
         if($name=='backup') {
             $list = Process::run("ls /var/www/html/app/storage/backup");
             $output = $list->output();
             $backuplist = preg_split("/\r\n|\n|\r/", $output);
-            return view('settings.backup')->with('lists', $backuplist);
+            $lists=$backuplist;
+            return view('settings.backup', compact('lists'));
         }
-        if($name=='api') {return view('settings.api')->with('apis', $apis);}
+        if($name=='api') {
+            $apis=$apis;
+            return view('settings.api', compact('apis'));}
         if($name=='block') {
             $check_status = Process::run("sudo iptables -L OUTPUT");
             $output = $check_status->output();
             $output = preg_split("/\r\n|\n|\r/", $output);
             $output = count($output) - 3;
-            return view('settings.block')->with('status', $output);
+            $status=$output;
+            return view('settings.block', compact('status'));
         }
         if($name=='fakeaddress') {return view('settings.fake');}
         if($name=='wordpress') {
@@ -65,7 +72,8 @@ class SettingsController extends Controller
             $output=$http_host.'/';
             $output=explode(':',$output);
             $output=$protocol.'://'.$output[0];
-            return view('settings.wordpress')->with('address', $output);
+            $address=$output;
+            return view('settings.wordpress', compact('address'));
         }
 
     }
@@ -76,12 +84,11 @@ class SettingsController extends Controller
         $request->validate([
             'status'=>'required|string'
         ]);
-        if (DB::table('settings')->where('id', '1')->exists()) {
-            DB::table('settings')
-                ->where('id', 1)
-                ->update(['multiuser' => $request->status]);
+        $check_setting = Settings::where('id','1')->count();
+        if ($check_setting > 0) {
+            Settings::where('id', 1)->update(['multiuser' => $request->status]);
         } else {
-            DB::table('settings')->insert([
+            Settings::create([
                 'multiuser' => $request->status
             ]);
         }
@@ -95,17 +102,12 @@ class SettingsController extends Controller
             'tokenbot'=>'required|string',
             'idtelegram'=>'required|string'
         ]);
-        if (DB::table('settings')->where('id', '1')->exists()) {
-            DB::table('settings')
-                ->where('id', 1)
-                ->update([
-                    't_token' => $request->tokenbot,
-                    't_id' => $request->idtelegram
-                ]);
+        $check_setting = Settings::where('id','1')->count();
+        if ($check_setting > 0) {
+            Settings::where('id', 1)->update(['t_token' => $request->tokenbot,'t_id' => $request->idtelegram]);
         } else {
-            DB::table('settings')->insert([
-                't_token' => $request->tokenbot,
-                't_id' => $request->idtelegram
+            Settings::create([
+                't_token' => $request->tokenbot,'t_id' => $request->idtelegram
             ]);
         }
         return redirect()->intended(route('settings', ['name' => 'telegram']));
@@ -139,16 +141,15 @@ class SettingsController extends Controller
                         $li = str_replace("'", "", $li);
                         $li = str_replace(");", "", $li);
                         $data = explode(",", $li);
-                        if (DB::table('users')->where('username', $data[1])->exists()) {
-                            //
-                        } else {
+                        $check_traffic = Users::where('username', $data[1])->count();
+                        if ($check_traffic < 1) {
                             if($data[10]=='true')
                             { $status='active';}
                             if($data[10]=='false')
                             { $status='deactive';}
                             if($data[10]!='true' and $data[10]!='false')
                             { $status=$data[10];}
-                            DB::table('users')->insert([
+                            Users::create([
                                 'username' => $data[1],
                                 'password' => $data[2],
                                 'email' => $data[3],
@@ -161,8 +162,7 @@ class SettingsController extends Controller
                                 'status' => $status,
                                 'traffic' => $data[11],
                                 'referral' => $data[12],
-                                'desc' => $data[13],
-
+                                'desc' => $data[13]
                             ]);
                         }
                     }
@@ -179,10 +179,9 @@ class SettingsController extends Controller
                         $li = str_replace("'", "", $li);
                         $li = str_replace(");", "", $li);
                         $data = explode(",", $li);
-                        if (DB::table('traffic')->where('username', $data[0])->exists()) {
-                            //
-                        } else {
-                            DB::table('traffic')->insert([
+                        $check_traffic =Traffic::where('username', $data[0])->count();
+                        if ($check_traffic < 1) {
+                            Traffic::create([
                                 'username' => $data[0],
                                 'download' => $data[1],
                                 'upload' => $data[2],
@@ -203,10 +202,9 @@ class SettingsController extends Controller
                         $li = str_replace("'", "", $li);
                         $li = str_replace(");", "", $li);
                         $data = explode(",", $li);
-                        if (DB::table('traffic')->where('username', $data[0])->exists()) {
-                            //
-                        } else {
-                            DB::table('traffic')->insert([
+                        $check_traffic =Traffic::where('username', $data[0])->count();
+                        if ($check_traffic < 1) {
+                            Traffic::create([
                                 'username' => $data[0],
                                 'download' => $data[1],
                                 'upload' => $data[2],
@@ -224,10 +222,9 @@ class SettingsController extends Controller
             foreach ($users as $user) {
                 Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user->username}");
                 Process::input($user->password."\n".$user->password."\n")->timeout(120)->run("sudo passwd {$user->username}");
-                if (DB::table('traffic')->where('username', $user->username)->exists()) {
-                    // ایمیل وجود دارد
-                } else {
-                    DB::table('traffic')->insert([
+                $check_traffic =Traffic::where('username', $user->username)->count();
+                if ($check_traffic < 1) {
+                    Traffic::create([
                         'username' => $user->username,
                         'download' => '0',
                         'upload' => '0',
@@ -273,14 +270,13 @@ class SettingsController extends Controller
             abort(400, 'Not Valid Username');
         }
         Process::run("mysql -u '" .env('DB_USERNAME'). "' --password='" .env('DB_PASSWORD'). "' XPanel_plus < /var/www/html/app/storage/backup/".$name);
-        $users = DB::table('users')->get();
+        $users =Users::all();
         foreach ($users as $user) {
             Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user->username}");
             Process::input($user->password."\n".$user->password."\n")->timeout(120)->run("sudo passwd {$user->username}");
-            if (DB::table('traffic')->where('username', $user->username)->exists()) {
-                // ایمیل وجود دارد
-            } else {
-                DB::table('traffic')->insert([
+            $check_traffic =Traffic::where('username', $user->username)->count();
+            if ($check_traffic < 1) {
+                Traffic::create([
                     'username' => $user->username,
                     'download' => '0',
                     'upload' => '0',
@@ -329,7 +325,7 @@ class SettingsController extends Controller
             'desc'=>'required|string',
             'allowip'=>'required|string'
         ]);
-        DB::table('apis')->insert([
+        Api::create([
             'username' => $user->username,
             'token' => time().$token,
             'description' => $request->desc,
@@ -347,9 +343,7 @@ class SettingsController extends Controller
         }
         $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         $token_new = substr(str_shuffle($chars), 0, 15);
-        DB::table('apis')
-            ->where('id', $id)
-            ->update(['token' => time().$token_new]);
+        Api::where('id', $id)->update(['token' => time().$token_new]);
         return redirect()->intended(route('settings', ['name' => 'api']));
     }
 
@@ -359,9 +353,7 @@ class SettingsController extends Controller
         if (!is_numeric($id)) {
             abort(400, 'Not Valid Username');
         }
-
-        DB::table('apis')->where('id', $id)->delete();
-
+        Api::where('id', $id)->delete();
         return redirect()->intended(route('settings', ['name' => 'api']));
     }
 

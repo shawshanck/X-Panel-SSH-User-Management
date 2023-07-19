@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Api;
+use App\Models\Settings;
+use App\Models\Traffic;
+use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Process;
@@ -10,15 +13,13 @@ use Illuminate\Support\Facades\Process;
 class ApiController extends Controller
 {
 
-     public function checktoken($token)
+    public function checktoken($token)
     {
         if (!is_string($token)) {
             abort(400, 'Not Valid Token');
         }
-        if (DB::table('apis')->where('token', $token)->exists()) {
-            $check = DB::table('apis')
-                ->where('token', $token)
-                ->get();
+        if (Api::where('token', $token)->exists()) {
+            $check = Api::where('token', $token)->get();
             if ($check[0]->allow_ip != '0.0.0.0/0') {
                 $ipremote = $_SERVER['REMOTE_ADDR'];
                 if ($check[0]->allow_ip != $ipremote) {
@@ -37,11 +38,7 @@ class ApiController extends Controller
             abort(400, 'Not Valid Token');
         }
         $this->checktoken($token);
-        $users = DB::table('users')
-            ->join('traffic', 'users.username', '=', 'traffic.username')
-            ->select('users.username', 'users.password', 'users.email', 'users.mobile', 'users.multiuser', 'users.start_date', 'users.end_date', 'users.customer_user', 'users.status', 'users.traffic', 'users.desc', 'traffic.total')
-            ->orderBy('users.id', 'desc')
-            ->get();
+        $users = Users::with('traffics')->orderby('id', 'desc')->get();
         return response()->json($users);
     }
 
@@ -54,12 +51,7 @@ class ApiController extends Controller
         if (!is_string($sort)) {
             abort(400, 'Not Valid Token');
         }
-        $users = DB::table('users')
-            ->join('traffic', 'users.username', '=', 'traffic.username')
-            ->select('users.username', 'users.password', 'users.email', 'users.mobile', 'users.multiuser', 'users.start_date', 'users.end_date', 'users.customer_user', 'users.status', 'users.traffic', 'users.desc', 'traffic.total')
-            ->where('users.status', $sort)
-            ->orderBy('users.id', 'desc')
-            ->get();
+        $users=Users::where('status', $sort)->with('traffics')->orderby('id', 'desc')->get();
         return response()->json($users);
     }
 
@@ -94,10 +86,11 @@ class ApiController extends Controller
             $traffic = $traffic;
         }
 
-        if (DB::table('users')->where('username', $request->username)->exists()) {
+        if (Users::where('username', $request->username)->exists()) {
             return response()->json(['message' => 'User Exist']);
         } else {
-            DB::table('users')->insert([
+            DB::beginTransaction();
+            Users::create([
                 'username' => $request->username,
                 'password' => $request->password,
                 'email' => $request->email,
@@ -112,8 +105,7 @@ class ApiController extends Controller
                 'referral' => '',
                 'desc' => $request->desc
             ]);
-
-            DB::table('traffic')->insert([
+            Traffic::create([
                 'username' => $request->username,
                 'download' => '0',
                 'upload' => '0',
@@ -123,7 +115,7 @@ class ApiController extends Controller
             Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$request->username}");
             Process::run("echo '{$request->username}:{$request->password}' | sudo chpasswd");
             return response()->json(['message' => 'User Created']);
-
+            DB::commit();
         }
 
     }
@@ -135,12 +127,12 @@ class ApiController extends Controller
             'username' => 'required|string'
         ]);
         $this->checktoken($request->token);
-        $check_user = DB::table('users')->where('username', $request->username)->count();
+        $check_user = Users::where('username', $request->username)->count();
         if ($check_user > 0) {
             Process::run("sudo killall -u {$request->username}");
             Process::run("sudo userdel -r {$request->username}");
-            DB::table('users')->where('username', $request->username)->delete();
-            DB::table('traffic')->where('username', $request->username)->delete();
+            Users::where('username', $request->username)->delete();
+            Traffic::where('username', $request->username)->delete();
             return response()->json(['message' => 'User Deleted']);
         }
         else
@@ -160,13 +152,9 @@ class ApiController extends Controller
             abort(400, 'Not Valid Token');
         }
 
-        $check_user = DB::table('users')->where('username', $username)->count();
+        $check_user = Users::where('username', $username)->count();
         if ($check_user > 0) {
-            $user = DB::table('users')
-                ->join('traffic', 'users.username', '=', 'traffic.username')
-                ->select('users.username', 'users.password', 'users.email', 'users.mobile', 'users.multiuser', 'users.start_date', 'users.end_date', 'users.customer_user', 'users.status', 'users.traffic', 'users.desc', 'traffic.total')
-                ->where('users.username', $username)
-                ->get();
+            $user=Users::where('username', $username)->with('traffics')->get();
             return response()->json($user);
         }
         else
@@ -197,12 +185,12 @@ class ApiController extends Controller
         } else {
             $traffic = $request->traffic;
         }
-        $user = DB::table('users')->where('username', $request->username)->get();
-        $user = $user[0];
-        $check_user = DB::table('users')->where('username', $request->username)->count();
+
+        $check_user = Users::where('username', $request->username)->count();
         if ($check_user > 0) {
-            DB::table('users')
-                ->where('username', $request->username)
+            $user = Users::where('username', $request->username)->get();
+            $user = $user[0];
+            Users::where('username', $request->username)
                 ->update([
                     'password' => $request->password,
                     'email' => $request->email,
@@ -240,12 +228,8 @@ class ApiController extends Controller
         $this->checktoken($request->token);
         $check_user = DB::table('users')->where('username', $request->username)->count();
         if ($check_user > 0) {
-            DB::table('users')
-                ->where('username', $request->username)
-                ->update(['status' => 'active']);
-            $user = DB::table('users')
-                ->where('username', $request->username)
-                ->get();
+            Users::where('username', $request->username)->update(['status' => 'active']);
+            $user = Users::where('username', $request->username)->get();
             Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user[0]->username}");
             Process::run("echo '{$user[0]->username}:{$user[0]->password}' | sudo chpasswd");
             return response()->json(['message' => 'User Activated']);
@@ -262,11 +246,9 @@ class ApiController extends Controller
             'username' => 'required|string'
         ]);
         $this->checktoken($request->token);
-        $check_user = DB::table('users')->where('username', $request->username)->count();
+        $check_user = Users::where('username', $request->username)->count();
         if ($check_user > 0) {
-            DB::table('users')
-                ->where('username', $request->username)
-                ->update(['status' => 'deactive']);
+            Users::where('username', $request->username)->update(['status' => 'deactive']);
             Process::run("sudo killall -u {$request->username}");
             Process::run("sudo userdel -r {$request->username}");
             return response()->json(['message' => 'User Deactivated']);
@@ -284,11 +266,9 @@ class ApiController extends Controller
             'username' => 'required|string'
         ]);
         $this->checktoken($request->token);
-        $check_user = DB::table('users')->where('username', $request->username)->count();
+        $check_user = Users::where('username', $request->username)->count();
         if ($check_user > 0) {
-            DB::table('traffic')
-                ->where('username', $request->username)
-                ->update(['download' => '0', 'upload' => '0', 'total' => '0']);
+            Traffic::where('username', $request->username)->update(['download' => '0', 'upload' => '0', 'total' => '0']);
             return response()->json(['message' => 'User Reset Traffic']);
         }
         else
@@ -308,24 +288,19 @@ class ApiController extends Controller
         $this->checktoken($request->token);
         $newdate = date("Y-m-d");
         $newdate = date('Y-m-d', strtotime($newdate . " + $request->day_date days"));
-        $check_user = DB::table('users')->where('username', $request->username)->count();
+        $check_user = Users::where('username', $request->username)->count();
         if ($check_user > 0) {
-            DB::table('users')
-                ->where('username', $request->username)
+            Users::where('username', $request->username)
                 ->update(['status' => 'active', 'end_date' => $newdate]);
-            $user = DB::table('users')
-                ->where('username', $request->username)
-                ->get();
+            $user = Users::where('username', $request->username)->get();
             Process::run("sudo adduser --disabled-password --gecos '' --shell /usr/sbin/nologin {$user[0]->username}");
             Process::run("echo '{$user[0]->username}:{$user[0]->password}' | sudo chpasswd");
             if ($request->re_date == 'yes') {
-                DB::table('users')
-                    ->where('username', $request->username)
+                Users::where('username', $request->username)
                     ->update(['start_date' => date("Y-m-d")]);
             }
             if ($request->re_traffic == 'yes') {
-                DB::table('traffic')
-                    ->where('username', $request->username)
+                Traffic::where('username', $request->username)
                     ->update(['download' => '0', 'upload' => '0', 'total' => '0']);
             }
             return response()->json(['message' => 'User Renewal']);

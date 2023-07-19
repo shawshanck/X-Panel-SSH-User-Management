@@ -15,7 +15,7 @@ class DocumentController extends Controller
         $protocol = isset($_SERVER['HTTPS']) ? 'https' : 'http';
         $http_host=$_SERVER['HTTP_HOST'];
         $path=$protocol.'://'.$http_host.'/';
-        return view('dashboard.doc')->with('path', $path);
+        return view('dashboard.doc', compact('path'));
     }
 
 
