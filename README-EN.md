@@ -26,7 +26,12 @@
   - [Server optimization](#server-optimization)<br>
   - [Enabling SSL](#enabling-ssl)<br>
 - [Supporting us](#supporting-us-hearts)
-<br> 
+<br>
+
+## Attention <br>
+If you are using version 3.6 or lower, make sure to take a backup of your database. Install the new version of XPanel on a new server, which is based on the Laravel framework. Then, import your database from the Backup section, specifically the "Import Only Users" part.
+In the new version, which is based on the Laravel framework, the database structure has undergone significant changes.
+<br>
 
 ## X-PANEL Introduction
 X-Panel is a lightweight web application for SSH accounts management. With the help of X-Panel, you can manage users and apply restrictions.	
