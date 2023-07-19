@@ -342,8 +342,8 @@ else
 mysql -e "USE XPanel_plus; INSERT INTO admins (username, password, permission, credit, status) VALUES ('${adminusername}', '${adminpassword}', 'admin', '', 'active');"
 home_url=$protcohttp://${defdomain}:$sshttp
 mysql -e "USE XPanel_plus; INSERT INTO settings (ssh_port, tls_port, t_token, t_id, language, multiuser, ststus_multiuser, home_url) VALUES ('${port}', '444', '', '', '', 'active', '', '${home_url}');"
-sed -i "s/PORT_SSH=22/PORT_SSH=$port/" /var/www/html/app/.env
 fi
+sed -i "s/PORT_SSH=22/PORT_SSH=$port/" /var/www/html/app/.env
 sudo chown -R www-data:www-data /var/www/html/app
 crontab -r
 wait
