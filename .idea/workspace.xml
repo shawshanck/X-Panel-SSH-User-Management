@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d50d8e18-a0fd-450a-835d-0b5aea5e7d6b" name="Changes" comment="Fix Version 3.7 Laravel Package">
+    <list default="true" id="d50d8e18-a0fd-450a-835d-0b5aea5e7d6b" name="Changes" comment="Fix Version 3.7.2 Laravel Package">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/AdminsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/AdminsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/ApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/DahboardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/DahboardController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/DocumentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/DocumentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/OnlineController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/OnlineController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/SettingsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/SettingsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/app/Models/Traffic.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/app/Models/Traffic.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/app/Models/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/app/Models/Users.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/resources/views/dashboard/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/resources/views/dashboard/home.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web Panel/app/resources/views/users/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/resources/views/users/home.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/app/resources/views/layouts/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/app/resources/views/layouts/footer.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/Web Panel/cp/assets/js/config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,14 +121,7 @@
       <workItem from="1689458518835" duration="18614000" />
       <workItem from="1689516448544" duration="7678000" />
       <workItem from="1689572704215" duration="30095000" />
-      <workItem from="1689752035282" duration="20254000" />
-    </task>
-    <task id="LOCAL-00058" summary="Fix Version 3.4">
-      <created>1686957209981</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1686957209981</updated>
+      <workItem from="1689752035282" duration="20396000" />
     </task>
     <task id="LOCAL-00059" summary="Fix Version 3.4">
       <created>1686957229156</created>
@@ -475,7 +459,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689624069854</updated>
     </task>
-    <option name="localTasksCounter" value="107" />
+    <task id="LOCAL-00107" summary="Fix Version 3.7.2 Laravel Package">
+      <created>1689773323901</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1689773323902</updated>
+    </task>
+    <option name="localTasksCounter" value="108" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -515,7 +506,8 @@
     <MESSAGE value="Fix Version 3.5" />
     <MESSAGE value="Fix Version 3.6" />
     <MESSAGE value="Fix Version 3.7 Laravel Package" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix Version 3.7 Laravel Package" />
+    <MESSAGE value="Fix Version 3.7.2 Laravel Package" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix Version 3.7.2 Laravel Package" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
