@@ -38,7 +38,6 @@ function show_menu() {
     echo "Detail XPanel"
     echo "------------------"
     echo "Username: $adminuser"
-    echo "Password: $adminpass"
     echo "SSH PORT: $sshport"
     echo "SSH PORT TLS: $ssh_tls_port"
     echo ""
