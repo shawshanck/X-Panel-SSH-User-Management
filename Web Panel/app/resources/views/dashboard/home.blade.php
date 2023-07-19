@@ -106,7 +106,7 @@
                                 <div class="col-6 col-lg-4 col-xxl-4">
                                     <div class="overview-product-legends">
                                         <p class="text-secondary mb-1"><span>Online User</span></p>
-                                        <h6 class="mb-0">{!! substr_count($online_user, "\n") !!}</h6>
+                                        <h6 class="mb-0">{{$online_user}}</h6>
                                     </div>
                                 </div>
                                 <h6>All User: {{$alluser}}</h6>

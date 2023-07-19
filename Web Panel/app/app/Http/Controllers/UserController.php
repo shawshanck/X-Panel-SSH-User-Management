@@ -385,7 +385,7 @@ class UserController extends Controller
         if($user->permission=='admin') {
             $check_user = Users::where('username', $username)->count();
             if ($check_user > 0) {
-                $user = Users::where('username', $request->username_re)->get();
+                $user = Users::where('username', $username)->get();
                 $show = $user[0];
                 return view('users.edit', compact('show'));
             } else {

@@ -29,8 +29,8 @@ class OnlineController extends Controller
         $duplicate = [];
         $data = [];
 
-        $command = "sudo lsof -i :" . env('PORT_SSH') . " -n | grep -v root | grep ESTABLISHED";
-        $output = shell_exec($command);
+        $list = Process::run("sudo lsof -i :" . env('PORT_SSH') . " -n | grep -v root | grep ESTABLISHED");
+        $output = $list->output();
         $onlineuserlist = preg_split("/\r\n|\n|\r/", $output);
 
         foreach ($onlineuserlist as $user) {
