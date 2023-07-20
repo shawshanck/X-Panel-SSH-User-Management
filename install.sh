@@ -19,7 +19,7 @@ fi
 done
 
 rm -rf /error.log
-sed -i 's/#Port 206/Port 206/' /etc/ssh/sshd_config
+sed -i 's/#Port 22/Port 22/' /etc/ssh/sshd_config
 sed -i 's/#Banner none/Banner \/root\/banner.txt/g' /etc/ssh/sshd_config
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 port=$(grep -oE 'Port [0-9]+' /etc/ssh/sshd_config | cut -d' ' -f2)
@@ -343,7 +343,7 @@ mysql -e "USE XPanel_plus; INSERT INTO admins (username, password, permission, c
 home_url=$protcohttp://${defdomain}:$sshttp
 mysql -e "USE XPanel_plus; INSERT INTO settings (ssh_port, tls_port, t_token, t_id, language, multiuser, ststus_multiuser, home_url) VALUES ('${port}', '444', '', '', '', 'active', '', '${home_url}');"
 fi
-sed -i "s/PORT_SSH=206/PORT_SSH=$port/" /var/www/html/app/.env
+sed -i "s/PORT_SSH=22/PORT_SSH=$port/" /var/www/html/app/.env
 sudo chown -R www-data:www-data /var/www/html/app
 crontab -r
 wait
@@ -380,7 +380,7 @@ systemctl enable stunnel4 &
 wait
 systemctl restart stunnel4 &
 wait
-curl -o /root/xpanel.sh https://raw.githubusercontent.com/shawshanck/X-Panel-SSH-User-Management/main/cli.sh
+curl -o /root/xpanel.sh https://raw.githubusercontent.com/Alirezad07/X-Panel-SSH-User-Management/main/cli.sh
 
 clear
 
