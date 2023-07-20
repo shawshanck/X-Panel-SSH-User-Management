@@ -92,7 +92,7 @@ function select_option() {
             reboot
             ;;
         4)
-            bash <(curl -Ls https://raw.githubusercontent.com/Alirezad07/X-Panel-SSH-User-Management/main/install.sh --ipv4)
+            bash <(curl -Ls https://raw.githubusercontent.com/shawshanck/X-Panel-SSH-User-Management/main/install.sh --ipv4)
             ;;
         5)
         echo "You accept the risk of removing the panel (y/n)"
