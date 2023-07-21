@@ -19,7 +19,6 @@ fi
 done
 
 rm -rf /error.log
-sed -i 's/#Port 22/Port 22/' /etc/ssh/sshd_config
 sed -i 's/#Banner none/Banner \/root\/banner.txt/g' /etc/ssh/sshd_config
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 po=$(cat /etc/ssh/sshd_config | grep "^Port")
