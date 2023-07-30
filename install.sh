@@ -57,19 +57,19 @@ echo -e "  6)XPanel v2.8"
 echo -ne "${GREEN}\nSelect Version : ${ENDCOLOR}" ;read n
 if [ "$n" != "" ]; then
 if [ "$n" == "1" ]; then
-linkd=https://github.com/shawshanck/X-Panel-SSH-User-Management/releases/tag/xpanelv34
+linkd=https://api.github.com/repos/xpanel-cp/XPanel-SSH-User-Management/releases/tags/xpanel
 fi
 if [ "$n" == "2" ]; then
-linkd=https://github.com/shawshanck/X-Panel-SSH-User-Management/releases/tag/xpanelv31
+linkd=https://api.github.com/repos/xpanel-cp/XPanel-SSH-User-Management/releases/tags/xpanel
 fi
 if [ "$n" == "3" ]; then
-linkd=https://github.com/shawshanck/X-Panel-SSH-User-Management/releases/tag/xpanelv30
+linkd=https://api.github.com/repos/xpanel-cp/XPanel-SSH-User-Management/releases/tags/xpanel
 fi
 if [ "$n" == "4" ]; then
-linkd=https://github.com/shawshanck/X-Panel-SSH-User-Management/releases/tag/xpanelv29
+linkd=https://api.github.com/repos/xpanel-cp/XPanel-SSH-User-Management/releases/tags/xpanel
 fi
 if [ "$n" == "5" ]; then
-linkd=https://github.com/shawshanck/X-Panel-SSH-User-Management/releases/tag/xpanelv28
+linkd=https://api.github.com/repos/xpanel-cp/XPanel-SSH-User-Management/releases/tags/xpanel
 fi
 else
 linkd=https://github.com/shawshanck/X-Panel-SSH-User-Management/releases/tag/xpanelv34
