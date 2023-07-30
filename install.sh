@@ -57,22 +57,22 @@ echo -e "  6)XPanel v2.8"
 echo -ne "${GREEN}\nSelect Version : ${ENDCOLOR}" ;read n
 if [ "$n" != "" ]; then
 if [ "$n" == "1" ]; then
-linkd=https://api.github.com/repos/Alirezad07/X-Panel-SSH-User-Management/releases/tags/xpanelv34
+linkd=https://api.github.com/repos/shawshanck/X-Panel-SSH-User-Management/releases/tags/xpanelv34
 fi
 if [ "$n" == "2" ]; then
-linkd=https://api.github.com/repos/Alirezad07/X-Panel-SSH-User-Management/releases/tags/xpanelv31
+linkd=https://api.github.com/repos/shawshanck/X-Panel-SSH-User-Management/releases/tags/xpanelv31
 fi
 if [ "$n" == "3" ]; then
-linkd=https://api.github.com/repos/Alirezad07/X-Panel-SSH-User-Management/releases/tags/xpanelv30
+linkd=https://api.github.com/repos/shawshanck/X-Panel-SSH-User-Management/releases/tags/xpanelv30
 fi
 if [ "$n" == "4" ]; then
-linkd=https://api.github.com/repos/Alirezad07/X-Panel-SSH-User-Management/releases/tags/xpanelv29
+linkd=https://api.github.com/repos/shawshanck/X-Panel-SSH-User-Management/releases/tags/xpanelv29
 fi
 if [ "$n" == "5" ]; then
-linkd=https://api.github.com/repos/Alirezad07/X-Panel-SSH-User-Management/releases/tags/xpanelv28
+linkd=https://api.github.com/repos/shawshanck/X-Panel-SSH-User-Management/releases/tags/xpanelv28
 fi
 else
-linkd=https://api.github.com/repos/Alirezad07/X-Panel-SSH-User-Management/releases/tags/xpanelv34
+linkd=https://api.github.com/repos/shawshanck/X-Panel-SSH-User-Management/releases/tags/xpanelv34
 fi
 
 if [ "$dmp" != "" ]; then
