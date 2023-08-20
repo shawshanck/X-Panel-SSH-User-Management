@@ -118,7 +118,7 @@ adminpassword=${passwordtmp}
 fi
 fi
 
-ipv4=$(curl -s https://ipinfo.io/ip)
+ipv4=$ip
 sudo sed -i '/www-data/d' /etc/sudoers &
 wait
 sudo sed -i '/apache/d' /etc/sudoers &
